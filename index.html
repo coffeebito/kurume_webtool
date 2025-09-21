@@ -83,18 +83,36 @@
             transform: scale(0.95);
         }
 
-        .sub-heading {
-            text-align: center;
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: white;
+        .round-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
             margin: 6px 0;
-            letter-spacing: 0.1em;
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            border-radius: 12px;
-            padding: 6px 12px;
-            display: inline-block;
-            align-self: center;
+            flex-wrap: wrap;
+        }
+
+        .round-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 999px;
+            padding: 6px 16px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            opacity: 0.7;
+        }
+
+        .round-btn.active {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1f1f39;
+            opacity: 1;
+        }
+
+        .round-btn:active {
+            transform: scale(0.95);
         }
 
         .section-title {
@@ -871,8 +889,12 @@
                 <button class="toggle-btn" id="personalModeBtn" onclick="switchToPersonalMode()">個人モード</button>
                 <button class="toggle-btn active" id="multiModeBtn" onclick="switchToMultiMode()">複数人モード</button>
             </div>
-            
-            <div class="sub-heading"> ［ R1 ］ ［ R2 ］ ［ R3 ］ ［ R4 ］ </div>
+            <div class="round-toggle" id="roundToggle">
+                <button class="round-btn active" type="button" data-round="0" onclick="setCurrentRound(0)">R1</button>
+                <button class="round-btn" type="button" data-round="1" onclick="setCurrentRound(1)">R2</button>
+                <button class="round-btn" type="button" data-round="2" onclick="setCurrentRound(2)">R3</button>
+                <button class="round-btn" type="button" data-round="3" onclick="setCurrentRound(3)">R4</button>
+            </div>
             <div class="personal-section" id="personalSection" style="display: none;">
                 <div class="section-title"><span class="section-title-text">プレイヤー暫定点</span><button class="reset-btn" type="button" onclick="resetProvisionalScores()">リセット</button></div>
                 <div class="score-container">
@@ -995,13 +1017,21 @@
 
     <script>
         const STORAGE_KEY = 'kurumeWebtoolState';
+        const TOTAL_ROUNDS = 4;
+
+        function getDefaultRoundState() {
+            return {
+                personalScore: 0,
+                playerScores: Array(TOTAL_ROUNDS).fill(0),
+                playerStatuses: Array(TOTAL_ROUNDS).fill('alive')
+            };
+        }
 
         function getDefaultGameState() {
             return {
-                personalScore: 0,
-                playerScores: [0, 0, 0, 0],
-                playerTotalScores: [0, 0, 0, 0],
-                playerStatuses: ['alive', 'alive', 'alive', 'alive'],
+                currentRound: 0,
+                rounds: Array.from({ length: TOTAL_ROUNDS }, () => getDefaultRoundState()),
+                playerTotalScores: Array(TOTAL_ROUNDS).fill(0),
                 isMultiMode: true
             };
         }
@@ -1009,11 +1039,11 @@
         let gameState = getDefaultGameState();
 
         function normalizeScores(arrayLike) {
-            const result = [0, 0, 0, 0];
+            const result = Array(TOTAL_ROUNDS).fill(0);
             if (!Array.isArray(arrayLike)) {
                 return result;
             }
-            for (let i = 0; i < result.length; i++) {
+            for (let i = 0; i < TOTAL_ROUNDS; i++) {
                 const value = Number(arrayLike[i]);
                 result[i] = Number.isFinite(value) ? value : 0;
             }
@@ -1021,15 +1051,88 @@
         }
 
         function normalizeStatuses(arrayLike) {
-            const result = ['alive', 'alive', 'alive', 'alive'];
+            const result = Array(TOTAL_ROUNDS).fill('alive');
             if (!Array.isArray(arrayLike)) {
                 return result;
             }
-            for (let i = 0; i < result.length; i++) {
-                const status = arrayLike[i];
-                result[i] = status === 'out' ? 'out' : 'alive';
+            for (let i = 0; i < TOTAL_ROUNDS; i++) {
+                result[i] = arrayLike[i] === 'out' ? 'out' : 'alive';
             }
             return result;
+        }
+
+        function normalizeRound(roundLike) {
+            if (!roundLike || typeof roundLike !== 'object') {
+                return getDefaultRoundState();
+            }
+            return {
+                personalScore: Number.isFinite(Number(roundLike.personalScore)) ? Number(roundLike.personalScore) : 0,
+                playerScores: normalizeScores(roundLike.playerScores),
+                playerStatuses: normalizeStatuses(roundLike.playerStatuses)
+            };
+        }
+
+        function normalizeRounds(roundsLike) {
+            const rounds = Array.from({ length: TOTAL_ROUNDS }, () => getDefaultRoundState());
+            if (!Array.isArray(roundsLike)) {
+                return rounds;
+            }
+            for (let i = 0; i < TOTAL_ROUNDS; i++) {
+                rounds[i] = normalizeRound(roundsLike[i]);
+            }
+            return rounds;
+        }
+
+        function getCurrentRoundState() {
+            return gameState.rounds[gameState.currentRound];
+        }
+
+        function updateRoundButtons() {
+            document.querySelectorAll('.round-btn').forEach(button => {
+                const round = Number(button.dataset.round);
+                button.classList.toggle('active', round === gameState.currentRound);
+            });
+        }
+
+        function refreshScoreDisplays() {
+            const roundState = getCurrentRoundState();
+            const personalScoreEl = document.getElementById('personalScore');
+            if (personalScoreEl) {
+                personalScoreEl.textContent = roundState.personalScore;
+            }
+            const personalTotalEl = document.getElementById('player1Score');
+            if (personalTotalEl) {
+                personalTotalEl.textContent = gameState.playerTotalScores[0];
+            }
+            for (let i = 0; i < TOTAL_ROUNDS; i++) {
+                const displayIndex = i + 1;
+                const roundScoreEl = document.getElementById(`multiPlayer${displayIndex}Score`);
+                if (roundScoreEl) {
+                    roundScoreEl.textContent = roundState.playerScores[i];
+                }
+                const totalEl = document.getElementById(`multiPlayer${displayIndex}TotalScore`);
+                if (totalEl) {
+                    totalEl.textContent = gameState.playerTotalScores[i];
+                }
+            }
+        }
+
+        function updateStatusButtons() {
+            const roundState = getCurrentRoundState();
+            for (let i = 0; i < TOTAL_ROUNDS; i++) {
+                const aliveBtn = document.querySelector(`.status-btn[data-player="${i}"][data-status="alive"]`);
+                const outBtn = document.querySelector(`.status-btn[data-player="${i}"][data-status="out"]`);
+                if (!aliveBtn || !outBtn) {
+                    continue;
+                }
+                if (roundState.playerStatuses[i] === 'alive') {
+                    aliveBtn.classList.add('active');
+                    outBtn.classList.remove('active');
+                } else {
+                    aliveBtn.classList.remove('active');
+                    outBtn.classList.add('active');
+                }
+            }
         }
 
         function saveGameState() {
@@ -1057,12 +1160,27 @@
                     return;
                 }
 
-                const personalScore = Number(parsed.personalScore);
+                const playerTotalScores = normalizeScores(parsed.playerTotalScores);
+                let rounds;
+                let currentRound = Number(parsed.currentRound);
+                if (!Number.isInteger(currentRound) || currentRound < 0 || currentRound >= TOTAL_ROUNDS) {
+                    currentRound = 0;
+                }
+
+                if (Array.isArray(parsed.rounds)) {
+                    rounds = normalizeRounds(parsed.rounds);
+                } else {
+                    rounds = normalizeRounds();
+                    rounds[0].personalScore = Number.isFinite(Number(parsed.personalScore)) ? Number(parsed.personalScore) : 0;
+                    rounds[0].playerScores = normalizeScores(parsed.playerScores);
+                    rounds[0].playerStatuses = normalizeStatuses(parsed.playerStatuses);
+                    currentRound = 0;
+                }
+
                 gameState = {
-                    personalScore: Number.isFinite(personalScore) ? personalScore : 0,
-                    playerScores: normalizeScores(parsed.playerScores),
-                    playerTotalScores: normalizeScores(parsed.playerTotalScores),
-                    playerStatuses: normalizeStatuses(parsed.playerStatuses),
+                    currentRound,
+                    rounds,
+                    playerTotalScores,
                     isMultiMode: parsed.isMultiMode === false ? false : true
                 };
                 saveGameState();
@@ -1072,112 +1190,81 @@
             }
         }
 
-        function refreshScoreDisplays() {
-            const personalScoreEl = document.getElementById('personalScore');
-            if (personalScoreEl) {
-                personalScoreEl.textContent = gameState.personalScore;
+        function setCurrentRound(roundIndex) {
+            if (!Number.isInteger(roundIndex) || roundIndex < 0 || roundIndex >= TOTAL_ROUNDS) {
+                return;
             }
-            const personalTotalEl = document.getElementById('player1Score');
-            if (personalTotalEl) {
-                personalTotalEl.textContent = gameState.playerTotalScores[0];
-            }
-            for (let i = 1; i <= 4; i++) {
-                const scoreEl = document.getElementById(`multiPlayer${i}Score`);
-                if (scoreEl) {
-                    scoreEl.textContent = gameState.playerScores[i - 1];
-                }
-                const totalEl = document.getElementById(`multiPlayer${i}TotalScore`);
-                if (totalEl) {
-                    totalEl.textContent = gameState.playerTotalScores[i - 1];
-                }
-            }
-        }
-
-
-        function updatePersonalScore(change) {
-            gameState.personalScore += change;
-            document.getElementById('personalScore').textContent = gameState.personalScore;
-            saveGameState();
-        }
-
-        function updateMultiPlayerScore(playerIndex, change) {
-            gameState.playerScores[playerIndex - 1] += change;
-            document.getElementById(`multiPlayer${playerIndex}Score`).textContent = gameState.playerScores[playerIndex - 1];
-            saveGameState();
-        }
-
-
-        function setPlayerStatus(playerIndex, status) {
-            if (gameState.playerStatuses[playerIndex] === status) return;
-            gameState.playerStatuses[playerIndex] = status;
+            gameState.currentRound = roundIndex;
+            updateRoundButtons();
+            refreshScoreDisplays();
             updateStatusButtons();
             saveGameState();
         }
 
-        function updateStatusButtons() {
-            for (let i = 0; i < gameState.playerStatuses.length; i++) {
-                const aliveBtn = document.querySelector(`.status-btn[data-player="${i}"][data-status="alive"]`);
-                const outBtn = document.querySelector(`.status-btn[data-player="${i}"][data-status="out"]`);
-                if (!aliveBtn || !outBtn) continue;
-                if (gameState.playerStatuses[i] === 'alive') {
-                    aliveBtn.classList.add('active');
-                    outBtn.classList.remove('active');
-                } else {
-                    aliveBtn.classList.remove('active');
-                    outBtn.classList.add('active');
-                }
+        function updatePersonalScore(change) {
+            const roundState = getCurrentRoundState();
+            roundState.personalScore += change;
+            refreshScoreDisplays();
+            saveGameState();
+        }
+
+        function updateMultiPlayerScore(playerIndex, change) {
+            const roundState = getCurrentRoundState();
+            roundState.playerScores[playerIndex - 1] += change;
+            refreshScoreDisplays();
+            saveGameState();
+        }
+
+        function setPlayerStatus(playerIndex, status) {
+            const roundState = getCurrentRoundState();
+            if (roundState.playerStatuses[playerIndex] === status) {
+                return;
             }
+            roundState.playerStatuses[playerIndex] = status;
+            updateStatusButtons();
+            saveGameState();
         }
 
         function resetProvisionalScores() {
+            const roundState = getCurrentRoundState();
             if (gameState.isMultiMode) {
-                for (let i = 1; i <= 4; i++) {
-                    gameState.playerScores[i - 1] = 0;
-                    document.getElementById(`multiPlayer${i}Score`).textContent = '0';
+                for (let i = 0; i < TOTAL_ROUNDS; i++) {
+                    roundState.playerScores[i] = 0;
                 }
             } else {
-                gameState.personalScore = 0;
-                document.getElementById('personalScore').textContent = '0';
+                roundState.personalScore = 0;
             }
+            refreshScoreDisplays();
             saveGameState();
         }
 
         function switchToPersonalMode() {
-            if (!gameState.isMultiMode) return;
-            
-            // Reset all temporary scores
+            if (!gameState.isMultiMode) {
+                return;
+            }
             resetAllScores();
-            
             gameState.isMultiMode = false;
             updateModeDisplay();
             saveGameState();
         }
 
         function switchToMultiMode() {
-            if (gameState.isMultiMode) return;
-            
-            // Reset all temporary scores
+            if (gameState.isMultiMode) {
+                return;
+            }
             resetAllScores();
-            
             gameState.isMultiMode = true;
             updateModeDisplay();
             saveGameState();
         }
 
         function resetAllScores() {
-            // Reset all score data
-            gameState.personalScore = 0;
-            gameState.playerScores = [0, 0, 0, 0];
-            gameState.playerTotalScores = [0, 0, 0, 0];
-            
-            // Reset displayed values
-            document.getElementById('personalScore').textContent = '0';
-            document.getElementById('player1Score').textContent = '0';
-            
-            for (let i = 1; i <= 4; i++) {
-                document.getElementById(`multiPlayer${i}Score`).textContent = '0';
-                document.getElementById(`multiPlayer${i}TotalScore`).textContent = '0';
-            }
+            gameState.rounds = Array.from({ length: TOTAL_ROUNDS }, () => getDefaultRoundState());
+            gameState.playerTotalScores = Array(TOTAL_ROUNDS).fill(0);
+            gameState.currentRound = 0;
+            updateRoundButtons();
+            refreshScoreDisplays();
+            updateStatusButtons();
             saveGameState();
         }
 
@@ -1188,7 +1275,7 @@
             const multiModeBtn = document.getElementById('multiModeBtn');
             const playersSummary = document.getElementById('playersSummary');
             const statusSection = document.getElementById('statusSection');
-            
+
             const personalPlayerCard = document.getElementById('personalPlayerCard');
             const multiPlayerCards = [
                 document.getElementById('multiPlayer1Card'),
@@ -1196,7 +1283,7 @@
                 document.getElementById('multiPlayer3Card'),
                 document.getElementById('multiPlayer4Card')
             ];
-            
+
             if (gameState.isMultiMode) {
                 personalSection.style.display = 'none';
                 multiPlayerSection.style.display = 'flex';
@@ -1208,22 +1295,17 @@
 
                 personalModeBtn.classList.remove('active');
                 multiModeBtn.classList.add('active');
-                
+
                 playersSummary.className = 'players-summary multi-mode';
                 personalPlayerCard.style.display = 'none';
                 multiPlayerCards.forEach(card => card.style.display = 'flex');
-                
-                for (let i = 1; i <= 4; i++) {
-                    document.getElementById(`multiPlayer${i}Score`).textContent = gameState.playerScores[i - 1];
-                    document.getElementById(`multiPlayer${i}TotalScore`).textContent = gameState.playerTotalScores[i - 1];
-                }
             } else {
                 personalSection.style.display = 'flex';
                 multiPlayerSection.style.display = 'none';
-                
+
                 personalModeBtn.classList.add('active');
                 multiModeBtn.classList.remove('active');
-                
+
                 playersSummary.className = 'players-summary personal-mode';
                 personalPlayerCard.style.display = 'flex';
                 multiPlayerCards.forEach(card => card.style.display = 'none');
@@ -1232,30 +1314,30 @@
                     statusSection.classList.remove('active');
                     statusSection.style.display = 'none';
                 }
-
-                document.getElementById('player1Score').textContent = gameState.playerTotalScores[0];
             }
 
+            updateRoundButtons();
             updateStatusButtons();
             refreshScoreDisplays();
         }
 
         function applyScores() {
+            const roundState = getCurrentRoundState();
             if (gameState.isMultiMode) {
-                for (let i = 1; i <= 4; i++) {
-                    const currentScore = gameState.playerScores[i - 1];
-                    const addValue = currentScore < 0 ? 0 : currentScore; // ???????0??
-                    gameState.playerTotalScores[i - 1] += addValue;
-                    document.getElementById(`multiPlayer${i}TotalScore`).textContent = gameState.playerTotalScores[i - 1];
+                for (let i = 0; i < TOTAL_ROUNDS; i++) {
+                    const currentScore = roundState.playerScores[i];
+                    const addValue = currentScore < 0 ? 0 : currentScore;
+                    gameState.playerTotalScores[i] += addValue;
                 }
             } else {
-                const currentScore = gameState.personalScore;
-                const addValue = currentScore < 0 ? 0 : currentScore; // ???????0??
+                const currentScore = roundState.personalScore;
+                const addValue = currentScore < 0 ? 0 : currentScore;
                 gameState.playerTotalScores[0] += addValue;
-                document.getElementById('player1Score').textContent = gameState.playerTotalScores[0];
             }
+            refreshScoreDisplays();
             saveGameState();
         }
+
         function toggleMode() {
             switchToMultiMode();
         }
@@ -1264,36 +1346,35 @@
             loadGameState();
             updateModeDisplay();
 
-
             function setViewportHeight() {
                 let vh = window.innerHeight * 0.01;
                 document.documentElement.style.setProperty('--vh', `${vh}px`);
-                
+
                 if (window.navigator.userAgent.includes('Safari') && !window.navigator.userAgent.includes('Chrome')) {
                     document.body.style.height = `${window.innerHeight}px`;
                 }
             }
-            
+
             setViewportHeight();
-            
+
             let resizeTimer;
             window.addEventListener('resize', function() {
                 clearTimeout(resizeTimer);
                 resizeTimer = setTimeout(setViewportHeight, 100);
             });
-            
+
             window.addEventListener('orientationchange', function() {
                 setTimeout(setViewportHeight, 500);
             });
-            
+
             document.addEventListener('touchmove', function(e) {
                 e.preventDefault();
             }, { passive: false });
-            
+
             setTimeout(function() {
                 window.scrollTo(0, 1);
             }, 500);
-            
+
             let lastTouchEnd = 0;
             document.addEventListener('touchend', function(e) {
                 const now = (new Date()).getTime();
@@ -1302,11 +1383,11 @@
                 }
                 lastTouchEnd = now;
             }, { passive: false });
-            
+
             document.addEventListener('gesturestart', function(e) {
                 e.preventDefault();
             });
-            
+
             document.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
             });
