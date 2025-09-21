@@ -155,23 +155,16 @@
 
 
         .summary-wrapper {
-            display: grid;
+            display: flex;
             gap: 12px;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            grid-auto-rows: auto;
             align-items: stretch;
-        }
-
-        .summary-wrapper > * {
-            min-width: 0;
+            flex-wrap: nowrap;
+            overflow-x: auto;
         }
 
         .status-section {
             flex: 1 1 0;
             min-width: 0;
-            width: 100%;
-            min-height: 0;
-            height: auto;
             display: none;
             flex-direction: column;
             background: rgba(255, 255, 255, 0.12);
@@ -196,8 +189,7 @@
             display: grid;
             flex: 1 1 auto;
             min-height: 0;
-            grid-template-rows: repeat(4, minmax(48px, auto));
-            grid-auto-rows: minmax(48px, auto);
+            grid-template-rows: repeat(4, 1fr);
             gap: 8px;
         }
 
@@ -208,8 +200,7 @@
             padding: 8px 10px;
             border-radius: 14px;
             background: rgba(255, 255, 255, 0.1);
-            min-height: 48px;
-            height: auto;
+            height: 100%;
         }
 
         .status-row.red {
@@ -465,8 +456,6 @@
         .summary-section {
             flex: 1 1 0;
             min-width: 0;
-            width: 100%;
-            min-height: 0;
             height: auto;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(15px);
@@ -495,8 +484,7 @@
             display: grid;
             flex: 1 1 auto;
             min-height: 0;
-            grid-template-rows: repeat(4, minmax(60px, auto));
-            grid-auto-rows: minmax(60px, auto);
+            grid-template-rows: repeat(4, 1fr);
             gap: 8px;
             align-items: stretch;
         }
@@ -525,7 +513,7 @@
             gap: 8px;
             min-height: 0;
             overflow: hidden;
-            height: auto;
+            height: 100%;
         }
 
         .player-card.personal-mode {
@@ -627,6 +615,12 @@
             }
         }
 
+
+        @media screen and (max-width: 900px) {
+            .summary-wrapper {
+                overflow-x: auto;
+            }
+        }
 
         @media screen and (max-height: 800px) {
             .container {
@@ -961,33 +955,33 @@
                     </div>
                 </div>
                 <div class="status-section" id="statusSection">
-                    <div class="status-title">プレイヤー脱落/道中</div>
+                    <div class="status-title">プレイヤー脱落/移動中</div>
                     <div class="status-rows">
                         <div class="status-row red">
                             <div class="status-buttons">
                                 <button class="status-btn" type="button" data-player="0" data-status="rescue" onclick="setPlayerStatus(0, 'rescue')">生還</button>
-                                <button class="status-btn active" type="button" data-player="0" data-status="alive" onclick="setPlayerStatus(0, 'alive')">道中</button>
+                                <button class="status-btn active" type="button" data-player="0" data-status="alive" onclick="setPlayerStatus(0, 'alive')">移動中</button>
                                 <button class="status-btn" type="button" data-player="0" data-status="out" onclick="setPlayerStatus(0, 'out')">脱落</button>
                             </div>
                         </div>
                         <div class="status-row yellow">
                             <div class="status-buttons">
                                 <button class="status-btn" type="button" data-player="1" data-status="rescue" onclick="setPlayerStatus(1, 'rescue')">生還</button>
-                                <button class="status-btn active" type="button" data-player="1" data-status="alive" onclick="setPlayerStatus(1, 'alive')">道中</button>
+                                <button class="status-btn active" type="button" data-player="1" data-status="alive" onclick="setPlayerStatus(1, 'alive')">移動中</button>
                                 <button class="status-btn" type="button" data-player="1" data-status="out" onclick="setPlayerStatus(1, 'out')">脱落</button>
                             </div>
                         </div>
                         <div class="status-row green">
                             <div class="status-buttons">
                                 <button class="status-btn" type="button" data-player="2" data-status="rescue" onclick="setPlayerStatus(2, 'rescue')">生還</button>
-                                <button class="status-btn active" type="button" data-player="2" data-status="alive" onclick="setPlayerStatus(2, 'alive')">道中</button>
+                                <button class="status-btn active" type="button" data-player="2" data-status="alive" onclick="setPlayerStatus(2, 'alive')">移動中</button>
                                 <button class="status-btn" type="button" data-player="2" data-status="out" onclick="setPlayerStatus(2, 'out')">脱落</button>
                             </div>
                         </div>
                         <div class="status-row blue">
                             <div class="status-buttons">
                                 <button class="status-btn" type="button" data-player="3" data-status="rescue" onclick="setPlayerStatus(3, 'rescue')">生還</button>
-                                <button class="status-btn active" type="button" data-player="3" data-status="alive" onclick="setPlayerStatus(3, 'alive')">道中</button>
+                                <button class="status-btn active" type="button" data-player="3" data-status="alive" onclick="setPlayerStatus(3, 'alive')">移動中</button>
                                 <button class="status-btn" type="button" data-player="3" data-status="out" onclick="setPlayerStatus(3, 'out')">脱落</button>
                             </div>
                         </div>
