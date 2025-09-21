@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -140,10 +140,13 @@
             display: flex;
             gap: 12px;
             align-items: stretch;
+            flex-wrap: nowrap;
+            overflow-x: auto;
         }
 
         .status-section {
-            flex: 0 0 220px;
+            flex: 1 1 0;
+            min-width: 0;
             display: none;
             flex-direction: column;
             background: rgba(255, 255, 255, 0.12);
@@ -180,19 +183,19 @@
         }
 
         .status-row.red {
-            background: linear-gradient(135deg, rgba(255, 179, 179, 0.35), rgba(255, 135, 135, 0.35));
+            background: linear-gradient(135deg, rgba(255, 179, 179, 0.7), rgba(255, 135, 135, 0.7));
         }
 
         .status-row.yellow {
-            background: linear-gradient(135deg, rgba(255, 232, 161, 0.35), rgba(255, 224, 102, 0.35));
+            background: linear-gradient(135deg, rgba(255, 232, 161, 0.7), rgba(255, 224, 102, 0.7));
         }
 
         .status-row.green {
-            background: linear-gradient(135deg, rgba(195, 248, 204, 0.35), rgba(140, 233, 154, 0.35));
+            background: linear-gradient(135deg, rgba(195, 248, 204, 0.7), rgba(140, 233, 154, 0.7));
         }
 
         .status-row.blue {
-            background: linear-gradient(135deg, rgba(196, 225, 255, 0.35), rgba(165, 216, 255, 0.35));
+            background: linear-gradient(135deg, rgba(196, 225, 255, 0.7), rgba(165, 216, 255, 0.7));
         }
 
         .status-label {
@@ -484,8 +487,7 @@
         }
 
         .players-summary.multi-mode {
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(2, 1fr);
+            grid-template-columns: 1fr;
         }
 
         .player-card {
@@ -596,11 +598,7 @@
 
         @media screen and (max-width: 900px) {
             .summary-wrapper {
-                flex-direction: column;
-            }
-            .status-section {
-                flex: 1 1 auto;
-                width: 100%;
+                overflow-x: auto;
             }
         }
 
