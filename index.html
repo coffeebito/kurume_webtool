@@ -988,24 +988,28 @@
                     <div class="status-rows">
                         <div class="status-row red">
                             <div class="status-buttons">
+                                <button class="status-btn" type="button" data-player="0" data-status="rescue" onclick="setPlayerStatus(0, 'rescue')">生還</button>
                                 <button class="status-btn active" type="button" data-player="0" data-status="alive" onclick="setPlayerStatus(0, 'alive')">生存</button>
                                 <button class="status-btn" type="button" data-player="0" data-status="out" onclick="setPlayerStatus(0, 'out')">脱落</button>
                             </div>
                         </div>
                         <div class="status-row yellow">
                             <div class="status-buttons">
+                                <button class="status-btn" type="button" data-player="1" data-status="rescue" onclick="setPlayerStatus(1, 'rescue')">生還</button>
                                 <button class="status-btn active" type="button" data-player="1" data-status="alive" onclick="setPlayerStatus(1, 'alive')">生存</button>
                                 <button class="status-btn" type="button" data-player="1" data-status="out" onclick="setPlayerStatus(1, 'out')">脱落</button>
                             </div>
                         </div>
                         <div class="status-row green">
                             <div class="status-buttons">
+                                <button class="status-btn" type="button" data-player="2" data-status="rescue" onclick="setPlayerStatus(2, 'rescue')">生還</button>
                                 <button class="status-btn active" type="button" data-player="2" data-status="alive" onclick="setPlayerStatus(2, 'alive')">生存</button>
                                 <button class="status-btn" type="button" data-player="2" data-status="out" onclick="setPlayerStatus(2, 'out')">脱落</button>
                             </div>
                         </div>
                         <div class="status-row blue">
                             <div class="status-buttons">
+                                <button class="status-btn" type="button" data-player="3" data-status="rescue" onclick="setPlayerStatus(3, 'rescue')">生還</button>
                                 <button class="status-btn active" type="button" data-player="3" data-status="alive" onclick="setPlayerStatus(3, 'alive')">生存</button>
                                 <button class="status-btn" type="button" data-player="3" data-status="out" onclick="setPlayerStatus(3, 'out')">脱落</button>
                             </div>
@@ -1056,7 +1060,14 @@
                 return result;
             }
             for (let i = 0; i < TOTAL_ROUNDS; i++) {
-                result[i] = arrayLike[i] === 'out' ? 'out' : 'alive';
+                const status = arrayLike[i];
+                if (status === 'out') {
+                    result[i] = 'out';
+                } else if (status === 'rescue') {
+                    result[i] = 'rescue';
+                } else {
+                    result[i] = 'alive';
+                }
             }
             return result;
         }
@@ -1120,18 +1131,15 @@
         function updateStatusButtons() {
             const roundState = getCurrentRoundState();
             for (let i = 0; i < TOTAL_ROUNDS; i++) {
-                const aliveBtn = document.querySelector(`.status-btn[data-player="${i}"][data-status="alive"]`);
-                const outBtn = document.querySelector(`.status-btn[data-player="${i}"][data-status="out"]`);
-                if (!aliveBtn || !outBtn) {
-                    continue;
-                }
-                if (roundState.playerStatuses[i] === 'alive') {
-                    aliveBtn.classList.add('active');
-                    outBtn.classList.remove('active');
-                } else {
-                    aliveBtn.classList.remove('active');
-                    outBtn.classList.add('active');
-                }
+                const currentStatus = roundState.playerStatuses[i];
+                const effectiveStatus = currentStatus === 'out' || currentStatus === 'rescue' ? currentStatus : 'alive';
+                ['rescue', 'alive', 'out'].forEach(status => {
+                    const button = document.querySelector(`.status-btn[data-player="${i}"][data-status="${status}"]`);
+                    if (!button) {
+                        return;
+                    }
+                    button.classList.toggle('active', status === effectiveStatus);
+                });
             }
         }
 
@@ -1217,10 +1225,12 @@
 
         function setPlayerStatus(playerIndex, status) {
             const roundState = getCurrentRoundState();
-            if (roundState.playerStatuses[playerIndex] === status) {
+            const allowedStatuses = ['rescue', 'alive', 'out'];
+            const nextStatus = allowedStatuses.includes(status) ? status : 'alive';
+            if (roundState.playerStatuses[playerIndex] === nextStatus) {
                 return;
             }
-            roundState.playerStatuses[playerIndex] = status;
+            roundState.playerStatuses[playerIndex] = nextStatus;
             updateStatusButtons();
             saveGameState();
         }
