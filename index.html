@@ -247,6 +247,12 @@
             opacity: 1;
         }
 
+        .status-btn[data-status="rescue"].active {
+            background: rgba(79, 129, 255, 0.9);
+            color: #fff;
+            border-color: rgba(79, 129, 255, 0.9);
+        }
+
         .status-btn[data-status="out"].active {
             background: rgba(244, 67, 54, 0.85);
             color: #fff;
@@ -984,33 +990,33 @@
                     </div>
                 </div>
                 <div class="status-section" id="statusSection">
-                    <div class="status-title">プレイヤー脱落/生存</div>
+                    <div class="status-title">プレイヤー脱落/移動中</div>
                     <div class="status-rows">
                         <div class="status-row red">
                             <div class="status-buttons">
                                 <button class="status-btn" type="button" data-player="0" data-status="rescue" onclick="setPlayerStatus(0, 'rescue')">生還</button>
-                                <button class="status-btn active" type="button" data-player="0" data-status="alive" onclick="setPlayerStatus(0, 'alive')">生存</button>
+                                <button class="status-btn active" type="button" data-player="0" data-status="alive" onclick="setPlayerStatus(0, 'alive')">移動中</button>
                                 <button class="status-btn" type="button" data-player="0" data-status="out" onclick="setPlayerStatus(0, 'out')">脱落</button>
                             </div>
                         </div>
                         <div class="status-row yellow">
                             <div class="status-buttons">
                                 <button class="status-btn" type="button" data-player="1" data-status="rescue" onclick="setPlayerStatus(1, 'rescue')">生還</button>
-                                <button class="status-btn active" type="button" data-player="1" data-status="alive" onclick="setPlayerStatus(1, 'alive')">生存</button>
+                                <button class="status-btn active" type="button" data-player="1" data-status="alive" onclick="setPlayerStatus(1, 'alive')">移動中</button>
                                 <button class="status-btn" type="button" data-player="1" data-status="out" onclick="setPlayerStatus(1, 'out')">脱落</button>
                             </div>
                         </div>
                         <div class="status-row green">
                             <div class="status-buttons">
                                 <button class="status-btn" type="button" data-player="2" data-status="rescue" onclick="setPlayerStatus(2, 'rescue')">生還</button>
-                                <button class="status-btn active" type="button" data-player="2" data-status="alive" onclick="setPlayerStatus(2, 'alive')">生存</button>
+                                <button class="status-btn active" type="button" data-player="2" data-status="alive" onclick="setPlayerStatus(2, 'alive')">移動中</button>
                                 <button class="status-btn" type="button" data-player="2" data-status="out" onclick="setPlayerStatus(2, 'out')">脱落</button>
                             </div>
                         </div>
                         <div class="status-row blue">
                             <div class="status-buttons">
                                 <button class="status-btn" type="button" data-player="3" data-status="rescue" onclick="setPlayerStatus(3, 'rescue')">生還</button>
-                                <button class="status-btn active" type="button" data-player="3" data-status="alive" onclick="setPlayerStatus(3, 'alive')">生存</button>
+                                <button class="status-btn active" type="button" data-player="3" data-status="alive" onclick="setPlayerStatus(3, 'alive')">移動中</button>
                                 <button class="status-btn" type="button" data-player="3" data-status="out" onclick="setPlayerStatus(3, 'out')">脱落</button>
                             </div>
                         </div>
