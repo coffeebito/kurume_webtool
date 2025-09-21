@@ -15,9 +15,10 @@
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #982eff 100%);
             color: white;
-            height: 100vh;
-            height: 100dvh;
-            overflow: hidden;
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            overflow-y: auto;
             -webkit-user-select: none;
             user-select: none;
             touch-action: manipulation;
@@ -26,8 +27,8 @@
         }
 
         .container {
-            height: 100vh;
-            height: 100dvh;
+            min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             flex-direction: column;
             padding: 6px;
@@ -36,9 +37,10 @@
         }
 
         .main-screen {
-            height: 100%;
+            flex: 1 1 auto;
             display: flex;
             flex-direction: column;
+            min-height: 0;
         }
 
         .mode-toggle {
@@ -695,7 +697,7 @@
                 <button class="toggle-btn active" id="multiModeBtn" onclick="switchToMultiMode()">4人同時ver</button>
             </div>
             
-            <div class="sub-heading">クルメ発売中</div>
+            <div class="sub-heading">クルメ発売中！！</div>
             <div class="personal-section" id="personalSection" style="display: none;">
                 <div class="section-title">プレイヤー暫定点</div>
                 <div class="score-container">
