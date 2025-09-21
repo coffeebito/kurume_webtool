@@ -81,6 +81,15 @@
             transform: scale(0.95);
         }
 
+        .sub-heading {
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+            margin: 6px 0;
+            letter-spacing: 0.1em;
+        }
+
         .section-title {
             font-size: 1.4rem;
             font-weight: bold;
@@ -103,8 +112,8 @@
             border-radius: 15px;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(15px);
-            margin-bottom: 8px;
-            padding: 8px;
+            margin: 8px 0;
+            padding: 6px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
@@ -140,22 +149,24 @@
         }
 
         .multi-player-section {
-            height: 70%;
+            height: auto;
             display: none;
             flex-direction: column;
             border-radius: 15px;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(15px);
-            margin-bottom: 8px;
-            padding: 8px;
+            margin: 8px 0;
+            padding: 6px;
+            flex: none;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .player-rows-container {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            flex: 1;
+            justify-content: flex-start;
+            gap: 6px;
+            flex: none;
         }
 
         .player-row {
@@ -166,7 +177,7 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             padding: 4px;
-            flex: 1;
+            flex: none;
             margin: 1px 0;
         }
 
@@ -463,13 +474,14 @@
             .personal-section {
                 height: 72%;
                 padding: 6px;
-                margin-bottom: 6px;
+                margin: 6px 0;
             }
             
             .multi-player-section {
-                height: 72%;
+                height: auto;
                 padding: 6px;
-                margin-bottom: 6px;
+                margin: 6px 0;
+                flex: none;
             }
             
             .player-row {
@@ -539,11 +551,14 @@
             .personal-section {
                 height: 75%;
                 padding: 4px;
+                margin: 4px 0;
             }
             
             .multi-player-section {
-                height: 75%;
+                height: auto;
                 padding: 4px;
+                margin: 4px 0;
+                flex: none;
             }
             
             .section-title {
@@ -680,6 +695,7 @@
                 <button class="toggle-btn active" id="multiModeBtn" onclick="switchToMultiMode()">4人同時ver</button>
             </div>
             
+            <div class="sub-heading">クルメ発売中</div>
             <div class="personal-section" id="personalSection" style="display: none;">
                 <div class="section-title">プレイヤー暫定点</div>
                 <div class="score-container">
