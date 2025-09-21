@@ -178,7 +178,7 @@
         .status-row {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             padding: 8px 10px;
             border-radius: 14px;
             background: rgba(255, 255, 255, 0.1);
@@ -201,23 +201,7 @@
             background: linear-gradient(135deg, rgba(196, 225, 255, 0.7), rgba(165, 216, 255, 0.7));
         }
 
-        .status-label {
-            font-weight: bold;
-            font-size: 0.9rem;
-            letter-spacing: 0.05em;
-        }
 
-        .players-summary .status-label-placeholder {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 2.5rem;
-            visibility: hidden;
-        }
 
         .status-buttons {
             display: flex;
@@ -964,19 +948,15 @@
                         
                         <!-- 複数人モード用 -->
                         <div class="player-card" id="multiPlayer1Card" style="display: flex;">
-                            <span class="status-label status-label-placeholder" aria-hidden="true"></span>
                             <div class="player-score" id="multiPlayer1TotalScore">0</div>
                         </div>
                         <div class="player-card" id="multiPlayer2Card" style="display: flex;">
-                            <span class="status-label status-label-placeholder" aria-hidden="true"></span>
                             <div class="player-score" id="multiPlayer2TotalScore">0</div>
                         </div>
                         <div class="player-card" id="multiPlayer3Card" style="display: flex;">
-                            <span class="status-label status-label-placeholder" aria-hidden="true"></span>
                             <div class="player-score" id="multiPlayer3TotalScore">0</div>
                         </div>
                         <div class="player-card" id="multiPlayer4Card" style="display: flex;">
-                            <span class="status-label status-label-placeholder" aria-hidden="true"></span>
                             <div class="player-score" id="multiPlayer4TotalScore">0</div>
                         </div>
                     </div>
@@ -985,28 +965,24 @@
                     <div class="status-title">プレイヤー脱落/生存</div>
                     <div class="status-rows">
                         <div class="status-row red">
-                            <span class="status-label">赤</span>
                             <div class="status-buttons">
                                 <button class="status-btn active" type="button" data-player="0" data-status="alive" onclick="setPlayerStatus(0, 'alive')">生存</button>
                                 <button class="status-btn" type="button" data-player="0" data-status="out" onclick="setPlayerStatus(0, 'out')">脱落</button>
                             </div>
                         </div>
                         <div class="status-row yellow">
-                            <span class="status-label">黄</span>
                             <div class="status-buttons">
                                 <button class="status-btn active" type="button" data-player="1" data-status="alive" onclick="setPlayerStatus(1, 'alive')">生存</button>
                                 <button class="status-btn" type="button" data-player="1" data-status="out" onclick="setPlayerStatus(1, 'out')">脱落</button>
                             </div>
                         </div>
                         <div class="status-row green">
-                            <span class="status-label">緑</span>
                             <div class="status-buttons">
                                 <button class="status-btn active" type="button" data-player="2" data-status="alive" onclick="setPlayerStatus(2, 'alive')">生存</button>
                                 <button class="status-btn" type="button" data-player="2" data-status="out" onclick="setPlayerStatus(2, 'out')">脱落</button>
                             </div>
                         </div>
                         <div class="status-row blue">
-                            <span class="status-label">青</span>
                             <div class="status-buttons">
                                 <button class="status-btn active" type="button" data-player="3" data-status="alive" onclick="setPlayerStatus(3, 'alive')">生存</button>
                                 <button class="status-btn" type="button" data-player="3" data-status="out" onclick="setPlayerStatus(3, 'out')">脱落</button>
