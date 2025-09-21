@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea 0%, #982eff 100%);
             color: white;
             height: 100vh;
             height: 100dvh;
@@ -71,7 +71,7 @@
         }
 
         .toggle-btn.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #667eea, #982eff);
             border: 2px solid white;
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
             opacity: 1;
@@ -84,6 +84,7 @@
         .section-title {
             font-size: 0.9rem;
             font-weight: bold;
+            color: white;
             text-align: center;
             margin-bottom: 8px;
             opacity: 0.9;
@@ -124,7 +125,7 @@
             font-size: 2.5rem;
             font-weight: bold;
             text-align: center;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
             background: linear-gradient(45deg, #FFD700, #FFA500);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -159,7 +160,7 @@
 
         .player-row {
             display: grid;
-            grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr) 2fr repeat(3, 1fr);
             gap: 4px;
             align-items: center;
             background: rgba(255, 255, 255, 0.1);
@@ -169,14 +170,27 @@
             margin: 1px 0;
         }
 
+        .player-rows-container .player-row:nth-of-type(1) {
+            background: linear-gradient(135deg, rgba(255, 179, 179, 0.7), rgba(255, 135, 135, 0.7));
+        }
+
+        .player-rows-container .player-row:nth-of-type(2) {
+            background: linear-gradient(135deg, rgba(255, 232, 161, 0.7), rgba(255, 224, 102, 0.7));
+        }
+
+        .player-rows-container .player-row:nth-of-type(3) {
+            background: linear-gradient(135deg, rgba(195, 248, 204, 0.7), rgba(140, 233, 154, 0.7));
+        }
+
+        .player-rows-container .player-row:nth-of-type(4) {
+            background: linear-gradient(135deg, rgba(196, 225, 255, 0.7), rgba(165, 216, 255, 0.7));
+        }
+
         .player-row-score {
-            font-size: 1.3rem;
+            font-size: 1.8rem;
             font-weight: bold;
             text-align: center;
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #000;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -193,7 +207,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             color: white;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
             box-shadow: 0 3px 10px rgba(0,0,0,0.2);
             min-height: 35px;
             padding: 4px 3px;
@@ -212,7 +226,7 @@
 
         .player-row-btn:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.7);
         }
 
         .score-btn {
@@ -226,7 +240,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             color: white;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             min-height: 55px;
             padding: 12px 8px;
@@ -266,7 +280,7 @@
 
         .score-btn:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.7);
         }
 
         .summary-section {
@@ -290,10 +304,11 @@
         .summary-title {
             font-size: 1rem;
             font-weight: bold;
+            color: white;
         }
 
         .apply-btn {
-            background: linear-gradient(135deg, #4ECDC4, #44A08D);
+            background: #ff00a3;
             color: white;
             border: none;
             padding: 8px 16px;
@@ -347,12 +362,36 @@
             width: 100%;
         }
 
+        #multiPlayer1Card {
+            background: linear-gradient(135deg, rgba(255, 179, 179, 0.7), rgba(255, 135, 135, 0.7));
+        }
+
+        #multiPlayer2Card {
+            background: linear-gradient(135deg, rgba(255, 232, 161, 0.7), rgba(255, 224, 102, 0.7));
+        }
+
+        #multiPlayer3Card {
+            background: linear-gradient(135deg, rgba(195, 248, 204, 0.7), rgba(140, 233, 154, 0.7));
+        }
+
+        #multiPlayer4Card {
+            background: linear-gradient(135deg, rgba(196, 225, 255, 0.7), rgba(165, 216, 255, 0.7));
+        }
+
         .player-name {
             font-size: 0.7rem;
             opacity: 0.9;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        .players-summary .player-score {
+            color: #000;
+            background: none;
+            -webkit-background-clip: initial;
+            -webkit-text-fill-color: initial;
+            background-clip: initial;
         }
 
         .player-score {
@@ -439,7 +478,7 @@
             }
             
             .player-row-score {
-                font-size: 1.1rem;
+                font-size: 1.5rem;
             }
             
             .player-row-btn {
@@ -520,7 +559,7 @@
             }
             
             .player-row-score {
-                font-size: 1rem;
+                font-size: 1.4rem;
             }
             
             .player-row-btn {
@@ -637,11 +676,11 @@
     <div class="container">
         <div class="main-screen" id="mainScreen">
             <div class="mode-toggle">
-                <button class="toggle-btn active" id="personalModeBtn" onclick="switchToPersonalMode()">個人モード</button>
-                <button class="toggle-btn" id="multiModeBtn" onclick="switchToMultiMode()">4人同時ver</button>
+                <button class="toggle-btn" id="personalModeBtn" onclick="switchToPersonalMode()">個人モード</button>
+                <button class="toggle-btn active" id="multiModeBtn" onclick="switchToMultiMode()">4人同時ver</button>
             </div>
             
-            <div class="personal-section" id="personalSection">
+            <div class="personal-section" id="personalSection" style="display: none;">
                 <div class="section-title">プレイヤー暫定点</div>
                 <div class="score-container">
                     <button class="score-btn negative btn-minus-10" onclick="updatePersonalScore(-10)">-10</button>
@@ -656,39 +695,47 @@
                 </div>
             </div>
 
-            <div class="multi-player-section" id="multiPlayerSection">
+            <div class="multi-player-section" id="multiPlayerSection" style="display: flex;">
                 <div class="section-title">プレイヤー暫定点</div>
                 <div class="player-rows-container">
                     <div class="player-row">
+                        <button class="player-row-btn negative btn-minus-10" onclick="updateMultiPlayerScore(1, -10)">-10</button>
                         <button class="player-row-btn negative btn-minus-5" onclick="updateMultiPlayerScore(1, -5)">-5</button>
                         <button class="player-row-btn negative btn-minus-1" onclick="updateMultiPlayerScore(1, -1)">-1</button>
                         <div class="player-row-score" id="multiPlayer1Score">0</div>
                         <button class="player-row-btn positive btn-plus-1" onclick="updateMultiPlayerScore(1, 1)">+1</button>
                         <button class="player-row-btn positive btn-plus-5" onclick="updateMultiPlayerScore(1, 5)">+5</button>
+                        <button class="player-row-btn positive btn-plus-10" onclick="updateMultiPlayerScore(1, 10)">+10</button>
                     </div>
                     
                     <div class="player-row">
+                        <button class="player-row-btn negative btn-minus-10" onclick="updateMultiPlayerScore(2, -10)">-10</button>
                         <button class="player-row-btn negative btn-minus-5" onclick="updateMultiPlayerScore(2, -5)">-5</button>
                         <button class="player-row-btn negative btn-minus-1" onclick="updateMultiPlayerScore(2, -1)">-1</button>
                         <div class="player-row-score" id="multiPlayer2Score">0</div>
                         <button class="player-row-btn positive btn-plus-1" onclick="updateMultiPlayerScore(2, 1)">+1</button>
                         <button class="player-row-btn positive btn-plus-5" onclick="updateMultiPlayerScore(2, 5)">+5</button>
+                        <button class="player-row-btn positive btn-plus-10" onclick="updateMultiPlayerScore(2, 10)">+10</button>
                     </div>
                     
                     <div class="player-row">
+                        <button class="player-row-btn negative btn-minus-10" onclick="updateMultiPlayerScore(3, -10)">-10</button>
                         <button class="player-row-btn negative btn-minus-5" onclick="updateMultiPlayerScore(3, -5)">-5</button>
                         <button class="player-row-btn negative btn-minus-1" onclick="updateMultiPlayerScore(3, -1)">-1</button>
                         <div class="player-row-score" id="multiPlayer3Score">0</div>
                         <button class="player-row-btn positive btn-plus-1" onclick="updateMultiPlayerScore(3, 1)">+1</button>
                         <button class="player-row-btn positive btn-plus-5" onclick="updateMultiPlayerScore(3, 5)">+5</button>
+                        <button class="player-row-btn positive btn-plus-10" onclick="updateMultiPlayerScore(3, 10)">+10</button>
                     </div>
                     
                     <div class="player-row">
+                        <button class="player-row-btn negative btn-minus-10" onclick="updateMultiPlayerScore(4, -10)">-10</button>
                         <button class="player-row-btn negative btn-minus-5" onclick="updateMultiPlayerScore(4, -5)">-5</button>
                         <button class="player-row-btn negative btn-minus-1" onclick="updateMultiPlayerScore(4, -1)">-1</button>
                         <div class="player-row-score" id="multiPlayer4Score">0</div>
                         <button class="player-row-btn positive btn-plus-1" onclick="updateMultiPlayerScore(4, 1)">+1</button>
                         <button class="player-row-btn positive btn-plus-5" onclick="updateMultiPlayerScore(4, 5)">+5</button>
+                        <button class="player-row-btn positive btn-plus-10" onclick="updateMultiPlayerScore(4, 10)">+10</button>
                     </div>
                 </div>
             </div>
@@ -698,28 +745,28 @@
                     <div class="summary-title">プレイヤー確定点</div>
                     <button class="apply-btn" onclick="applyScores()">反映</button>
                 </div>
-                <div class="players-summary personal-mode" id="playersSummary">
+                <div class="players-summary multi-mode" id="playersSummary">
                     <!-- 個人モード用 -->
-                    <div class="player-card personal-mode" id="personalPlayerCard">
-                        <div class="player-name">プレイヤー1</div>
+                    <div class="player-card personal-mode" id="personalPlayerCard" style="display: none;">
+                        
                         <div class="player-score" id="player1Score">0</div>
                     </div>
                     
                     <!-- 4人モード用 -->
-                    <div class="player-card" id="multiPlayer1Card" style="display: none;">
-                        <div class="player-name">プレイヤー1</div>
+                    <div class="player-card" id="multiPlayer1Card" style="display: flex;">
+                        
                         <div class="player-score" id="multiPlayer1TotalScore">0</div>
                     </div>
-                    <div class="player-card" id="multiPlayer2Card" style="display: none;">
-                        <div class="player-name">プレイヤー2</div>
+                    <div class="player-card" id="multiPlayer2Card" style="display: flex;">
+                        
                         <div class="player-score" id="multiPlayer2TotalScore">0</div>
                     </div>
-                    <div class="player-card" id="multiPlayer3Card" style="display: none;">
-                        <div class="player-name">プレイヤー3</div>
+                    <div class="player-card" id="multiPlayer3Card" style="display: flex;">
+                        
                         <div class="player-score" id="multiPlayer3TotalScore">0</div>
                     </div>
-                    <div class="player-card" id="multiPlayer4Card" style="display: none;">
-                        <div class="player-name">プレイヤー4</div>
+                    <div class="player-card" id="multiPlayer4Card" style="display: flex;">
+                        
                         <div class="player-score" id="multiPlayer4TotalScore">0</div>
                     </div>
                 </div>
@@ -732,7 +779,7 @@
             personalScore: 0,
             playerScores: [0, 0, 0, 0],
             playerTotalScores: [0, 0, 0, 0],
-            isMultiMode: false
+            isMultiMode: true
         };
 
         function updatePersonalScore(change) {
@@ -748,7 +795,7 @@
         function switchToPersonalMode() {
             if (!gameState.isMultiMode) return;
             
-            // 全てのデータをリセット
+            // Reset all temporary scores
             resetAllScores();
             
             gameState.isMultiMode = false;
@@ -758,7 +805,7 @@
         function switchToMultiMode() {
             if (gameState.isMultiMode) return;
             
-            // 全てのデータをリセット
+            // Reset all temporary scores
             resetAllScores();
             
             gameState.isMultiMode = true;
@@ -766,12 +813,12 @@
         }
 
         function resetAllScores() {
-            // 全ての得点データをリセット
+            // Reset all score data
             gameState.personalScore = 0;
             gameState.playerScores = [0, 0, 0, 0];
             gameState.playerTotalScores = [0, 0, 0, 0];
             
-            // 画面表示をリセット
+            // Reset displayed values
             document.getElementById('personalScore').textContent = '0';
             document.getElementById('player1Score').textContent = '0';
             
@@ -828,25 +875,25 @@
 
         function applyScores() {
             if (gameState.isMultiMode) {
-                // 4人モードの場合：画面上部の各プレイヤー得点をプレイヤー得点に加算
+                // In 4-player mode, add temporary scores to totals
                 for (let i = 1; i <= 4; i++) {
                     const currentScore = gameState.playerScores[i - 1];
                     const addValue = currentScore < 0 ? 0 : currentScore; // 負の数は0に
                     gameState.playerTotalScores[i - 1] += addValue;
                     document.getElementById(`multiPlayer${i}TotalScore`).textContent = gameState.playerTotalScores[i - 1];
                     
-                    // 画面上部の得点をリセット
+                    // Reset temporary score display
                     gameState.playerScores[i - 1] = 0;
                     document.getElementById(`multiPlayer${i}Score`).textContent = 0;
                 }
             } else {
-                // 個人モードの場合：画面上部の個人得点をプレイヤー得点に加算
+                // In personal mode, add temporary score to total
                 const currentScore = gameState.personalScore;
                 const addValue = currentScore < 0 ? 0 : currentScore; // 負の数は0に
                 gameState.playerTotalScores[0] += addValue;
                 document.getElementById('player1Score').textContent = gameState.playerTotalScores[0];
                 
-                // 画面上部の得点をリセット
+                // Reset temporary score display
                 gameState.personalScore = 0;
                 document.getElementById('personalScore').textContent = 0;
             }
@@ -920,3 +967,6 @@
     </script>
 </body>
 </html>
+
+
+
