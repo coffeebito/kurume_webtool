@@ -1018,22 +1018,116 @@
     </div>
 
     <script>
-        let gameState = {
-            personalScore: 0,
-            playerScores: [0, 0, 0, 0],
-            playerTotalScores: [0, 0, 0, 0],
-            playerStatuses: ['alive', 'alive', 'alive', 'alive'],
-            isMultiMode: true
-        };
+        const STORAGE_KEY = 'kurumeWebtoolState';
+
+        function getDefaultGameState() {
+            return {
+                personalScore: 0,
+                playerScores: [0, 0, 0, 0],
+                playerTotalScores: [0, 0, 0, 0],
+                playerStatuses: ['alive', 'alive', 'alive', 'alive'],
+                isMultiMode: true
+            };
+        }
+
+        let gameState = getDefaultGameState();
+
+        function normalizeScores(arrayLike) {
+            const result = [0, 0, 0, 0];
+            if (!Array.isArray(arrayLike)) {
+                return result;
+            }
+            for (let i = 0; i < result.length; i++) {
+                const value = Number(arrayLike[i]);
+                result[i] = Number.isFinite(value) ? value : 0;
+            }
+            return result;
+        }
+
+        function normalizeStatuses(arrayLike) {
+            const result = ['alive', 'alive', 'alive', 'alive'];
+            if (!Array.isArray(arrayLike)) {
+                return result;
+            }
+            for (let i = 0; i < result.length; i++) {
+                const status = arrayLike[i];
+                result[i] = status === 'out' ? 'out' : 'alive';
+            }
+            return result;
+        }
+
+        function saveGameState() {
+            if (typeof localStorage === 'undefined') {
+                return;
+            }
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
+            } catch (error) {
+                console.warn('Failed to save game state', error);
+            }
+        }
+
+        function loadGameState() {
+            if (typeof localStorage === 'undefined') {
+                return;
+            }
+            try {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (!stored) {
+                    return;
+                }
+                const parsed = JSON.parse(stored);
+                if (!parsed || typeof parsed !== 'object') {
+                    return;
+                }
+
+                const personalScore = Number(parsed.personalScore);
+                gameState = {
+                    personalScore: Number.isFinite(personalScore) ? personalScore : 0,
+                    playerScores: normalizeScores(parsed.playerScores),
+                    playerTotalScores: normalizeScores(parsed.playerTotalScores),
+                    playerStatuses: normalizeStatuses(parsed.playerStatuses),
+                    isMultiMode: parsed.isMultiMode === false ? false : true
+                };
+                saveGameState();
+            } catch (error) {
+                console.warn('Failed to load game state', error);
+                gameState = getDefaultGameState();
+            }
+        }
+
+        function refreshScoreDisplays() {
+            const personalScoreEl = document.getElementById('personalScore');
+            if (personalScoreEl) {
+                personalScoreEl.textContent = gameState.personalScore;
+            }
+            const personalTotalEl = document.getElementById('player1Score');
+            if (personalTotalEl) {
+                personalTotalEl.textContent = gameState.playerTotalScores[0];
+            }
+            for (let i = 1; i <= 4; i++) {
+                const scoreEl = document.getElementById(`multiPlayer${i}Score`);
+                if (scoreEl) {
+                    scoreEl.textContent = gameState.playerScores[i - 1];
+                }
+                const totalEl = document.getElementById(`multiPlayer${i}TotalScore`);
+                if (totalEl) {
+                    totalEl.textContent = gameState.playerTotalScores[i - 1];
+                }
+            }
+        }
+
 
         function updatePersonalScore(change) {
             gameState.personalScore += change;
             document.getElementById('personalScore').textContent = gameState.personalScore;
+            saveGameState();
         }
 
         function updateMultiPlayerScore(playerIndex, change) {
             gameState.playerScores[playerIndex - 1] += change;
             document.getElementById(`multiPlayer${playerIndex}Score`).textContent = gameState.playerScores[playerIndex - 1];
+            saveGameState();
         }
 
 
@@ -1041,6 +1135,7 @@
             if (gameState.playerStatuses[playerIndex] === status) return;
             gameState.playerStatuses[playerIndex] = status;
             updateStatusButtons();
+            saveGameState();
         }
 
         function updateStatusButtons() {
@@ -1068,6 +1163,7 @@
                 gameState.personalScore = 0;
                 document.getElementById('personalScore').textContent = '0';
             }
+            saveGameState();
         }
 
         function switchToPersonalMode() {
@@ -1078,6 +1174,7 @@
             
             gameState.isMultiMode = false;
             updateModeDisplay();
+            saveGameState();
         }
 
         function switchToMultiMode() {
@@ -1088,6 +1185,7 @@
             
             gameState.isMultiMode = true;
             updateModeDisplay();
+            saveGameState();
         }
 
         function resetAllScores() {
@@ -1104,6 +1202,7 @@
                 document.getElementById(`multiPlayer${i}Score`).textContent = '0';
                 document.getElementById(`multiPlayer${i}TotalScore`).textContent = '0';
             }
+            saveGameState();
         }
 
         function updateModeDisplay() {
@@ -1162,44 +1261,33 @@
             }
 
             updateStatusButtons();
+            refreshScoreDisplays();
         }
 
         function applyScores() {
             if (gameState.isMultiMode) {
                 for (let i = 1; i <= 4; i++) {
                     const currentScore = gameState.playerScores[i - 1];
-                    const addValue = currentScore < 0 ? 0 : currentScore; // ���̐���0��
+                    const addValue = currentScore < 0 ? 0 : currentScore; // ???????0??
                     gameState.playerTotalScores[i - 1] += addValue;
                     document.getElementById(`multiPlayer${i}TotalScore`).textContent = gameState.playerTotalScores[i - 1];
                 }
             } else {
                 const currentScore = gameState.personalScore;
-                const addValue = currentScore < 0 ? 0 : currentScore; // ���̐���0��
+                const addValue = currentScore < 0 ? 0 : currentScore; // ???????0??
                 gameState.playerTotalScores[0] += addValue;
                 document.getElementById('player1Score').textContent = gameState.playerTotalScores[0];
             }
+            saveGameState();
         }
-
         function toggleMode() {
             switchToMultiMode();
         }
 
         window.addEventListener('load', function() {
+            loadGameState();
             updateModeDisplay();
-            
-            gameState.personalScore = 0;
-            gameState.playerScores = [0, 0, 0, 0];
-            gameState.playerTotalScores = [0, 0, 0, 0];
-            
-            document.getElementById('personalScore').textContent = '0';
-            document.getElementById('player1Score').textContent = '0';
-            
-            for (let i = 1; i <= 4; i++) {
-                document.getElementById(`multiPlayer${i}Score`).textContent = '0';
-                document.getElementById(`multiPlayer${i}TotalScore`).textContent = '0';
-            }
 
-            updateStatusButtons();
 
             function setViewportHeight() {
                 let vh = window.innerHeight * 0.01;
@@ -1247,6 +1335,8 @@
                 e.preventDefault();
             });
         });
+
+        window.addEventListener('beforeunload', saveGameState);
     </script>
 </body>
 </html>
