@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -98,6 +98,10 @@
         }
 
         .section-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
             font-size: 2.2rem;
             font-weight: bold;
             color: white;
@@ -108,6 +112,128 @@
             padding: 4px 12px;
             border-radius: 12px;
             backdrop-filter: blur(10px);
+        }
+
+        .section-title-text {
+            white-space: nowrap;
+        }
+
+        .reset-btn {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 999px;
+            padding: 6px 14px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .reset-btn:active {
+            transform: scale(0.95);
+        }
+
+
+        .summary-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+        }
+
+        .status-section {
+            flex: 0 0 220px;
+            display: none;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            gap: 10px;
+        }
+
+        .status-section.active {
+            display: flex;
+        }
+
+        .status-title {
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .status-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 10px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .status-row.red {
+            background: linear-gradient(135deg, rgba(255, 179, 179, 0.35), rgba(255, 135, 135, 0.35));
+        }
+
+        .status-row.yellow {
+            background: linear-gradient(135deg, rgba(255, 232, 161, 0.35), rgba(255, 224, 102, 0.35));
+        }
+
+        .status-row.green {
+            background: linear-gradient(135deg, rgba(195, 248, 204, 0.35), rgba(140, 233, 154, 0.35));
+        }
+
+        .status-row.blue {
+            background: linear-gradient(135deg, rgba(196, 225, 255, 0.35), rgba(165, 216, 255, 0.35));
+        }
+
+        .status-label {
+            font-weight: bold;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+
+        .status-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .status-btn {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 999px;
+            padding: 6px 14px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            opacity: 0.6;
+        }
+
+        .status-btn.active {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1f1f39;
+            border-color: rgba(255, 255, 255, 0.9);
+            opacity: 1;
+        }
+
+        .status-btn[data-status="out"].active {
+            background: rgba(244, 67, 54, 0.85);
+            color: #fff;
+        }
+
+        .status-btn:active {
+            transform: scale(0.95);
         }
 
         .personal-section {
@@ -302,6 +428,8 @@
         }
 
         .summary-section {
+            flex: 1 1 0;
+            min-width: 0;
             height: auto;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(15px);
@@ -465,6 +593,17 @@
             }
         }
 
+
+        @media screen and (max-width: 900px) {
+            .summary-wrapper {
+                flex-direction: column;
+            }
+            .status-section {
+                flex: 1 1 auto;
+                width: 100%;
+            }
+        }
+
         @media screen and (max-height: 800px) {
             .container {
                 padding: 4px;
@@ -489,6 +628,16 @@
                 padding: 2px;
                 margin: 2px 0;
                 flex: none;
+            }
+
+            .status-section {
+                padding: 10px;
+                gap: 8px;
+            }
+
+            .status-btn {
+                font-size: 0.85rem;
+                padding: 5px 12px;
             }
             
             .player-row {
@@ -567,6 +716,16 @@
                 padding: 2px;
                 margin: 2px 0;
                 flex: none;
+            }
+
+            .status-section {
+                padding: 8px;
+                gap: 6px;
+            }
+
+            .status-btn {
+                font-size: 0.75rem;
+                padding: 4px 10px;
             }
             
             .section-title {
@@ -705,7 +864,7 @@
             
             <div class="sub-heading"> ［ R1 ］ ［ R2 ］ ［ R3 ］ ［ R4 ］ </div>
             <div class="personal-section" id="personalSection" style="display: none;">
-                <div class="section-title">プレイヤー暫定点</div>
+                <div class="section-title"><span class="section-title-text">プレイヤー暫定点</span><button class="reset-btn" type="button" onclick="resetProvisionalScores()">リセット</button></div>
                 <div class="score-container">
                     <button class="score-btn negative btn-minus-10" onclick="updatePersonalScore(-10)">-10</button>
                     <div class="personal-score" id="personalScore">0</div>
@@ -720,7 +879,7 @@
             </div>
 
             <div class="multi-player-section" id="multiPlayerSection" style="display: flex;">
-                <div class="section-title">プレイヤー暫定点</div>
+                <div class="section-title"><span class="section-title-text">プレイヤー暫定点</span><button class="reset-btn" type="button" onclick="resetProvisionalScores()">リセット</button></div>
                 <div class="player-rows-container">
                     <div class="player-row">
                         <button class="player-row-btn negative btn-minus-10" onclick="updateMultiPlayerScore(1, -10)">-10</button>
@@ -764,38 +923,72 @@
                 </div>
             </div>
             
-            <div class="summary-section">
-                <div class="summary-header">
-                    <div class="summary-title">プレイヤー確定点</div>
-                    <button class="apply-btn" onclick="applyScores()">反映</button>
+            <div class="summary-wrapper">
+                <div class="summary-section">
+                    <div class="summary-header">
+                        <div class="summary-title">プレイヤー確定点</div>
+                        <button class="apply-btn" onclick="applyScores()">反映</button>
+                    </div>
+                    <div class="players-summary multi-mode" id="playersSummary">
+                        <!-- 個人モード用 -->
+                        <div class="player-card personal-mode" id="personalPlayerCard" style="display: none;">
+                            
+                            <div class="player-score" id="player1Score">0</div>
+                        </div>
+                        
+                        <!-- 複数人モード用 -->
+                        <div class="player-card" id="multiPlayer1Card" style="display: flex;">
+                            
+                            <div class="player-score" id="multiPlayer1TotalScore">0</div>
+                        </div>
+                        <div class="player-card" id="multiPlayer2Card" style="display: flex;">
+                            
+                            <div class="player-score" id="multiPlayer2TotalScore">0</div>
+                        </div>
+                        <div class="player-card" id="multiPlayer3Card" style="display: flex;">
+                            
+                            <div class="player-score" id="multiPlayer3TotalScore">0</div>
+                        </div>
+                        <div class="player-card" id="multiPlayer4Card" style="display: flex;">
+                            
+                            <div class="player-score" id="multiPlayer4TotalScore">0</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="players-summary multi-mode" id="playersSummary">
-                    <!-- 個人モード用 -->
-                    <div class="player-card personal-mode" id="personalPlayerCard" style="display: none;">
-                        
-                        <div class="player-score" id="player1Score">0</div>
-                    </div>
-                    
-                    <!-- 複数人モード用 -->
-                    <div class="player-card" id="multiPlayer1Card" style="display: flex;">
-                        
-                        <div class="player-score" id="multiPlayer1TotalScore">0</div>
-                    </div>
-                    <div class="player-card" id="multiPlayer2Card" style="display: flex;">
-                        
-                        <div class="player-score" id="multiPlayer2TotalScore">0</div>
-                    </div>
-                    <div class="player-card" id="multiPlayer3Card" style="display: flex;">
-                        
-                        <div class="player-score" id="multiPlayer3TotalScore">0</div>
-                    </div>
-                    <div class="player-card" id="multiPlayer4Card" style="display: flex;">
-                        
-                        <div class="player-score" id="multiPlayer4TotalScore">0</div>
+                <div class="status-section" id="statusSection">
+                    <div class="status-title">プレイヤー脱落/生存</div>
+                    <div class="status-rows">
+                        <div class="status-row red">
+                            <span class="status-label">赤</span>
+                            <div class="status-buttons">
+                                <button class="status-btn active" type="button" data-player="0" data-status="alive" onclick="setPlayerStatus(0, 'alive')">生存</button>
+                                <button class="status-btn" type="button" data-player="0" data-status="out" onclick="setPlayerStatus(0, 'out')">脱落</button>
+                            </div>
+                        </div>
+                        <div class="status-row yellow">
+                            <span class="status-label">黄</span>
+                            <div class="status-buttons">
+                                <button class="status-btn active" type="button" data-player="1" data-status="alive" onclick="setPlayerStatus(1, 'alive')">生存</button>
+                                <button class="status-btn" type="button" data-player="1" data-status="out" onclick="setPlayerStatus(1, 'out')">脱落</button>
+                            </div>
+                        </div>
+                        <div class="status-row green">
+                            <span class="status-label">緑</span>
+                            <div class="status-buttons">
+                                <button class="status-btn active" type="button" data-player="2" data-status="alive" onclick="setPlayerStatus(2, 'alive')">生存</button>
+                                <button class="status-btn" type="button" data-player="2" data-status="out" onclick="setPlayerStatus(2, 'out')">脱落</button>
+                            </div>
+                        </div>
+                        <div class="status-row blue">
+                            <span class="status-label">青</span>
+                            <div class="status-buttons">
+                                <button class="status-btn active" type="button" data-player="3" data-status="alive" onclick="setPlayerStatus(3, 'alive')">生存</button>
+                                <button class="status-btn" type="button" data-player="3" data-status="out" onclick="setPlayerStatus(3, 'out')">脱落</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 
     <script>
@@ -803,6 +996,7 @@
             personalScore: 0,
             playerScores: [0, 0, 0, 0],
             playerTotalScores: [0, 0, 0, 0],
+            playerStatuses: ['alive', 'alive', 'alive', 'alive'],
             isMultiMode: true
         };
 
@@ -814,6 +1008,40 @@
         function updateMultiPlayerScore(playerIndex, change) {
             gameState.playerScores[playerIndex - 1] += change;
             document.getElementById(`multiPlayer${playerIndex}Score`).textContent = gameState.playerScores[playerIndex - 1];
+        }
+
+
+        function setPlayerStatus(playerIndex, status) {
+            if (gameState.playerStatuses[playerIndex] === status) return;
+            gameState.playerStatuses[playerIndex] = status;
+            updateStatusButtons();
+        }
+
+        function updateStatusButtons() {
+            for (let i = 0; i < gameState.playerStatuses.length; i++) {
+                const aliveBtn = document.querySelector(`.status-btn[data-player="${i}"][data-status="alive"]`);
+                const outBtn = document.querySelector(`.status-btn[data-player="${i}"][data-status="out"]`);
+                if (!aliveBtn || !outBtn) continue;
+                if (gameState.playerStatuses[i] === 'alive') {
+                    aliveBtn.classList.add('active');
+                    outBtn.classList.remove('active');
+                } else {
+                    aliveBtn.classList.remove('active');
+                    outBtn.classList.add('active');
+                }
+            }
+        }
+
+        function resetProvisionalScores() {
+            if (gameState.isMultiMode) {
+                for (let i = 1; i <= 4; i++) {
+                    gameState.playerScores[i - 1] = 0;
+                    document.getElementById(`multiPlayer${i}Score`).textContent = '0';
+                }
+            } else {
+                gameState.personalScore = 0;
+                document.getElementById('personalScore').textContent = '0';
+            }
         }
 
         function switchToPersonalMode() {
@@ -858,6 +1086,7 @@
             const personalModeBtn = document.getElementById('personalModeBtn');
             const multiModeBtn = document.getElementById('multiModeBtn');
             const playersSummary = document.getElementById('playersSummary');
+            const statusSection = document.getElementById('statusSection');
             
             const personalPlayerCard = document.getElementById('personalPlayerCard');
             const multiPlayerCards = [
@@ -870,7 +1099,12 @@
             if (gameState.isMultiMode) {
                 personalSection.style.display = 'none';
                 multiPlayerSection.style.display = 'flex';
-                
+
+                if (statusSection) {
+                    statusSection.classList.add('active');
+                    statusSection.style.display = 'flex';
+                }
+
                 personalModeBtn.classList.remove('active');
                 multiModeBtn.classList.add('active');
                 
@@ -892,34 +1126,31 @@
                 playersSummary.className = 'players-summary personal-mode';
                 personalPlayerCard.style.display = 'flex';
                 multiPlayerCards.forEach(card => card.style.display = 'none');
-                
+
+                if (statusSection) {
+                    statusSection.classList.remove('active');
+                    statusSection.style.display = 'none';
+                }
+
                 document.getElementById('player1Score').textContent = gameState.playerTotalScores[0];
             }
+
+            updateStatusButtons();
         }
 
         function applyScores() {
             if (gameState.isMultiMode) {
-                // In 4-player mode, add temporary scores to totals
                 for (let i = 1; i <= 4; i++) {
                     const currentScore = gameState.playerScores[i - 1];
-                    const addValue = currentScore < 0 ? 0 : currentScore; // 負の数は0に
+                    const addValue = currentScore < 0 ? 0 : currentScore; // ���̐���0��
                     gameState.playerTotalScores[i - 1] += addValue;
                     document.getElementById(`multiPlayer${i}TotalScore`).textContent = gameState.playerTotalScores[i - 1];
-                    
-                    // Reset temporary score display
-                    gameState.playerScores[i - 1] = 0;
-                    document.getElementById(`multiPlayer${i}Score`).textContent = 0;
                 }
             } else {
-                // In personal mode, add temporary score to total
                 const currentScore = gameState.personalScore;
-                const addValue = currentScore < 0 ? 0 : currentScore; // 負の数は0に
+                const addValue = currentScore < 0 ? 0 : currentScore; // ���̐���0��
                 gameState.playerTotalScores[0] += addValue;
                 document.getElementById('player1Score').textContent = gameState.playerTotalScores[0];
-                
-                // Reset temporary score display
-                gameState.personalScore = 0;
-                document.getElementById('personalScore').textContent = 0;
             }
         }
 
@@ -941,7 +1172,9 @@
                 document.getElementById(`multiPlayer${i}Score`).textContent = '0';
                 document.getElementById(`multiPlayer${i}TotalScore`).textContent = '0';
             }
-            
+
+            updateStatusButtons();
+
             function setViewportHeight() {
                 let vh = window.innerHeight * 0.01;
                 document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -991,6 +1224,3 @@
     </script>
 </body>
 </html>
-
-
-
