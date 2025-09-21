@@ -155,16 +155,16 @@
 
 
         .summary-wrapper {
-            display: flex;
+            display: grid;
             gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             align-items: stretch;
-            flex-wrap: nowrap;
-            overflow-x: auto;
         }
 
         .status-section {
             flex: 1 1 0;
             min-width: 0;
+            width: 100%;
             display: none;
             flex-direction: column;
             background: rgba(255, 255, 255, 0.12);
@@ -456,6 +456,7 @@
         .summary-section {
             flex: 1 1 0;
             min-width: 0;
+            width: 100%;
             height: auto;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(15px);
@@ -618,7 +619,7 @@
 
         @media screen and (max-width: 900px) {
             .summary-wrapper {
-                overflow-x: auto;
+                grid-template-columns: 1fr;
             }
         }
 
