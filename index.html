@@ -465,12 +465,12 @@
             flex-direction: column;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
-
         .summary-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 12px;
             margin-bottom: 12px;
+            gap: 12px;
         }
 
         .summary-title {
@@ -479,22 +479,6 @@
             color: white;
         }
 
-        .apply-btn {
-            background: #ff00a3;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.75rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .apply-btn:active {
-            transform: scale(0.95);
-        }
 
         .players-summary {
             display: grid;
@@ -720,11 +704,6 @@
                 font-size: 0.8rem;
             }
             
-            .apply-btn {
-                padding: 6px 12px;
-                font-size: 0.6rem;
-            }
-            
             .summary-title {
                 font-size: 0.9rem;
             }
@@ -810,11 +789,6 @@
                 font-size: 0.8rem;
             }
             
-            .apply-btn {
-                padding: 4px 8px;
-                font-size: 0.6rem;
-            }
-            
             .player-name {
                 font-size: 0.55rem;
             }
@@ -861,11 +835,6 @@
                 gap: 4px;
             }
             
-            .apply-btn {
-                padding: 4px 8px;
-                font-size: 0.6rem;
-            }
-            
             .summary-title {
                 font-size: 0.8rem;
             }
@@ -878,9 +847,6 @@
         }
 
         @media (hover: none) and (pointer: coarse) {
-            .apply-btn {
-                min-height: 44px;
-            }
             
             .score-btn {
                 min-height: 55px;
@@ -965,7 +931,6 @@
                 <div class="summary-section">
                     <div class="summary-header">
                         <div class="summary-title">プレイヤー確定点</div>
-                        <button class="apply-btn" onclick="applyScores()">反映</button>
                     </div>
                     <div class="players-summary multi-mode" id="playersSummary">
                         <!-- 個人モード用 -->
@@ -1111,7 +1076,28 @@
             });
         }
 
+        function recalculateTotalScores() {
+            const totals = Array(TOTAL_ROUNDS).fill(0);
+
+            gameState.rounds.forEach(roundState => {
+                for (let i = 0; i < TOTAL_ROUNDS; i++) {
+                    const status = roundState.playerStatuses[i];
+                    if (status === 'rescue') {
+                        const value = Number(roundState.playerScores[i]) || 0;
+                        totals[i] += value < 0 ? 0 : value;
+                    }
+                }
+                const personalValue = Number(roundState.personalScore);
+                if (Number.isFinite(personalValue)) {
+                    totals[0] += personalValue < 0 ? 0 : personalValue;
+                }
+            });
+
+            gameState.playerTotalScores = totals;
+        }
+
         function refreshScoreDisplays() {
+            recalculateTotalScores();
             const roundState = getCurrentRoundState();
             const personalScoreEl = document.getElementById('personalScore');
             if (personalScoreEl) {
@@ -1238,6 +1224,7 @@
             }
             roundState.playerStatuses[playerIndex] = nextStatus;
             updateStatusButtons();
+            refreshScoreDisplays();
             saveGameState();
         }
 
@@ -1337,22 +1324,6 @@
             refreshScoreDisplays();
         }
 
-        function applyScores() {
-            const roundState = getCurrentRoundState();
-            if (gameState.isMultiMode) {
-                for (let i = 0; i < TOTAL_ROUNDS; i++) {
-                    const currentScore = roundState.playerScores[i];
-                    const addValue = currentScore < 0 ? 0 : currentScore;
-                    gameState.playerTotalScores[i] += addValue;
-                }
-            } else {
-                const currentScore = roundState.personalScore;
-                const addValue = currentScore < 0 ? 0 : currentScore;
-                gameState.playerTotalScores[0] += addValue;
-            }
-            refreshScoreDisplays();
-            saveGameState();
-        }
 
         function toggleMode() {
             switchToMultiMode();
