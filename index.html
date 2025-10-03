@@ -221,45 +221,149 @@
 
 
 
-        .status-buttons {
+        .status-toggle {
             display: flex;
-            gap: 8px;
-        }
-
-        .status-btn {
-            background: rgba(255, 255, 255, 0.25);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 999px;
-            padding: 6px 14px;
-            font-size: 0.95rem;
-            font-weight: bold;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            width: 100%;
             cursor: pointer;
-            transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-            opacity: 0.6;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            flex-wrap: wrap;
+            text-align: left;
         }
 
-        .status-btn.active {
-            background: rgba(255, 255, 255, 0.9);
-            color: #1f1f39;
-            border-color: rgba(255, 255, 255, 0.9);
+        .status-toggle-text {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+            display: inline-flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 4px;
+            letter-spacing: 0.05em;
+            flex: 1;
+            min-width: 0;
+            flex-wrap: wrap;
+            row-gap: 2px;
+            transition: color 0.3s ease, opacity 0.3s ease;
+        }
+
+        .status-toggle.is-rescue .status-toggle-text {
+            color: #ffffff;
             opacity: 1;
         }
 
-        .status-btn[data-status="rescue"].active {
-            background: rgba(79, 129, 255, 0.9);
-            color: #fff;
-            border-color: rgba(79, 129, 255, 0.9);
+        .status-toggle.is-out .status-toggle-text {
+            color: rgba(255, 255, 255, 0.5);
+            opacity: 0.7;
         }
 
-        .status-btn[data-status="out"].active {
-            background: rgba(244, 67, 54, 0.85);
-            color: #fff;
+        .status-switch-input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
         }
 
-        .status-btn:active {
-            transform: scale(0.95);
+        .status-switch-track {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 150px;
+            max-width: 100%;
+            height: 48px;
+            border-radius: 999px;
+            padding: 0 18px;
+            background: linear-gradient(135deg, rgba(60, 60, 90, 0.85), rgba(30, 30, 60, 0.85));
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4), 0 10px 18px rgba(0, 0, 0, 0.25);
+            transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .status-state-text {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: rgba(255, 255, 255, 0.85);
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+            min-width: 86px;
+            text-align: right;
+            flex: 0 0 auto;
+            transition: color 0.3s ease, opacity 0.3s ease;
+        }
+
+        .status-state-text.state-rescue {
+            color: rgba(255, 255, 255, 0.55);
+            opacity: 0.7;
+        }
+
+        .status-state-text.state-out {
+            color: #ffffff;
+            opacity: 1;
+        }
+
+        .status-switch-option {
+            flex: 1;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            z-index: 2;
+            transition: color 0.3s ease, opacity 0.3s ease;
+        }
+
+        .status-switch-thumb {
+            position: absolute;
+            top: 5px;
+            left: 6px;
+            width: calc(50% - 12px);
+            height: calc(100% - 10px);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+            transition: left 0.3s ease, background 0.3s ease;
+        }
+
+        .status-switch-track.is-rescue {
+            background: linear-gradient(135deg, rgba(255, 248, 209, 0.95), rgba(255, 220, 120, 0.95));
+            box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.35), 0 10px 18px rgba(255, 196, 74, 0.4);
+        }
+
+        .status-switch-track.is-rescue .status-switch-option.option-light {
+            color: #533200;
+            opacity: 1;
+        }
+
+        .status-switch-track.is-rescue .status-switch-option.option-dark {
+            color: rgba(0, 0, 0, 0.35);
+            opacity: 0.6;
+        }
+
+        .status-switch-track.is-out {
+            background: linear-gradient(135deg, rgba(90, 120, 255, 0.9), rgba(36, 56, 192, 0.9));
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4), 0 10px 18px rgba(36, 56, 192, 0.35);
+        }
+
+        .status-switch-track.is-out .status-switch-option.option-light {
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .status-switch-track.is-out .status-switch-option.option-dark {
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .status-switch-track.is-out .status-switch-thumb {
+            left: calc(50% + 6px);
+            background: rgba(255, 255, 255, 0.78);
+        }
+
+        .status-toggle:active .status-switch-track {
+            transform: scale(0.97);
         }
 
         .personal-section {
@@ -653,9 +757,18 @@
                 gap: 8px;
             }
 
-            .status-btn {
-                font-size: 0.85rem;
-                padding: 5px 12px;
+            .status-switch-track {
+                width: 138px;
+                height: 44px;
+                padding: 0 16px;
+            }
+
+            .status-switch-option {
+                font-size: 0.9rem;
+            }
+
+            .status-toggle-text {
+                font-size: 0.95rem;
             }
             
             .player-row {
@@ -736,9 +849,19 @@
                 gap: 6px;
             }
 
-            .status-btn {
-                font-size: 0.75rem;
-                padding: 4px 10px;
+            .status-switch-track {
+                width: 128px;
+                height: 40px;
+                padding: 0 14px;
+            }
+
+            .status-switch-option {
+                font-size: 0.85rem;
+                letter-spacing: 0.12em;
+            }
+
+            .status-toggle-text {
+                font-size: 0.88rem;
             }
             
             .section-title {
@@ -958,32 +1081,52 @@
                     <div class="status-title">プレイヤー脱落/移動中</div>
                     <div class="status-rows">
                         <div class="status-row red">
-                            <div class="status-buttons">
-                                <button class="status-btn" type="button" data-player="0" data-status="rescue" onclick="setPlayerStatus(0, 'rescue')">生還</button>
-                                <button class="status-btn active" type="button" data-player="0" data-status="alive" onclick="setPlayerStatus(0, 'alive')">移動中</button>
-                                <button class="status-btn" type="button" data-player="0" data-status="out" onclick="setPlayerStatus(0, 'out')">脱落</button>
-                            </div>
+                            <label class="status-toggle">
+                                <span class="status-toggle-text">帰還成功！</span>
+                                <input class="status-switch-input" type="checkbox" data-player="0" onchange="handleStatusToggle(this)">
+                                <span class="status-switch-track is-rescue">
+                                    <span class="status-switch-option option-light">明</span>
+                                    <span class="status-switch-option option-dark">暗</span>
+                                    <span class="status-switch-thumb"></span>
+                                </span>
+                                <span class="status-state-text state-rescue" data-player="0">移動中/脱落</span>
+                            </label>
                         </div>
                         <div class="status-row yellow">
-                            <div class="status-buttons">
-                                <button class="status-btn" type="button" data-player="1" data-status="rescue" onclick="setPlayerStatus(1, 'rescue')">生還</button>
-                                <button class="status-btn active" type="button" data-player="1" data-status="alive" onclick="setPlayerStatus(1, 'alive')">移動中</button>
-                                <button class="status-btn" type="button" data-player="1" data-status="out" onclick="setPlayerStatus(1, 'out')">脱落</button>
-                            </div>
+                            <label class="status-toggle">
+                                <span class="status-toggle-text">帰還成功！</span>
+                                <input class="status-switch-input" type="checkbox" data-player="1" onchange="handleStatusToggle(this)">
+                                <span class="status-switch-track is-rescue">
+                                    <span class="status-switch-option option-light">明</span>
+                                    <span class="status-switch-option option-dark">暗</span>
+                                    <span class="status-switch-thumb"></span>
+                                </span>
+                                <span class="status-state-text state-rescue" data-player="1">移動中/脱落</span>
+                            </label>
                         </div>
                         <div class="status-row green">
-                            <div class="status-buttons">
-                                <button class="status-btn" type="button" data-player="2" data-status="rescue" onclick="setPlayerStatus(2, 'rescue')">生還</button>
-                                <button class="status-btn active" type="button" data-player="2" data-status="alive" onclick="setPlayerStatus(2, 'alive')">移動中</button>
-                                <button class="status-btn" type="button" data-player="2" data-status="out" onclick="setPlayerStatus(2, 'out')">脱落</button>
-                            </div>
+                            <label class="status-toggle">
+                                <span class="status-toggle-text">帰還成功！</span>
+                                <input class="status-switch-input" type="checkbox" data-player="2" onchange="handleStatusToggle(this)">
+                                <span class="status-switch-track is-rescue">
+                                    <span class="status-switch-option option-light">明</span>
+                                    <span class="status-switch-option option-dark">暗</span>
+                                    <span class="status-switch-thumb"></span>
+                                </span>
+                                <span class="status-state-text state-rescue" data-player="2">移動中/脱落</span>
+                            </label>
                         </div>
                         <div class="status-row blue">
-                            <div class="status-buttons">
-                                <button class="status-btn" type="button" data-player="3" data-status="rescue" onclick="setPlayerStatus(3, 'rescue')">生還</button>
-                                <button class="status-btn active" type="button" data-player="3" data-status="alive" onclick="setPlayerStatus(3, 'alive')">移動中</button>
-                                <button class="status-btn" type="button" data-player="3" data-status="out" onclick="setPlayerStatus(3, 'out')">脱落</button>
-                            </div>
+                            <label class="status-toggle">
+                                <span class="status-toggle-text">帰還成功！</span>
+                                <input class="status-switch-input" type="checkbox" data-player="3" onchange="handleStatusToggle(this)">
+                                <span class="status-switch-track is-rescue">
+                                    <span class="status-switch-option option-light">明</span>
+                                    <span class="status-switch-option option-dark">暗</span>
+                                    <span class="status-switch-thumb"></span>
+                                </span>
+                                <span class="status-state-text state-rescue" data-player="3">移動中/脱落</span>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -998,7 +1141,7 @@
             return {
                 personalScore: 0,
                 playerScores: Array(TOTAL_ROUNDS).fill(0),
-                playerStatuses: Array(TOTAL_ROUNDS).fill('alive')
+                playerStatuses: Array(TOTAL_ROUNDS).fill('rescue')
             };
         }
 
@@ -1026,7 +1169,7 @@
         }
 
         function normalizeStatuses(arrayLike) {
-            const result = Array(TOTAL_ROUNDS).fill('alive');
+            const result = Array(TOTAL_ROUNDS).fill('rescue');
             if (!Array.isArray(arrayLike)) {
                 return result;
             }
@@ -1034,10 +1177,8 @@
                 const status = arrayLike[i];
                 if (status === 'out') {
                     result[i] = 'out';
-                } else if (status === 'rescue') {
-                    result[i] = 'rescue';
                 } else {
-                    result[i] = 'alive';
+                    result[i] = 'rescue';
                 }
             }
             return result;
@@ -1120,19 +1261,49 @@
             }
         }
 
-        function updateStatusButtons() {
+                function updateStatusButtons() {
             const roundState = getCurrentRoundState();
             for (let i = 0; i < TOTAL_ROUNDS; i++) {
                 const currentStatus = roundState.playerStatuses[i];
-                const effectiveStatus = currentStatus === 'out' || currentStatus === 'rescue' ? currentStatus : 'alive';
-                ['rescue', 'alive', 'out'].forEach(status => {
-                    const button = document.querySelector(`.status-btn[data-player="${i}"][data-status="${status}"]`);
-                    if (!button) {
-                        return;
+                const isRescue = currentStatus !== 'out';
+                const toggle = document.querySelector('.status-switch-input[data-player="' + i + '"]');
+                if (!toggle) {
+                    continue;
+                }
+
+                toggle.checked = isRescue;
+
+                const track = toggle.nextElementSibling;
+                if (track && track.classList.contains('status-switch-track')) {
+                    track.classList.toggle('is-rescue', isRescue);
+                    track.classList.toggle('is-out', !isRescue);
+                }
+
+                const label = toggle.closest('.status-toggle');
+                if (label) {
+                    label.classList.toggle('is-rescue', isRescue);
+                    label.classList.toggle('is-out', !isRescue);
+
+                    const stateText = label.querySelector('.status-state-text');
+                    if (stateText) {
+                        stateText.textContent = '移動中/脱落';
+                        stateText.classList.toggle('state-rescue', isRescue);
+                        stateText.classList.toggle('state-out', !isRescue);
                     }
-                    button.classList.toggle('active', status === effectiveStatus);
-                });
+                }
             }
+        }
+
+function handleStatusToggle(input) {
+            if (!input) {
+                return;
+            }
+            const playerIndex = Number(input.dataset.player);
+            if (Number.isNaN(playerIndex)) {
+                return;
+            }
+            const status = input.checked ? 'rescue' : 'out';
+            setPlayerStatus(playerIndex, status);
         }
 
         function saveGameState() {
@@ -1216,9 +1387,12 @@
         }
 
         function setPlayerStatus(playerIndex, status) {
+            if (!Number.isInteger(playerIndex) || playerIndex < 0 || playerIndex >= TOTAL_ROUNDS) {
+                return;
+            }
             const roundState = getCurrentRoundState();
-            const allowedStatuses = ['rescue', 'alive', 'out'];
-            const nextStatus = allowedStatuses.includes(status) ? status : 'alive';
+            const allowedStatuses = ['rescue', 'out'];
+            const nextStatus = allowedStatuses.includes(status) ? status : 'rescue';
             if (roundState.playerStatuses[playerIndex] === nextStatus) {
                 return;
             }
@@ -1384,3 +1558,4 @@
     </script>
 </body>
 </html>
+
