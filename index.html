@@ -197,6 +197,14 @@
             align-items: center;
             column-gap: calc(3 * var(--v));
             width: 100%;
+            --status-switch-width: clamp(11rem, 22vw, 18rem);
+            --status-switch-height: clamp(calc(var(--vh, 1vh) * 3.4), 3rem, calc(var(--vh, 1vh) * 5));
+            --status-switch-padding-inline: clamp(1rem, 1.5vw, 2.2rem);
+            --status-switch-thumb-gap-inline: calc(var(--status-switch-height) * 0.12);
+            --status-switch-thumb-gap-block: calc(var(--status-switch-height) * 0.1);
+            --status-toggle-text-font: clamp(calc(var(--vh, 1vh) * 1.35), calc(1rem + 0.55vw), calc(var(--vh, 1vh) * 2.3));
+            --status-switch-option-font: clamp(calc(var(--vh, 1vh) * 1.25), calc(0.9rem + 0.5vw), calc(var(--vh, 1vh) * 2));
+            --status-state-text-font: clamp(calc(var(--vh, 1vh) * 1.2), calc(0.9rem + 0.45vw), calc(var(--vh, 1vh) * 1.9));
             cursor: pointer;
             user-select: none;
             -webkit-user-select: none;
@@ -207,7 +215,11 @@
         .status-toggle-text {
             grid-column: 1;
             justify-self: start;
+<<<<<<< HEAD
+            font-size: var(--status-toggle-text-font, clamp(calc(var(--vh, 1vh) * 1.35), calc(1rem + 0.55vw), calc(var(--vh, 1vh) * 2.3)));
+=======
             font-size: var(--label-size);
+>>>>>>> da2d41ae32ec858539f1f3f35e07983acc1a7336
             font-weight: 700;
             color: #ffffff;
             text-shadow: 0 calc(0.5 * var(--v)) calc(1.5 * var(--v)) rgba(0, 0, 0, 0.35);
@@ -234,11 +246,20 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+<<<<<<< HEAD
+            width: min(100%, var(--status-switch-width));
+            max-width: 100%;
+            min-width: clamp(8rem, calc(var(--status-switch-width) * 0.6), var(--status-switch-width));
+            height: var(--status-switch-height);
+            border-radius: 999px;
+            padding: 0 var(--status-switch-padding-inline);
+=======
             width: var(--switch-w);
             max-width: 100%;
             height: var(--switch-h);
             border-radius: 999px;
             padding: 0 var(--switch-pad-x);
+>>>>>>> da2d41ae32ec858539f1f3f35e07983acc1a7336
             background: linear-gradient(135deg, rgba(60, 60, 90, 0.85), rgba(30, 30, 60, 0.85));
             box-shadow: inset 0 calc(0.5 * var(--v)) calc(1.5 * var(--v)) rgba(0, 0, 0, 0.4), 0 calc(2.5 * var(--v)) calc(4.5 * var(--v)) rgba(0, 0, 0, 0.25);
             transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
@@ -249,6 +270,45 @@
             grid-column: 3;
             justify-self: end;
             text-align: right;
+<<<<<<< HEAD
+            font-size: var(--status-state-text-font, clamp(calc(var(--vh, 1vh) * 1.2), calc(0.9rem + 0.45vw), calc(var(--vh, 1vh) * 1.9)));
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: rgba(255, 255, 255, 0.85);
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+            min-width: clamp(5.5rem, calc(var(--status-switch-width) * 0.45), 10rem);
+            text-align: right;
+            flex: 0 0 auto;
+            transition: color 0.3s ease, opacity 0.3s ease;
+        }
+
+        .status-state-text.state-rescue {
+            color: rgba(255, 255, 255, 0.55);
+            opacity: 0.7;
+        }
+
+        .status-state-text.state-out {
+            color: #ffffff;
+            opacity: 1;
+        }
+
+        .status-switch-option {
+            flex: 1;
+            text-align: center;
+            font-size: var(--status-switch-option-font, clamp(calc(var(--vh, 1vh) * 1.25), calc(0.9rem + 0.5vw), calc(var(--vh, 1vh) * 2)));
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            z-index: 2;
+            transition: color 0.3s ease, opacity 0.3s ease;
+        }
+
+        .status-switch-thumb {
+            position: absolute;
+            top: var(--status-switch-thumb-gap-block);
+            left: var(--status-switch-thumb-gap-inline);
+            width: calc(50% - (var(--status-switch-thumb-gap-inline) * 2));
+            height: calc(100% - (var(--status-switch-thumb-gap-block) * 2));
+=======
             font-size: var(--state-size);
             font-weight: 700;
             letter-spacing: 0.15em;
@@ -268,11 +328,51 @@
             left: var(--thumb-left);
             width: calc(50% - var(--thumb-inset));
             height: calc(100% - (var(--thumb-top) * 2));
+>>>>>>> da2d41ae32ec858539f1f3f35e07983acc1a7336
             border-radius: 999px;
             background: rgba(255, 255, 255, 0.9);
             box-shadow: 0 calc(1 * var(--v)) calc(3 * var(--v)) rgba(0, 0, 0, 0.35);
             transition: left 0.3s ease, background 0.3s ease;
         }
+<<<<<<< HEAD
+
+        .status-switch-track.is-rescue {
+            background: linear-gradient(135deg, rgba(255, 248, 209, 0.95), rgba(255, 220, 120, 0.95));
+            box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.35), 0 10px 18px rgba(255, 196, 74, 0.4);
+        }
+
+        .status-switch-track.is-rescue .status-switch-option.option-light {
+            color: #533200;
+            opacity: 1;
+        }
+
+        .status-switch-track.is-rescue .status-switch-option.option-dark {
+            color: rgba(0, 0, 0, 0.35);
+            opacity: 0.6;
+        }
+
+        .status-switch-track.is-out {
+            background: linear-gradient(135deg, rgba(90, 120, 255, 0.9), rgba(36, 56, 192, 0.9));
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4), 0 10px 18px rgba(36, 56, 192, 0.35);
+        }
+
+        .status-switch-track.is-out .status-switch-option.option-light {
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .status-switch-track.is-out .status-switch-option.option-dark {
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .status-switch-track.is-out .status-switch-thumb {
+            left: calc(50% + var(--status-switch-thumb-gap-inline));
+            background: rgba(255, 255, 255, 0.78);
+        }
+
+        .status-toggle:active .status-switch-track {
+            transform: scale(0.97);
+        }
+=======
         .status-switch-track.is-rescue { background: linear-gradient(135deg, rgba(255, 248, 209, 0.95), rgba(255, 220, 120, 0.95)); box-shadow: inset 0 calc(0.5 * var(--v)) calc(1.5 * var(--v)) rgba(255, 255, 255, 0.35), 0 calc(2.5 * var(--v)) calc(4.5 * var(--v)) rgba(255, 196, 74, 0.4); }
         .status-switch-track.is-rescue .status-switch-option.option-light { color: #533200; opacity: 1; }
         .status-switch-track.is-rescue .status-switch-option.option-dark { color: rgba(0, 0, 0, 0.35); opacity: 0.6; }
@@ -281,6 +381,7 @@
         .status-switch-track.is-out .status-switch-option.option-dark { color: rgba(255, 255, 255, 0.95); }
         .status-switch-track.is-out .status-switch-thumb { left: calc(50% + var(--thumb-left)); background: rgba(255, 255, 255, 0.78); }
         .status-toggle:active .status-switch-track { transform: scale(0.97); }
+>>>>>>> da2d41ae32ec858539f1f3f35e07983acc1a7336
 
         .personal-section {
             height: auto;
@@ -415,8 +516,310 @@
             }
         }
 
+<<<<<<< HEAD
+        @media screen and (orientation: portrait) {
+            .personal-score {
+                font-size: 2.2rem;
+            }
+            
+            .score-container {
+                max-width: 280px;
+                height: 160px;
+            }
+            
+            .score-btn {
+                font-size: 1.3rem;
+                min-height: 45px;
+            }
+            
+            .player-score {
+                font-size: 2rem;
+            }
+            
+            .player-name {
+                font-size: 0.6rem;
+            }
+            
+            .player-card {
+                padding: 6px;
+            }
+            
+            .section-title {
+                font-size: 1.4rem;
+                margin-bottom: 6px;
+                padding: 3px 10px;
+            }
+        }
+
+
+        @media screen and (max-width: 900px) {
+            .summary-wrapper {
+                overflow-x: auto;
+            }
+        }
+
+        @media screen and (max-height: 800px) {
+            .container {
+                padding: 4px;
+                padding-top: max(4px, env(safe-area-inset-top));
+                padding-bottom: max(4px, env(safe-area-inset-bottom));
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+                margin-bottom: 6px;
+                padding: 3px 8px;
+            }
+            
+            .personal-section {
+                height: auto;
+                padding: 6px;
+                margin: 6px 0;
+            }
+            
+            .multi-player-section {
+                height: auto;
+                padding: 2px;
+                margin: 2px 0;
+                flex: none;
+            }
+
+            .status-section {
+                padding: 10px;
+                gap: 8px;
+            }
+
+            .status-toggle {
+                --status-switch-width: clamp(10rem, 20vw, 16rem);
+                --status-switch-height: clamp(calc(var(--vh, 1vh) * 3.1), 2.8rem, calc(var(--vh, 1vh) * 4.6));
+                --status-switch-padding-inline: clamp(0.9rem, 1.4vw, 1.8rem);
+                --status-switch-thumb-gap-inline: calc(var(--status-switch-height) * 0.12);
+                --status-switch-thumb-gap-block: calc(var(--status-switch-height) * 0.1);
+                --status-toggle-text-font: clamp(calc(var(--vh, 1vh) * 1.15), calc(0.9rem + 0.4vw), calc(var(--vh, 1vh) * 1.9));
+                --status-switch-option-font: clamp(calc(var(--vh, 1vh) * 1.05), calc(0.8rem + 0.35vw), calc(var(--vh, 1vh) * 1.6));
+                --status-state-text-font: clamp(calc(var(--vh, 1vh) * 1.05), calc(0.8rem + 0.35vw), calc(var(--vh, 1vh) * 1.6));
+            }
+            
+            .player-row {
+                gap: 4px;
+                padding: 6px;
+                margin: 3px 0;
+            }
+            
+            .player-row-score {
+                font-size: 1.9rem;
+            }
+            
+            .player-row-btn {
+                font-size: 1.2rem;
+                min-height: 40px;
+                padding: 6px 3px;
+            }
+            
+            .summary-section {
+                height: auto;
+                padding: 8px;
+            }
+            
+            .personal-score {
+                font-size: 2rem;
+            }
+            
+            .score-container {
+                height: 150px;
+                gap: 4px;
+            }
+            
+            .score-btn {
+                font-size: 1.2rem;
+                min-height: 40px;
+                padding: 8px 6px;
+            }
+
+            .mode-toggle {
+                padding: 2px;
+                margin-bottom: 4px;
+            }
+            
+            .toggle-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .summary-title {
+                font-size: 0.9rem;
+            }
+            
+            .player-name {
+                font-size: 0.6rem;
+            }
+            
+            .player-score {
+                font-size: 1.9rem;
+            }
+        }
+
+        @media screen and (max-height: 700px) {
+            .personal-section {
+                height: auto;
+                padding: 4px;
+                margin: 4px 0;
+            }
+            
+            .multi-player-section {
+                height: auto;
+                padding: 2px;
+                margin: 2px 0;
+                flex: none;
+            }
+
+            .status-section {
+                padding: 8px;
+                gap: 6px;
+            }
+
+            .status-switch-option {
+                letter-spacing: 0.12em;
+            }
+
+            .status-toggle {
+                --status-switch-width: clamp(9rem, 24vw, 14rem);
+                --status-switch-height: clamp(calc(var(--vh, 1vh) * 2.8), 2.4rem, calc(var(--vh, 1vh) * 4));
+                --status-switch-padding-inline: clamp(0.8rem, 1.2vw, 1.5rem);
+                --status-switch-thumb-gap-inline: calc(var(--status-switch-height) * 0.12);
+                --status-switch-thumb-gap-block: calc(var(--status-switch-height) * 0.1);
+                --status-toggle-text-font: clamp(calc(var(--vh, 1vh) * 1.0), calc(0.85rem + 0.32vw), calc(var(--vh, 1vh) * 1.6));
+                --status-switch-option-font: clamp(calc(var(--vh, 1vh) * 0.9), calc(0.75rem + 0.28vw), calc(var(--vh, 1vh) * 1.45));
+                --status-state-text-font: clamp(calc(var(--vh, 1vh) * 0.9), calc(0.75rem + 0.28vw), calc(var(--vh, 1vh) * 1.45));
+            }
+            
+            .section-title {
+                font-size: 1.1rem;
+                margin-bottom: 4px;
+                padding: 2px 6px;
+            }
+            
+            .player-row {
+                gap: 4px;
+                padding: 5px;
+                margin: 3px 0;
+            }
+            
+            .player-row-score {
+                font-size: 1.8rem;
+            }
+            
+            .player-row-btn {
+                font-size: 1.1rem;
+                min-height: 35px;
+                padding: 4px 2px;
+                border-radius: 6px;
+            }
+            
+            .summary-section {
+                height: auto;
+                padding: 6px;
+            }
+            
+            .personal-score {
+                font-size: 1.8rem;
+            }
+            
+            .score-container {
+                height: 120px;
+                gap: 3px;
+            }
+            
+            .score-btn {
+                font-size: 1rem;
+                min-height: 35px;
+                border-radius: 8px;
+                padding: 6px 4px;
+            }
+            
+            .summary-title {
+                font-size: 0.8rem;
+            }
+            
+            .player-name {
+                font-size: 0.55rem;
+            }
+            
+            .player-score {
+                font-size: 1.7rem;
+            }
+
+            .mode-toggle {
+                padding: 2px;
+                margin-bottom: 3px;
+            }
+            
+            .toggle-btn {
+                padding: 4px 8px;
+                font-size: 0.7rem;
+            }
+        }
+
+        @media screen and (max-width: 393px) and (max-height: 853px) {
+            .container {
+                padding: 4px;
+            }
+            
+            .personal-section, .multi-player-section {
+                height: 74%;
+            }
+            
+            .summary-section {
+                height: 26%;
+                padding: 6px;
+            }
+            
+            .summary-header {
+                margin-bottom: 8px;
+            }
+            
+            .player-card {
+                padding: 4px;
+                gap: 3px;
+            }
+            
+            .players-summary {
+                gap: 4px;
+            }
+            
+            .summary-title {
+                font-size: 0.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+                margin-bottom: 4px;
+                padding: 2px 6px;
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            
+            .status-toggle {
+                --status-switch-width: clamp(13rem, 28vw, 19rem);
+                --status-switch-height: clamp(calc(var(--vh, 1vh) * 4.2), 3.6rem, calc(var(--vh, 1vh) * 6));
+                --status-switch-padding-inline: clamp(1.2rem, 2.2vw, 2.8rem);
+                --status-switch-thumb-gap-inline: calc(var(--status-switch-height) * 0.12);
+                --status-switch-thumb-gap-block: calc(var(--status-switch-height) * 0.1);
+                --status-toggle-text-font: clamp(calc(var(--vh, 1vh) * 1.5), calc(1.1rem + 0.55vw), calc(var(--vh, 1vh) * 2.6));
+                --status-switch-option-font: clamp(calc(var(--vh, 1vh) * 1.4), calc(1rem + 0.5vw), calc(var(--vh, 1vh) * 2.3));
+                --status-state-text-font: clamp(calc(var(--vh, 1vh) * 1.35), calc(1rem + 0.45vw), calc(var(--vh, 1vh) * 2.1));
+            }
+
+            .score-btn {
+                min-height: 55px;
+            }
+        }
+    </style>
+=======
         @media (max-width: 900px) { .summary-wrapper { overflow-x: auto; } }
 </style>
+>>>>>>> da2d41ae32ec858539f1f3f35e07983acc1a7336
 </head>
 <body>
     <div class="container">
@@ -526,8 +929,8 @@
                                 <span class="status-toggle-text">生還！</span>
                                 <input class="status-switch-input" type="checkbox" data-player="0" onchange="handleStatusToggle(this)">
                                 <span class="status-switch-track is-rescue">
-                                    <span class="status-switch-option option-light">明</span>
-                                    <span class="status-switch-option option-dark">暗</span>
+                                    <span class="status-switch-option option-light"></span>
+                                    <span class="status-switch-option option-dark"></span>
                                     <span class="status-switch-thumb"></span>
                                 </span>
                                 <span class="status-state-text state-rescue" data-player="0">移動中/脱落</span>
@@ -538,8 +941,8 @@
                                 <span class="status-toggle-text">生還！</span>
                                 <input class="status-switch-input" type="checkbox" data-player="1" onchange="handleStatusToggle(this)">
                                 <span class="status-switch-track is-rescue">
-                                    <span class="status-switch-option option-light">明</span>
-                                    <span class="status-switch-option option-dark">暗</span>
+                                    <span class="status-switch-option option-light"></span>
+                                    <span class="status-switch-option option-dark"></span>
                                     <span class="status-switch-thumb"></span>
                                 </span>
                                 <span class="status-state-text state-rescue" data-player="1">移動中/脱落</span>
@@ -550,8 +953,8 @@
                                 <span class="status-toggle-text">生還！</span>
                                 <input class="status-switch-input" type="checkbox" data-player="2" onchange="handleStatusToggle(this)">
                                 <span class="status-switch-track is-rescue">
-                                    <span class="status-switch-option option-light">明</span>
-                                    <span class="status-switch-option option-dark">暗</span>
+                                    <span class="status-switch-option option-light"></span>
+                                    <span class="status-switch-option option-dark"></span>
                                     <span class="status-switch-thumb"></span>
                                 </span>
                                 <span class="status-state-text state-rescue" data-player="2">移動中/脱落</span>
@@ -562,8 +965,8 @@
                                 <span class="status-toggle-text">生還！</span>
                                 <input class="status-switch-input" type="checkbox" data-player="3" onchange="handleStatusToggle(this)">
                                 <span class="status-switch-track is-rescue">
-                                    <span class="status-switch-option option-light">明</span>
-                                    <span class="status-switch-option option-dark">暗</span>
+                                    <span class="status-switch-option option-light"></span>
+                                    <span class="status-switch-option option-dark"></span>
                                     <span class="status-switch-thumb"></span>
                                 </span>
                                 <span class="status-state-text state-rescue" data-player="3">移動中/脱落</span>
