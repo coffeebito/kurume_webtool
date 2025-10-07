@@ -146,20 +146,6 @@
         }
         .section-title-text { white-space: nowrap; }
 
-        .reset-btn {
-            background: rgba(255, 255, 255, 0.25);
-            color: white;
-            border: calc(0.25 * var(--v)) solid rgba(255, 255, 255, 0.7);
-            border-radius: 999px;
-            padding: calc(1.5 * var(--v)) calc(3 * var(--v));
-            font-size: calc(4 * var(--v));
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s ease, background 0.2s ease;
-            box-shadow: 0 calc(0.5 * var(--v)) calc(1.5 * var(--v)) rgba(0,0,0,0.2);
-        }
-        .reset-btn:active { transform: scale(0.95); }
-
         .summary-wrapper { display: flex; gap: var(--pad-4); align-items: stretch; flex-wrap: nowrap; overflow-x: auto; }
 
         .status-section {
@@ -784,7 +770,7 @@
                 <button class="round-btn" type="button" data-round="3" onclick="setCurrentRound(3)">R4</button>
             </div>
             <div class="personal-section" id="personalSection" style="display: none;">
-                <div class="section-title"><span class="section-title-text">プレイヤー暫定点</span><button class="reset-btn" type="button" onclick="resetProvisionalScores()">リセット</button></div>
+                <div class="section-title"><span class="section-title-text">プレイヤー暫定点</span></div>
                 <div class="score-container">
                     <button class="score-btn negative btn-minus-10" onclick="updatePersonalScore(-10)">-10</button>
                     <div class="personal-score" id="personalScore">0</div>
@@ -799,7 +785,7 @@
             </div>
 
             <div class="multi-player-section" id="multiPlayerSection" style="display: flex;">
-                <div class="section-title"><span class="section-title-text">プレイヤー暫定点</span><button class="reset-btn" type="button" onclick="resetProvisionalScores()">リセット</button></div>
+                <div class="section-title"><span class="section-title-text">プレイヤー暫定点</span></div>
                 <div class="player-rows-container">
                     <div class="player-row">
                         <button class="player-row-btn negative btn-minus-10" onclick="updateMultiPlayerScore(1, -10)">-10</button>
