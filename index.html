@@ -649,6 +649,54 @@
             background: linear-gradient(135deg, #f44336, #da190b);
             color: white;
         }
+        .modal-content-large {
+            max-width: calc(120 * var(--v));
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-title {
+            color: white;
+            font-size: calc(6 * var(--v));
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: calc(4 * var(--v));
+            border-bottom: calc(0.5 * var(--v)) solid rgba(255, 255, 255, 0.3);
+            padding-bottom: calc(2 * var(--v));
+        }
+        .help-content {
+            color: white;
+            text-align: left;
+            margin-bottom: calc(4 * var(--v));
+        }
+        .help-section {
+            margin-bottom: calc(3 * var(--v));
+        }
+        .help-subtitle {
+            font-size: calc(4.5 * var(--v));
+            font-weight: bold;
+            margin-bottom: calc(1.5 * var(--v));
+            color: #FFD700;
+        }
+        .help-list {
+            list-style: none;
+            padding-left: calc(2 * var(--v));
+        }
+        .help-list li {
+            font-size: calc(3.5 * var(--v));
+            line-height: 1.6;
+            margin-bottom: calc(1 * var(--v));
+            padding-left: calc(2 * var(--v));
+            position: relative;
+        }
+        .help-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .help-list li strong {
+            color: #FFE082;
+        }
 
         /* Safari特有の高さ対応 */
         @supports (-webkit-touch-callout: none) {
@@ -1378,6 +1426,42 @@
         </div>
     </div>
 
+    <!-- 初回訪問時の説明書 -->
+    <div class="modal-overlay" id="helpModal" style="display: none;">
+        <div class="modal-content modal-content-large">
+            <div class="modal-title">使い方</div>
+            <div class="help-content">
+                <div class="help-section">
+                    <div class="help-subtitle">基本操作</div>
+                    <ul class="help-list">
+                        <li><strong>3人/4人モード</strong>：プレイ人数を切り替えます</li>
+                        <li><strong>R1〜R4ボタン</strong>：ラウンドを切り替えます</li>
+                        <li><strong>初期化ボタン</strong>：全てのスコアをリセットします</li>
+                    </ul>
+                </div>
+                <div class="help-section">
+                    <div class="help-subtitle">スコア管理</div>
+                    <ul class="help-list">
+                        <li><strong>暫定点</strong>：+/-ボタンでラウンドごとのスコアを調整</li>
+                        <li><strong>確定点</strong>：各ラウンドの合計スコアを表示</li>
+                        <li>マイナス点は合計に加算されません</li>
+                    </ul>
+                </div>
+                <div class="help-section">
+                    <div class="help-subtitle">生還/脱落記録</div>
+                    <ul class="help-list">
+                        <li>スライドボタンで各プレイヤーの状態を記録</li>
+                        <li>「移動中/脱落」状態では確定点に加算されません</li>
+                        <li>「生還」状態のみ確定点に反映されます</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-confirm" onclick="hideHelpModal()">始める</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const STORAGE_KEY = 'kurumeWebtoolState';
         const TOTAL_ROUNDS = 4;
@@ -1746,6 +1830,45 @@ function handleStatusToggle(input) {
             hideResetConfirmation();
         }
 
+        function showHelpModal() {
+            const modal = document.getElementById('helpModal');
+            if (modal) {
+                modal.style.display = 'flex';
+            }
+        }
+
+        function hideHelpModal() {
+            const modal = document.getElementById('helpModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+            // 初回訪問済みフラグを保存
+            if (typeof localStorage !== 'undefined') {
+                try {
+                    localStorage.setItem('kurumeWebtoolVisited', 'true');
+                } catch (error) {
+                    console.warn('Failed to save visited flag', error);
+                }
+            }
+        }
+
+        function checkFirstVisit() {
+            if (typeof localStorage === 'undefined') {
+                return;
+            }
+            try {
+                const visited = localStorage.getItem('kurumeWebtoolVisited');
+                if (!visited) {
+                    // 初回訪問時は少し遅延してから表示
+                    setTimeout(() => {
+                        showHelpModal();
+                    }, 500);
+                }
+            } catch (error) {
+                console.warn('Failed to check first visit', error);
+            }
+        }
+
         function switchToPersonalMode() {
             if (!gameState.isMultiMode) {
                 return;
@@ -1821,6 +1944,7 @@ function handleStatusToggle(input) {
         window.addEventListener('load', function() {
             loadGameState();
             updateModeDisplay();
+            checkFirstVisit();
 
             let previousHeight = window.innerHeight;
             let isKeyboardOpen = false;
