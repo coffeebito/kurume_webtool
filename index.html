@@ -1180,36 +1180,36 @@
                             <label class="status-toggle">
                                 <span class="status-toggle-text">生還</span>
                                 <input class="status-switch-input" type="checkbox" data-player="0" onchange="handlePersonalStatusToggle(this)">
-                                <span class="status-switch-track is-rescue">
+                                <span class="status-switch-track is-out">
                                     <span class="status-switch-option option-light"></span>
                                     <span class="status-switch-option option-dark"></span>
                                     <span class="status-switch-thumb"></span>
                                 </span>
-                                <span class="status-state-text state-rescue" data-player="0">移動中/脱落</span>
+                                <span class="status-state-text state-out" data-player="0">移動中/脱落</span>
                             </label>
                         </div>
                         <div class="status-row yellow">
                             <label class="status-toggle">
                                 <span class="status-toggle-text">生還</span>
                                 <input class="status-switch-input" type="checkbox" data-player="1" onchange="handlePersonalStatusToggle(this)">
-                                <span class="status-switch-track is-rescue">
+                                <span class="status-switch-track is-out">
                                     <span class="status-switch-option option-light"></span>
                                     <span class="status-switch-option option-dark"></span>
                                     <span class="status-switch-thumb"></span>
                                 </span>
-                                <span class="status-state-text state-rescue" data-player="1">移動中/脱落</span>
+                                <span class="status-state-text state-out" data-player="1">移動中/脱落</span>
                             </label>
                         </div>
                         <div class="status-row green">
                             <label class="status-toggle">
                                 <span class="status-toggle-text">生還</span>
                                 <input class="status-switch-input" type="checkbox" data-player="2" onchange="handlePersonalStatusToggle(this)">
-                                <span class="status-switch-track is-rescue">
+                                <span class="status-switch-track is-out">
                                     <span class="status-switch-option option-light"></span>
                                     <span class="status-switch-option option-dark"></span>
                                     <span class="status-switch-thumb"></span>
                                 </span>
-                                <span class="status-state-text state-rescue" data-player="2">移動中/脱落</span>
+                                <span class="status-state-text state-out" data-player="2">移動中/脱落</span>
                             </label>
                         </div>
                     </div>
@@ -1242,48 +1242,48 @@
                             <label class="status-toggle">
                                 <span class="status-toggle-text">生還</span>
                                 <input class="status-switch-input" type="checkbox" data-player="0" onchange="handleStatusToggle(this)">
-                                <span class="status-switch-track is-rescue">
+                                <span class="status-switch-track is-out">
                                     <span class="status-switch-option option-light"></span>
                                     <span class="status-switch-option option-dark"></span>
                                     <span class="status-switch-thumb"></span>
                                 </span>
-                                <span class="status-state-text state-rescue" data-player="0">移動中/脱落</span>
+                                <span class="status-state-text state-out" data-player="0">移動中/脱落</span>
                             </label>
                         </div>
                         <div class="status-row yellow">
                             <label class="status-toggle">
                                 <span class="status-toggle-text">生還</span>
                                 <input class="status-switch-input" type="checkbox" data-player="1" onchange="handleStatusToggle(this)">
-                                <span class="status-switch-track is-rescue">
+                                <span class="status-switch-track is-out">
                                     <span class="status-switch-option option-light"></span>
                                     <span class="status-switch-option option-dark"></span>
                                     <span class="status-switch-thumb"></span>
                                 </span>
-                                <span class="status-state-text state-rescue" data-player="1">移動中/脱落</span>
+                                <span class="status-state-text state-out" data-player="1">移動中/脱落</span>
                             </label>
                         </div>
                         <div class="status-row green">
                             <label class="status-toggle">
                                 <span class="status-toggle-text">生還</span>
                                 <input class="status-switch-input" type="checkbox" data-player="2" onchange="handleStatusToggle(this)">
-                                <span class="status-switch-track is-rescue">
+                                <span class="status-switch-track is-out">
                                     <span class="status-switch-option option-light"></span>
                                     <span class="status-switch-option option-dark"></span>
                                     <span class="status-switch-thumb"></span>
                                 </span>
-                                <span class="status-state-text state-rescue" data-player="2">移動中/脱落</span>
+                                <span class="status-state-text state-out" data-player="2">移動中/脱落</span>
                             </label>
                         </div>
                         <div class="status-row blue">
                             <label class="status-toggle">
                                 <span class="status-toggle-text">生還</span>
                                 <input class="status-switch-input" type="checkbox" data-player="3" onchange="handleStatusToggle(this)">
-                                <span class="status-switch-track is-rescue">
+                                <span class="status-switch-track is-out">
                                     <span class="status-switch-option option-light"></span>
                                     <span class="status-switch-option option-dark"></span>
                                     <span class="status-switch-thumb"></span>
                                 </span>
-                                <span class="status-state-text state-rescue" data-player="3">移動中/脱落</span>
+                                <span class="status-state-text state-out" data-player="3">移動中/脱落</span>
                             </label>
                         </div>
                     </div>
@@ -1331,7 +1331,7 @@
             return {
                 personalScore: 0,
                 playerScores: Array(TOTAL_ROUNDS).fill(0),
-                playerStatuses: Array(TOTAL_ROUNDS).fill('rescue')
+                playerStatuses: Array(TOTAL_ROUNDS).fill('out')
             };
         }
 
@@ -1359,7 +1359,7 @@
         }
 
         function normalizeStatuses(arrayLike) {
-            const result = Array(TOTAL_ROUNDS).fill('rescue');
+            const result = Array(TOTAL_ROUNDS).fill('out');
             if (!Array.isArray(arrayLike)) {
                 return result;
             }
