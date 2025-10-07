@@ -210,6 +210,7 @@
             flex: 1 1 0;
             min-width: 0;
             max-width: 50%;
+            height: auto;
             display: none;
             flex-direction: column;
             background: rgba(255, 255, 255, 0.12);
@@ -220,7 +221,7 @@
             overflow: hidden;
         }
         .status-section.active { display: flex; }
-        .status-title { font-size: calc(4 * var(--v)); font-weight: bold; text-align: center; margin-bottom: var(--pad-1); }
+        .status-title { font-size: calc(4 * var(--v)); font-weight: bold; color: white; text-align: center; margin-bottom: 0; }
 
         .status-rows {
             display: grid;
@@ -228,6 +229,7 @@
             min-height: 0;
             grid-template-rows: repeat(4, 1fr);
             gap: calc(1.5 * var(--v));
+            align-items: stretch;
             overflow-y: auto;
             overflow-x: hidden;
         }
@@ -240,6 +242,7 @@
             background: rgba(255, 255, 255, 0.1);
             min-height: 0;
             overflow: hidden;
+            height: 100%;
         }
         .status-row.red { background: linear-gradient(135deg, rgba(255, 179, 179, 0.7), rgba(255, 135, 135, 0.7)); }
         .status-row.yellow { background: linear-gradient(135deg, rgba(255, 232, 161, 0.7), rgba(255, 224, 102, 0.7)); }
@@ -252,7 +255,7 @@
             align-items: center;
             column-gap: calc(3 * var(--v));
             width: 100%;
-            --status-switch-width: clamp(11rem, 22vw, 18rem);
+            --status-switch-width: 15vw;
             --status-switch-height: clamp(calc(var(--vh-adjusted) * 3.4), 3rem, calc(var(--vh-adjusted) * 5));
             --status-switch-padding-inline: clamp(1rem, 1.5vw, 2.2rem);
             --status-switch-thumb-gap-inline: calc(var(--status-switch-height) * 0.12);
@@ -297,9 +300,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: min(100%, var(--status-switch-width));
+            width: var(--status-switch-width);
             max-width: 100%;
-            min-width: clamp(8rem, calc(var(--status-switch-width) * 0.6), var(--status-switch-width));
             height: var(--status-switch-height);
             border-radius: 999px;
             padding: 0 var(--status-switch-padding-inline);
@@ -318,9 +320,9 @@
             letter-spacing: 0.15em;
             color: rgba(255, 255, 255, 0.85);
             text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
-            min-width: clamp(5.5rem, calc(var(--status-switch-width) * 0.45), 10rem);
             flex: 0 0 auto;
             transition: color 0.3s ease, opacity 0.3s ease;
+            white-space: nowrap;
         }
 
         .status-state-text.state-rescue {
@@ -501,17 +503,17 @@
             min-width: 0;
             max-width: 50%;
             height: auto;
-            background: rgba(255, 255, 255, 0.15);
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(calc(3.5 * var(--v)));
             border-radius: var(--radius-l);
             padding: var(--pad-2);
-            display: flex;
-            flex-direction: column;
             box-shadow: 0 calc(2 * var(--v)) calc(8 * var(--v)) rgba(0, 0, 0, 0.1);
+            gap: calc(1.5 * var(--v));
             overflow: hidden;
         }
-        .summary-header { display: flex; align-items: center; gap: var(--pad-2); margin-bottom: var(--pad-2); }
-        .summary-title { font-size: calc(4 * var(--v)); font-weight: bold; color: white; }
+        .summary-title { font-size: calc(4 * var(--v)); font-weight: bold; color: white; text-align: center; margin-bottom: 0; }
 
         .players-summary {
             display: grid;
@@ -526,7 +528,7 @@
         .players-summary.personal-mode { grid-template-columns: 1fr; grid-template-rows: none; justify-items: center; padding: 0 20%; }
         .players-summary.multi-mode { grid-template-columns: 1fr; }
 
-        .player-card { background: rgba(255, 255, 255, 0.2); border-radius: calc(3.5 * var(--v)); padding: var(--pad-2) calc(2.5 * var(--v)); display: flex; flex-direction: row; align-items: center; justify-content: center; position: relative; box-shadow: 0 calc(0.5 * var(--v)) calc(1.5 * var(--v)) rgba(0,0,0,0.1); gap: var(--pad-2); min-height: 0; overflow: hidden; height: 100%; }
+        .player-card { display: flex; align-items: center; justify-content: center; padding: calc(1.5 * var(--v)) calc(2 * var(--v)); border-radius: calc(2.5 * var(--v)); background: rgba(255, 255, 255, 0.1); min-height: 0; overflow: hidden; height: 100%; }
         .player-card.personal-mode { max-width: none; width: 100%; flex-direction: column; align-items: center; justify-content: center; padding: var(--pad-2); border-radius: calc(2 * var(--v)); }
         #multiPlayer1Card { background: linear-gradient(135deg, rgba(255, 179, 179, 0.7), rgba(255, 135, 135, 0.7)); }
         #multiPlayer2Card { background: linear-gradient(135deg, rgba(255, 232, 161, 0.7), rgba(255, 224, 102, 0.7)); }
@@ -617,7 +619,8 @@
             }
 
             .summary-section {
-                padding: 5px;
+                padding: 6px;
+                gap: 4px;
             }
 
             .status-section {
@@ -626,7 +629,7 @@
             }
 
             .status-toggle {
-                --status-switch-width: clamp(8rem, 20vw, 12rem);
+                --status-switch-width: 15vw;
                 --status-switch-height: clamp(calc(var(--vh-adjusted) * 2.5), 2rem, calc(var(--vh-adjusted) * 3.5));
                 --status-switch-padding-inline: clamp(0.7rem, 1vw, 1.2rem);
                 --status-toggle-text-font: clamp(calc(var(--vh-adjusted) * 0.9), calc(0.7rem + 0.3vw), calc(var(--vh-adjusted) * 1.4));
@@ -780,19 +783,19 @@
                 padding-top: max(4px, env(safe-area-inset-top));
                 padding-bottom: max(4px, env(safe-area-inset-bottom));
             }
-            
+
             .section-title {
                 font-size: 1.3rem;
                 margin-bottom: 6px;
                 padding: 3px 8px;
             }
-            
+
             .personal-section {
                 height: auto;
                 padding: 6px;
                 margin: 6px 0;
             }
-            
+
             .multi-player-section {
                 height: auto;
                 padding: 2px;
@@ -806,7 +809,7 @@
             }
 
             .status-toggle {
-                --status-switch-width: clamp(10rem, 20vw, 16rem);
+                --status-switch-width: 15vw;
                 --status-switch-height: clamp(calc(var(--vh-adjusted) * 3.1), 2.8rem, calc(var(--vh-adjusted) * 4.6));
                 --status-switch-padding-inline: clamp(0.9rem, 1.4vw, 1.8rem);
                 --status-switch-thumb-gap-inline: calc(var(--status-switch-height) * 0.12);
@@ -834,7 +837,8 @@
             
             .summary-section {
                 height: auto;
-                padding: 8px;
+                padding: 10px;
+                gap: 8px;
             }
             
             .personal-score {
@@ -861,11 +865,7 @@
                 padding: 6px 12px;
                 font-size: 0.8rem;
             }
-            
-            .summary-title {
-                font-size: 0.9rem;
-            }
-            
+
             .player-name {
                 font-size: 0.6rem;
             }
@@ -881,7 +881,7 @@
                 padding: 4px;
                 margin: 4px 0;
             }
-            
+
             .multi-player-section {
                 height: auto;
                 padding: 2px;
@@ -899,7 +899,7 @@
             }
 
             .status-toggle {
-                --status-switch-width: clamp(9rem, 24vw, 14rem);
+                --status-switch-width: 15vw;
                 --status-switch-height: clamp(calc(var(--vh-adjusted) * 2.8), 2.4rem, calc(var(--vh-adjusted) * 4));
                 --status-switch-padding-inline: clamp(0.8rem, 1.2vw, 1.5rem);
                 --status-switch-thumb-gap-inline: calc(var(--status-switch-height) * 0.12);
@@ -934,7 +934,8 @@
             
             .summary-section {
                 height: auto;
-                padding: 6px;
+                padding: 8px;
+                gap: 6px;
             }
             
             .personal-score {
@@ -952,11 +953,7 @@
                 border-radius: 8px;
                 padding: 6px 4px;
             }
-            
-            .summary-title {
-                font-size: 0.8rem;
-            }
-            
+
             .player-name {
                 font-size: 0.55rem;
             }
@@ -989,11 +986,7 @@
                 height: 26%;
                 padding: 6px;
             }
-            
-            .summary-header {
-                margin-bottom: 8px;
-            }
-            
+
             .player-card {
                 padding: 4px;
                 gap: 3px;
@@ -1002,11 +995,7 @@
             .players-summary {
                 gap: 4px;
             }
-            
-            .summary-title {
-                font-size: 0.8rem;
-            }
-            
+
             .section-title {
                 font-size: 1.2rem;
                 margin-bottom: 4px;
@@ -1015,9 +1004,9 @@
         }
 
         @media (hover: none) and (pointer: coarse) {
-            
+
             .status-toggle {
-                --status-switch-width: clamp(13rem, 28vw, 19rem);
+                --status-switch-width: 15vw;
                 --status-switch-height: clamp(calc(var(--vh-adjusted) * 4.2), 3.6rem, calc(var(--vh-adjusted) * 6));
                 --status-switch-padding-inline: clamp(1.2rem, 2.2vw, 2.8rem);
                 --status-switch-thumb-gap-inline: calc(var(--status-switch-height) * 0.12);
@@ -1108,9 +1097,7 @@
             
             <div class="summary-wrapper">
                 <div class="summary-section">
-                    <div class="summary-header">
-                        <div class="summary-title">プレイヤー確定点</div>
-                    </div>
+                    <div class="summary-title">プレイヤー確定点</div>
                     <div class="players-summary multi-mode" id="playersSummary">
                         <!-- 個人モード用 -->
                         <div class="player-card personal-mode" id="personalPlayerCard" style="display: none;">
@@ -1138,7 +1125,7 @@
                     <div class="status-rows">
                         <div class="status-row red">
                             <label class="status-toggle">
-                                <span class="status-toggle-text">生還 / 脱落</span>
+                                <span class="status-toggle-text">生還</span>
                                 <input class="status-switch-input" type="checkbox" data-player="0" onchange="handleStatusToggle(this)">
                                 <span class="status-switch-track is-rescue">
                                     <span class="status-switch-option option-light"></span>
@@ -1150,7 +1137,7 @@
                         </div>
                         <div class="status-row yellow">
                             <label class="status-toggle">
-                                <span class="status-toggle-text">生還 / 脱落</span>
+                                <span class="status-toggle-text">生還</span>
                                 <input class="status-switch-input" type="checkbox" data-player="1" onchange="handleStatusToggle(this)">
                                 <span class="status-switch-track is-rescue">
                                     <span class="status-switch-option option-light"></span>
@@ -1162,7 +1149,7 @@
                         </div>
                         <div class="status-row green">
                             <label class="status-toggle">
-                                <span class="status-toggle-text">生還 / 脱落</span>
+                                <span class="status-toggle-text">生還</span>
                                 <input class="status-switch-input" type="checkbox" data-player="2" onchange="handleStatusToggle(this)">
                                 <span class="status-switch-track is-rescue">
                                     <span class="status-switch-option option-light"></span>
@@ -1174,7 +1161,7 @@
                         </div>
                         <div class="status-row blue">
                             <label class="status-toggle">
-                                <span class="status-toggle-text">生還 / 脱落</span>
+                                <span class="status-toggle-text">生還</span>
                                 <input class="status-switch-input" type="checkbox" data-player="3" onchange="handleStatusToggle(this)">
                                 <span class="status-switch-track is-rescue">
                                     <span class="status-switch-option option-light"></span>
