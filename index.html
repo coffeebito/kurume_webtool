@@ -40,7 +40,7 @@
         }
 
         body {
-            font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', system-ui, sans-serif;
+            font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #982eff 100%);
             color: white;
             height: 100dvh;
@@ -154,28 +154,28 @@
         }
         .section-title-text { white-space: nowrap; }
 
-        .summary-wrapper { display: flex; gap: var(--pad-4); align-items: stretch; flex-wrap: wrap; row-gap: var(--pad-3); }
+        .summary-wrapper { display: flex; gap: var(--pad-4); align-items: stretch; flex-wrap: nowrap; overflow-x: auto; }
 
         .status-section {
-            flex: 1 1 18rem;
-            min-width: min(100%, calc(32 * var(--v)));
+            flex: 1 1 0;
+            min-width: 0;
             display: none;
             flex-direction: column;
             background: rgba(255, 255, 255, 0.12);
             border-radius: var(--radius-l);
-            padding: clamp(var(--pad-2), 2.5vw, var(--pad-3));
+            padding: var(--pad-3);
             box-shadow: 0 calc(2 * var(--v)) calc(8 * var(--v)) rgba(0, 0, 0, 0.1);
-            gap: calc(1.5 * var(--v));
+            gap: calc(2 * var(--v));
         }
         .status-section.active { display: flex; }
         .status-title { font-size: calc(4 * var(--v)); font-weight: bold; text-align: center; margin-bottom: var(--pad-1); }
 
-        .status-rows { display: grid; flex: 1 1 auto; min-height: 0; grid-template-rows: repeat(4, 1fr); gap: calc(1.5 * var(--v)); }
+        .status-rows { display: grid; flex: 1 1 auto; min-height: 0; grid-template-rows: repeat(4, 1fr); gap: calc(2 * var(--v)); }
         .status-row {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: calc(1.6 * var(--v)) calc(2 * var(--v));
+            padding: calc(2 * var(--v)) calc(2.5 * var(--v));
             border-radius: calc(3.5 * var(--v));
             background: rgba(255, 255, 255, 0.1);
             height: 100%;
@@ -191,14 +191,14 @@
             align-items: center;
             column-gap: calc(3 * var(--v));
             width: 100%;
-            --status-switch-width: clamp(9.5rem, 24vw, 18rem);
-            --status-switch-height: clamp(calc(var(--vh-adjusted) * 2.6), 2.2rem, calc(var(--vh-adjusted) * 4.4));
-            --status-switch-padding-inline: clamp(0.85rem, 1.35vw, 1.9rem);
+            --status-switch-width: clamp(11rem, 22vw, 18rem);
+            --status-switch-height: clamp(calc(var(--vh-adjusted) * 3.4), 3rem, calc(var(--vh-adjusted) * 5));
+            --status-switch-padding-inline: clamp(1rem, 1.5vw, 2.2rem);
             --status-switch-thumb-gap-inline: calc(var(--status-switch-height) * 0.12);
             --status-switch-thumb-gap-block: calc(var(--status-switch-height) * 0.1);
-            --status-toggle-text-font: clamp(calc(var(--vh-adjusted) * 1.05), calc(0.9rem + 0.4vw), calc(var(--vh-adjusted) * 2.1));
-            --status-switch-option-font: clamp(calc(var(--vh-adjusted) * 0.95), calc(0.8rem + 0.35vw), calc(var(--vh-adjusted) * 1.8));
-            --status-state-text-font: clamp(calc(var(--vh-adjusted) * 0.95), calc(0.8rem + 0.35vw), calc(var(--vh-adjusted) * 1.8));
+            --status-toggle-text-font: clamp(calc(var(--vh-adjusted) * 1.35), calc(1rem + 0.55vw), calc(var(--vh-adjusted) * 2.3));
+            --status-switch-option-font: clamp(calc(var(--vh-adjusted) * 1.25), calc(0.9rem + 0.5vw), calc(var(--vh-adjusted) * 2));
+            --status-state-text-font: clamp(calc(var(--vh-adjusted) * 1.2), calc(0.9rem + 0.45vw), calc(var(--vh-adjusted) * 1.9));
             cursor: pointer;
             user-select: none;
             -webkit-user-select: none;
@@ -393,7 +393,7 @@
             align-items: center;
             background: rgba(255, 255, 255, 0.1);
             border-radius: calc(2.5 * var(--v));
-            padding: calc(1.6 * var(--v)) calc(1.2 * var(--v));
+            padding: calc(2 * var(--v)) calc(1.5 * var(--v));
             flex: none;
             margin: var(--pad-1) 0;
         }
@@ -436,7 +436,7 @@
         .score-btn:active { transform: translateY(calc(0.5 * var(--v))); box-shadow: 0 calc(0.5 * var(--v)) calc(2 * var(--v)) rgba(0,0,0,0.7); }
 
         .summary-section {
-            flex: 1 1 18rem; min-width: min(100%, calc(32 * var(--v))); height: auto; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(calc(3.5 * var(--v)));
+            flex: 1 1 0; min-width: 0; height: auto; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(calc(3.5 * var(--v)));
             border-radius: var(--radius-l); padding: var(--pad-3); display: flex; flex-direction: column; box-shadow: 0 calc(2 * var(--v)) calc(8 * var(--v)) rgba(0, 0, 0, 0.1);
         }
         .summary-header { display: flex; align-items: center; gap: var(--pad-3); margin-bottom: var(--pad-3); }
@@ -501,14 +501,7 @@
 
         @media screen and (max-width: 900px) {
             .summary-wrapper {
-                flex-direction: column;
-                overflow-x: visible;
-            }
-
-            .summary-section,
-            .status-section {
-                flex: 1 1 100%;
-                min-width: 100%;
+                overflow-x: auto;
             }
         }
 
@@ -539,19 +532,19 @@
             }
 
             .status-section {
-                padding: clamp(8px, 2vw, 12px);
-                gap: 6px;
+                padding: 10px;
+                gap: 8px;
             }
 
             .status-toggle {
-                --status-switch-width: clamp(8.5rem, 22vw, 16rem);
-                --status-switch-height: clamp(calc(var(--vh-adjusted) * 2.3), 2rem, calc(var(--vh-adjusted) * 4));
-                --status-switch-padding-inline: clamp(0.75rem, 1.2vw, 1.6rem);
+                --status-switch-width: clamp(10rem, 20vw, 16rem);
+                --status-switch-height: clamp(calc(var(--vh-adjusted) * 3.1), 2.8rem, calc(var(--vh-adjusted) * 4.6));
+                --status-switch-padding-inline: clamp(0.9rem, 1.4vw, 1.8rem);
                 --status-switch-thumb-gap-inline: calc(var(--status-switch-height) * 0.12);
                 --status-switch-thumb-gap-block: calc(var(--status-switch-height) * 0.1);
-                --status-toggle-text-font: clamp(calc(var(--vh-adjusted) * 0.95), calc(0.85rem + 0.3vw), calc(var(--vh-adjusted) * 1.8));
-                --status-switch-option-font: clamp(calc(var(--vh-adjusted) * 0.85), calc(0.75rem + 0.28vw), calc(var(--vh-adjusted) * 1.55));
-                --status-state-text-font: clamp(calc(var(--vh-adjusted) * 0.85), calc(0.75rem + 0.28vw), calc(var(--vh-adjusted) * 1.55));
+                --status-toggle-text-font: clamp(calc(var(--vh-adjusted) * 1.15), calc(0.9rem + 0.4vw), calc(var(--vh-adjusted) * 1.9));
+                --status-switch-option-font: clamp(calc(var(--vh-adjusted) * 1.05), calc(0.8rem + 0.35vw), calc(var(--vh-adjusted) * 1.6));
+                --status-state-text-font: clamp(calc(var(--vh-adjusted) * 1.05), calc(0.8rem + 0.35vw), calc(var(--vh-adjusted) * 1.6));
             }
             
             .player-row {
@@ -628,8 +621,8 @@
             }
 
             .status-section {
-                padding: 6px;
-                gap: 5px;
+                padding: 8px;
+                gap: 6px;
             }
 
             .status-switch-option {
@@ -637,14 +630,14 @@
             }
 
             .status-toggle {
-                --status-switch-width: clamp(8rem, 26vw, 13rem);
-                --status-switch-height: clamp(calc(var(--vh-adjusted) * 2.1), 1.8rem, calc(var(--vh-adjusted) * 3.4));
-                --status-switch-padding-inline: clamp(0.65rem, 1vw, 1.3rem);
+                --status-switch-width: clamp(9rem, 24vw, 14rem);
+                --status-switch-height: clamp(calc(var(--vh-adjusted) * 2.8), 2.4rem, calc(var(--vh-adjusted) * 4));
+                --status-switch-padding-inline: clamp(0.8rem, 1.2vw, 1.5rem);
                 --status-switch-thumb-gap-inline: calc(var(--status-switch-height) * 0.12);
                 --status-switch-thumb-gap-block: calc(var(--status-switch-height) * 0.1);
-                --status-toggle-text-font: clamp(calc(var(--vh-adjusted) * 0.9), calc(0.8rem + 0.26vw), calc(var(--vh-adjusted) * 1.45));
-                --status-switch-option-font: clamp(calc(var(--vh-adjusted) * 0.8), calc(0.7rem + 0.24vw), calc(var(--vh-adjusted) * 1.35));
-                --status-state-text-font: clamp(calc(var(--vh-adjusted) * 0.8), calc(0.7rem + 0.24vw), calc(var(--vh-adjusted) * 1.35));
+                --status-toggle-text-font: clamp(calc(var(--vh-adjusted) * 1.0), calc(0.85rem + 0.32vw), calc(var(--vh-adjusted) * 1.6));
+                --status-switch-option-font: clamp(calc(var(--vh-adjusted) * 0.9), calc(0.75rem + 0.28vw), calc(var(--vh-adjusted) * 1.45));
+                --status-state-text-font: clamp(calc(var(--vh-adjusted) * 0.9), calc(0.75rem + 0.28vw), calc(var(--vh-adjusted) * 1.45));
             }
             
             .section-title {
@@ -720,20 +713,11 @@
             }
             
             .personal-section, .multi-player-section {
-                height: auto;
+                height: 74%;
             }
-
-            .summary-wrapper {
-                flex-direction: column;
-            }
-
-            .summary-section,
-            .status-section {
-                min-width: 100%;
-            }
-
+            
             .summary-section {
-                height: auto;
+                height: 26%;
                 padding: 6px;
             }
             
