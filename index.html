@@ -11,7 +11,10 @@
             box-sizing: border-box;
         }
         :root {
-            --v: 1vmin;
+            --vh: 1vh;
+            --vh-adjusted: calc(var(--vh, 1vh) * var(--scale-factor));
+            --scale-factor: 1;
+            --v: calc(1vmin * var(--scale-factor));
             --radius-s: calc(2 * var(--v));
             --radius-m: calc(3 * var(--v));
             --radius-l: calc(5 * var(--v));
@@ -40,9 +43,10 @@
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #982eff 100%);
             color: white;
-            min-height: 100dvh;
+            height: 100dvh;
+            height: calc(var(--vh, 1vh) * 100);
             overflow-x: hidden;
-            overflow-y: auto;
+            overflow-y: hidden;
             -webkit-user-select: none;
             user-select: none;
             touch-action: manipulation;
@@ -51,9 +55,11 @@
         }
 
         .container {
-            min-height: 100dvh;
+            height: 100dvh;
+            height: calc(var(--vh, 1vh) * 100);
             display: flex;
             flex-direction: column;
+            overflow: hidden;
             padding: var(--pad-2);
             padding-top: max(var(--pad-2), env(safe-area-inset-top));
             padding-bottom: max(var(--pad-2), env(safe-area-inset-bottom));
@@ -64,6 +70,8 @@
             display: flex;
             flex-direction: column;
             min-height: 0;
+            height: 100%;
+            overflow: hidden;
         }
 
         .mode-toggle {
@@ -184,13 +192,13 @@
             column-gap: calc(3 * var(--v));
             width: 100%;
             --status-switch-width: clamp(11rem, 22vw, 18rem);
-            --status-switch-height: clamp(calc(var(--vh, 1vh) * 3.4), 3rem, calc(var(--vh, 1vh) * 5));
+            --status-switch-height: clamp(calc(var(--vh-adjusted) * 3.4), 3rem, calc(var(--vh-adjusted) * 5));
             --status-switch-padding-inline: clamp(1rem, 1.5vw, 2.2rem);
             --status-switch-thumb-gap-inline: calc(var(--status-switch-height) * 0.12);
             --status-switch-thumb-gap-block: calc(var(--status-switch-height) * 0.1);
-            --status-toggle-text-font: clamp(calc(var(--vh, 1vh) * 1.35), calc(1rem + 0.55vw), calc(var(--vh, 1vh) * 2.3));
-            --status-switch-option-font: clamp(calc(var(--vh, 1vh) * 1.25), calc(0.9rem + 0.5vw), calc(var(--vh, 1vh) * 2));
-            --status-state-text-font: clamp(calc(var(--vh, 1vh) * 1.2), calc(0.9rem + 0.45vw), calc(var(--vh, 1vh) * 1.9));
+            --status-toggle-text-font: clamp(calc(var(--vh-adjusted) * 1.35), calc(1rem + 0.55vw), calc(var(--vh-adjusted) * 2.3));
+            --status-switch-option-font: clamp(calc(var(--vh-adjusted) * 1.25), calc(0.9rem + 0.5vw), calc(var(--vh-adjusted) * 2));
+            --status-state-text-font: clamp(calc(var(--vh-adjusted) * 1.2), calc(0.9rem + 0.45vw), calc(var(--vh-adjusted) * 1.9));
             cursor: pointer;
             user-select: none;
             -webkit-user-select: none;
@@ -201,7 +209,7 @@
         .status-toggle-text {
             grid-column: 1;
             justify-self: start;
-            font-size: var(--status-toggle-text-font, clamp(calc(var(--vh, 1vh) * 1.35), calc(1rem + 0.55vw), calc(var(--vh, 1vh) * 2.3)));
+            font-size: var(--status-toggle-text-font, clamp(calc(var(--vh-adjusted) * 1.35), calc(1rem + 0.55vw), calc(var(--vh-adjusted) * 2.3)));
             font-weight: 700;
             color: #ffffff;
             text-shadow: 0 calc(0.5 * var(--v)) calc(1.5 * var(--v)) rgba(0, 0, 0, 0.35);
@@ -244,7 +252,7 @@
             grid-column: 3;
             justify-self: end;
             text-align: right;
-            font-size: var(--status-state-text-font, clamp(calc(var(--vh, 1vh) * 1.2), calc(0.9rem + 0.45vw), calc(var(--vh, 1vh) * 1.9)));
+            font-size: var(--status-state-text-font, clamp(calc(var(--vh-adjusted) * 1.2), calc(0.9rem + 0.45vw), calc(var(--vh-adjusted) * 1.9)));
             font-weight: 700;
             letter-spacing: 0.15em;
             color: rgba(255, 255, 255, 0.85);
@@ -267,7 +275,7 @@
         .status-switch-option {
             flex: 1;
             text-align: center;
-            font-size: var(--status-switch-option-font, clamp(calc(var(--vh, 1vh) * 1.25), calc(0.9rem + 0.5vw), calc(var(--vh, 1vh) * 2)));
+            font-size: var(--status-switch-option-font, clamp(calc(var(--vh-adjusted) * 1.25), calc(0.9rem + 0.5vw), calc(var(--vh-adjusted) * 2)));
             font-weight: 700;
             letter-spacing: 0.18em;
             z-index: 2;
@@ -530,13 +538,13 @@
 
             .status-toggle {
                 --status-switch-width: clamp(10rem, 20vw, 16rem);
-                --status-switch-height: clamp(calc(var(--vh, 1vh) * 3.1), 2.8rem, calc(var(--vh, 1vh) * 4.6));
+                --status-switch-height: clamp(calc(var(--vh-adjusted) * 3.1), 2.8rem, calc(var(--vh-adjusted) * 4.6));
                 --status-switch-padding-inline: clamp(0.9rem, 1.4vw, 1.8rem);
                 --status-switch-thumb-gap-inline: calc(var(--status-switch-height) * 0.12);
                 --status-switch-thumb-gap-block: calc(var(--status-switch-height) * 0.1);
-                --status-toggle-text-font: clamp(calc(var(--vh, 1vh) * 1.15), calc(0.9rem + 0.4vw), calc(var(--vh, 1vh) * 1.9));
-                --status-switch-option-font: clamp(calc(var(--vh, 1vh) * 1.05), calc(0.8rem + 0.35vw), calc(var(--vh, 1vh) * 1.6));
-                --status-state-text-font: clamp(calc(var(--vh, 1vh) * 1.05), calc(0.8rem + 0.35vw), calc(var(--vh, 1vh) * 1.6));
+                --status-toggle-text-font: clamp(calc(var(--vh-adjusted) * 1.15), calc(0.9rem + 0.4vw), calc(var(--vh-adjusted) * 1.9));
+                --status-switch-option-font: clamp(calc(var(--vh-adjusted) * 1.05), calc(0.8rem + 0.35vw), calc(var(--vh-adjusted) * 1.6));
+                --status-state-text-font: clamp(calc(var(--vh-adjusted) * 1.05), calc(0.8rem + 0.35vw), calc(var(--vh-adjusted) * 1.6));
             }
             
             .player-row {
@@ -623,13 +631,13 @@
 
             .status-toggle {
                 --status-switch-width: clamp(9rem, 24vw, 14rem);
-                --status-switch-height: clamp(calc(var(--vh, 1vh) * 2.8), 2.4rem, calc(var(--vh, 1vh) * 4));
+                --status-switch-height: clamp(calc(var(--vh-adjusted) * 2.8), 2.4rem, calc(var(--vh-adjusted) * 4));
                 --status-switch-padding-inline: clamp(0.8rem, 1.2vw, 1.5rem);
                 --status-switch-thumb-gap-inline: calc(var(--status-switch-height) * 0.12);
                 --status-switch-thumb-gap-block: calc(var(--status-switch-height) * 0.1);
-                --status-toggle-text-font: clamp(calc(var(--vh, 1vh) * 1.0), calc(0.85rem + 0.32vw), calc(var(--vh, 1vh) * 1.6));
-                --status-switch-option-font: clamp(calc(var(--vh, 1vh) * 0.9), calc(0.75rem + 0.28vw), calc(var(--vh, 1vh) * 1.45));
-                --status-state-text-font: clamp(calc(var(--vh, 1vh) * 0.9), calc(0.75rem + 0.28vw), calc(var(--vh, 1vh) * 1.45));
+                --status-toggle-text-font: clamp(calc(var(--vh-adjusted) * 1.0), calc(0.85rem + 0.32vw), calc(var(--vh-adjusted) * 1.6));
+                --status-switch-option-font: clamp(calc(var(--vh-adjusted) * 0.9), calc(0.75rem + 0.28vw), calc(var(--vh-adjusted) * 1.45));
+                --status-state-text-font: clamp(calc(var(--vh-adjusted) * 0.9), calc(0.75rem + 0.28vw), calc(var(--vh-adjusted) * 1.45));
             }
             
             .section-title {
@@ -741,13 +749,13 @@
             
             .status-toggle {
                 --status-switch-width: clamp(13rem, 28vw, 19rem);
-                --status-switch-height: clamp(calc(var(--vh, 1vh) * 4.2), 3.6rem, calc(var(--vh, 1vh) * 6));
+                --status-switch-height: clamp(calc(var(--vh-adjusted) * 4.2), 3.6rem, calc(var(--vh-adjusted) * 6));
                 --status-switch-padding-inline: clamp(1.2rem, 2.2vw, 2.8rem);
                 --status-switch-thumb-gap-inline: calc(var(--status-switch-height) * 0.12);
                 --status-switch-thumb-gap-block: calc(var(--status-switch-height) * 0.1);
-                --status-toggle-text-font: clamp(calc(var(--vh, 1vh) * 1.5), calc(1.1rem + 0.55vw), calc(var(--vh, 1vh) * 2.6));
-                --status-switch-option-font: clamp(calc(var(--vh, 1vh) * 1.4), calc(1rem + 0.5vw), calc(var(--vh, 1vh) * 2.3));
-                --status-state-text-font: clamp(calc(var(--vh, 1vh) * 1.35), calc(1rem + 0.45vw), calc(var(--vh, 1vh) * 2.1));
+                --status-toggle-text-font: clamp(calc(var(--vh-adjusted) * 1.5), calc(1.1rem + 0.55vw), calc(var(--vh-adjusted) * 2.6));
+                --status-switch-option-font: clamp(calc(var(--vh-adjusted) * 1.4), calc(1rem + 0.5vw), calc(var(--vh-adjusted) * 2.3));
+                --status-state-text-font: clamp(calc(var(--vh-adjusted) * 1.35), calc(1rem + 0.45vw), calc(var(--vh-adjusted) * 2.1));
             }
 
             .score-btn {
@@ -915,6 +923,42 @@
     <script>
         const STORAGE_KEY = 'kurumeWebtoolState';
         const TOTAL_ROUNDS = 4;
+
+        function applyLayoutScale() {
+            const root = document.documentElement;
+            const container = document.querySelector('.container');
+            if (!root || !container) {
+                return;
+            }
+
+            root.style.setProperty('--scale-factor', '1');
+
+            requestAnimationFrame(() => {
+                const contentHeight = container.scrollHeight;
+                if (!contentHeight) {
+                    root.style.setProperty('--scale-factor', '1');
+                    return;
+                }
+                const availableHeight = window.innerHeight;
+                const initialRatio = availableHeight / contentHeight;
+                const normalizedScale = initialRatio > 0 ? Math.min(1, initialRatio) : 1;
+                root.style.setProperty('--scale-factor', normalizedScale.toFixed(4));
+
+                if (normalizedScale < 1) {
+                    requestAnimationFrame(() => {
+                        const adjustedHeight = container.scrollHeight;
+                        if (!adjustedHeight) {
+                            return;
+                        }
+                        const adjustedRatio = availableHeight / adjustedHeight;
+                        if (adjustedRatio < 1) {
+                            const finalScale = Math.max(0, normalizedScale * adjustedRatio);
+                            root.style.setProperty('--scale-factor', finalScale.toFixed(4));
+                        }
+                    });
+                }
+            });
+        }
 
         function getDefaultRoundState() {
             return {
@@ -1275,6 +1319,7 @@ function handleStatusToggle(input) {
             updateRoundButtons();
             updateStatusButtons();
             refreshScoreDisplays();
+            applyLayoutScale();
         }
 
 
@@ -1296,15 +1341,22 @@ function handleStatusToggle(input) {
             }
 
             setViewportHeight();
+            applyLayoutScale();
 
             let resizeTimer;
             window.addEventListener('resize', function() {
                 clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(setViewportHeight, 100);
+                resizeTimer = setTimeout(() => {
+                    setViewportHeight();
+                    applyLayoutScale();
+                }, 100);
             });
 
             window.addEventListener('orientationchange', function() {
-                setTimeout(setViewportHeight, 500);
+                setTimeout(() => {
+                    setViewportHeight();
+                    applyLayoutScale();
+                }, 500);
             });
 
             document.addEventListener('touchmove', function(e) {
