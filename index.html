@@ -215,11 +215,7 @@
         .status-toggle-text {
             grid-column: 1;
             justify-self: start;
-<<<<<<< HEAD
             font-size: var(--status-toggle-text-font, clamp(calc(var(--vh, 1vh) * 1.35), calc(1rem + 0.55vw), calc(var(--vh, 1vh) * 2.3)));
-=======
-            font-size: var(--label-size);
->>>>>>> da2d41ae32ec858539f1f3f35e07983acc1a7336
             font-weight: 700;
             color: #ffffff;
             text-shadow: 0 calc(0.5 * var(--v)) calc(1.5 * var(--v)) rgba(0, 0, 0, 0.35);
@@ -246,20 +242,12 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-<<<<<<< HEAD
             width: min(100%, var(--status-switch-width));
             max-width: 100%;
             min-width: clamp(8rem, calc(var(--status-switch-width) * 0.6), var(--status-switch-width));
             height: var(--status-switch-height);
             border-radius: 999px;
             padding: 0 var(--status-switch-padding-inline);
-=======
-            width: var(--switch-w);
-            max-width: 100%;
-            height: var(--switch-h);
-            border-radius: 999px;
-            padding: 0 var(--switch-pad-x);
->>>>>>> da2d41ae32ec858539f1f3f35e07983acc1a7336
             background: linear-gradient(135deg, rgba(60, 60, 90, 0.85), rgba(30, 30, 60, 0.85));
             box-shadow: inset 0 calc(0.5 * var(--v)) calc(1.5 * var(--v)) rgba(0, 0, 0, 0.4), 0 calc(2.5 * var(--v)) calc(4.5 * var(--v)) rgba(0, 0, 0, 0.25);
             transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
@@ -270,14 +258,12 @@
             grid-column: 3;
             justify-self: end;
             text-align: right;
-<<<<<<< HEAD
             font-size: var(--status-state-text-font, clamp(calc(var(--vh, 1vh) * 1.2), calc(0.9rem + 0.45vw), calc(var(--vh, 1vh) * 1.9)));
             font-weight: 700;
             letter-spacing: 0.15em;
             color: rgba(255, 255, 255, 0.85);
             text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
             min-width: clamp(5.5rem, calc(var(--status-switch-width) * 0.45), 10rem);
-            text-align: right;
             flex: 0 0 auto;
             transition: color 0.3s ease, opacity 0.3s ease;
         }
@@ -308,33 +294,11 @@
             left: var(--status-switch-thumb-gap-inline);
             width: calc(50% - (var(--status-switch-thumb-gap-inline) * 2));
             height: calc(100% - (var(--status-switch-thumb-gap-block) * 2));
-=======
-            font-size: var(--state-size);
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            color: rgba(255, 255, 255, 0.85);
-            text-shadow: 0 calc(0.5 * var(--v)) calc(1.5 * var(--v)) rgba(0, 0, 0, 0.35);
-            min-width: calc(22 * var(--v));
-            flex: 0 0 auto;
-            transition: color 0.3s ease, opacity 0.3s ease;
-        }
-        .status-state-text.state-rescue { color: rgba(255, 255, 255, 0.55); opacity: 0.7; }
-        .status-state-text.state-out { color: #ffffff; opacity: 1; }
-        .status-switch-option { flex: 1; text-align: center; font-size: var(--state-size); font-weight: 700; letter-spacing: 0.18em; z-index: 2; transition: color 0.3s ease, opacity 0.3s ease; }
-
-        .status-switch-thumb {
-            position: absolute;
-            top: var(--thumb-top);
-            left: var(--thumb-left);
-            width: calc(50% - var(--thumb-inset));
-            height: calc(100% - (var(--thumb-top) * 2));
->>>>>>> da2d41ae32ec858539f1f3f35e07983acc1a7336
             border-radius: 999px;
             background: rgba(255, 255, 255, 0.9);
             box-shadow: 0 calc(1 * var(--v)) calc(3 * var(--v)) rgba(0, 0, 0, 0.35);
             transition: left 0.3s ease, background 0.3s ease;
         }
-<<<<<<< HEAD
 
         .status-switch-track.is-rescue {
             background: linear-gradient(135deg, rgba(255, 248, 209, 0.95), rgba(255, 220, 120, 0.95));
@@ -372,16 +336,6 @@
         .status-toggle:active .status-switch-track {
             transform: scale(0.97);
         }
-=======
-        .status-switch-track.is-rescue { background: linear-gradient(135deg, rgba(255, 248, 209, 0.95), rgba(255, 220, 120, 0.95)); box-shadow: inset 0 calc(0.5 * var(--v)) calc(1.5 * var(--v)) rgba(255, 255, 255, 0.35), 0 calc(2.5 * var(--v)) calc(4.5 * var(--v)) rgba(255, 196, 74, 0.4); }
-        .status-switch-track.is-rescue .status-switch-option.option-light { color: #533200; opacity: 1; }
-        .status-switch-track.is-rescue .status-switch-option.option-dark { color: rgba(0, 0, 0, 0.35); opacity: 0.6; }
-        .status-switch-track.is-out { background: linear-gradient(135deg, rgba(90, 120, 255, 0.9), rgba(36, 56, 192, 0.9)); box-shadow: inset 0 calc(0.5 * var(--v)) calc(1.5 * var(--v)) rgba(0, 0, 0, 0.4), 0 calc(2.5 * var(--v)) calc(4.5 * var(--v)) rgba(36, 56, 192, 0.35); }
-        .status-switch-track.is-out .status-switch-option.option-light { color: rgba(255, 255, 255, 0.55); }
-        .status-switch-track.is-out .status-switch-option.option-dark { color: rgba(255, 255, 255, 0.95); }
-        .status-switch-track.is-out .status-switch-thumb { left: calc(50% + var(--thumb-left)); background: rgba(255, 255, 255, 0.78); }
-        .status-toggle:active .status-switch-track { transform: scale(0.97); }
->>>>>>> da2d41ae32ec858539f1f3f35e07983acc1a7336
 
         .personal-section {
             height: auto;
@@ -516,7 +470,6 @@
             }
         }
 
-<<<<<<< HEAD
         @media screen and (orientation: portrait) {
             .personal-score {
                 font-size: 2.2rem;
@@ -816,10 +769,6 @@
             }
         }
     </style>
-=======
-        @media (max-width: 900px) { .summary-wrapper { overflow-x: auto; } }
-</style>
->>>>>>> da2d41ae32ec858539f1f3f35e07983acc1a7336
 </head>
 <body>
     <div class="container">
@@ -926,7 +875,7 @@
                     <div class="status-rows">
                         <div class="status-row red">
                             <label class="status-toggle">
-                                <span class="status-toggle-text">生還！</span>
+                                <span class="status-toggle-text">生還 / 脱落</span>
                                 <input class="status-switch-input" type="checkbox" data-player="0" onchange="handleStatusToggle(this)">
                                 <span class="status-switch-track is-rescue">
                                     <span class="status-switch-option option-light"></span>
@@ -938,7 +887,7 @@
                         </div>
                         <div class="status-row yellow">
                             <label class="status-toggle">
-                                <span class="status-toggle-text">生還！</span>
+                                <span class="status-toggle-text">生還 / 脱落</span>
                                 <input class="status-switch-input" type="checkbox" data-player="1" onchange="handleStatusToggle(this)">
                                 <span class="status-switch-track is-rescue">
                                     <span class="status-switch-option option-light"></span>
@@ -950,7 +899,7 @@
                         </div>
                         <div class="status-row green">
                             <label class="status-toggle">
-                                <span class="status-toggle-text">生還！</span>
+                                <span class="status-toggle-text">生還 / 脱落</span>
                                 <input class="status-switch-input" type="checkbox" data-player="2" onchange="handleStatusToggle(this)">
                                 <span class="status-switch-track is-rescue">
                                     <span class="status-switch-option option-light"></span>
@@ -962,7 +911,7 @@
                         </div>
                         <div class="status-row blue">
                             <label class="status-toggle">
-                                <span class="status-toggle-text">生還！</span>
+                                <span class="status-toggle-text">生還 / 脱落</span>
                                 <input class="status-switch-input" type="checkbox" data-player="3" onchange="handleStatusToggle(this)">
                                 <span class="status-switch-track is-rescue">
                                     <span class="status-switch-option option-light"></span>
