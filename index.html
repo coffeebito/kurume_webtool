@@ -211,7 +211,7 @@
             min-width: 0;
             max-width: 50%;
             height: auto;
-            display: none;
+            display: flex;
             flex-direction: column;
             background: rgba(255, 255, 255, 0.12);
             border-radius: var(--radius-l);
@@ -220,7 +220,6 @@
             gap: calc(1.5 * var(--v));
             overflow: hidden;
         }
-        .status-section.active { display: flex; }
         .status-title { font-size: calc(4 * var(--v)); font-weight: bold; color: white; text-align: center; margin-bottom: 0; }
 
         .status-rows {
@@ -232,6 +231,8 @@
             align-items: stretch;
             overflow-y: auto;
             overflow-x: hidden;
+            width: 100%;
+            box-sizing: border-box;
         }
         .status-row {
             display: flex;
@@ -243,6 +244,8 @@
             min-height: 0;
             overflow: hidden;
             height: 100%;
+            width: 100%;
+            box-sizing: border-box;
         }
         .status-row.red { background: linear-gradient(135deg, rgba(255, 179, 179, 0.7), rgba(255, 135, 135, 0.7)); }
         .status-row.yellow { background: linear-gradient(135deg, rgba(255, 232, 161, 0.7), rgba(255, 224, 102, 0.7)); }
@@ -524,12 +527,36 @@
             align-items: stretch;
             overflow-y: auto;
             overflow-x: hidden;
+            width: 100%;
+            box-sizing: border-box;
         }
         .players-summary.personal-mode { grid-template-columns: 1fr; grid-template-rows: none; justify-items: center; padding: 0 20%; }
         .players-summary.multi-mode { grid-template-columns: 1fr; }
+        #personalPlayersSummary { grid-template-rows: repeat(3, 1fr); }
+        #personalStatusSection .status-rows { grid-template-rows: repeat(3, 1fr); }
+        #personalRowsContainer .player-row:nth-of-type(4) { display: none; }
+        #personalSummaryWrapper .summary-section,
+        #multiSummaryWrapper .summary-section {
+            flex: 0 0 calc(50% - var(--pad-2) / 2);
+            min-width: calc(50% - var(--pad-2) / 2);
+            max-width: calc(50% - var(--pad-2) / 2);
+            width: calc(50% - var(--pad-2) / 2);
+            box-sizing: border-box;
+        }
+        #personalSummaryWrapper .status-section,
+        #multiSummaryWrapper .status-section {
+            flex: 0 0 calc(50% - var(--pad-2) / 2);
+            min-width: calc(50% - var(--pad-2) / 2);
+            max-width: calc(50% - var(--pad-2) / 2);
+            width: calc(50% - var(--pad-2) / 2);
+            box-sizing: border-box;
+        }
 
-        .player-card { display: flex; align-items: center; justify-content: center; padding: calc(1.5 * var(--v)) calc(2 * var(--v)); border-radius: calc(2.5 * var(--v)); background: rgba(255, 255, 255, 0.1); min-height: 0; overflow: hidden; height: 100%; }
+        .player-card { display: flex; align-items: center; justify-content: center; padding: calc(1.5 * var(--v)) calc(2 * var(--v)); border-radius: calc(2.5 * var(--v)); background: rgba(255, 255, 255, 0.1); min-height: 0; overflow: hidden; height: 100%; width: 100%; box-sizing: border-box; }
         .player-card.personal-mode { max-width: none; width: 100%; flex-direction: column; align-items: center; justify-content: center; padding: var(--pad-2); border-radius: calc(2 * var(--v)); }
+        #personalPlayer1Card { background: linear-gradient(135deg, rgba(255, 179, 179, 0.7), rgba(255, 135, 135, 0.7)); }
+        #personalPlayer2Card { background: linear-gradient(135deg, rgba(255, 232, 161, 0.7), rgba(255, 224, 102, 0.7)); }
+        #personalPlayer3Card { background: linear-gradient(135deg, rgba(195, 248, 204, 0.7), rgba(140, 233, 154, 0.7)); }
         #multiPlayer1Card { background: linear-gradient(135deg, rgba(255, 179, 179, 0.7), rgba(255, 135, 135, 0.7)); }
         #multiPlayer2Card { background: linear-gradient(135deg, rgba(255, 232, 161, 0.7), rgba(255, 224, 102, 0.7)); }
         #multiPlayer3Card { background: linear-gradient(135deg, rgba(195, 248, 204, 0.7), rgba(140, 233, 154, 0.7)); }
@@ -1026,8 +1053,8 @@
     <div class="container">
         <div class="main-screen" id="mainScreen">
             <div class="mode-toggle">
-                <button class="toggle-btn" id="personalModeBtn" onclick="switchToPersonalMode()">個人モード</button>
-                <button class="toggle-btn active" id="multiModeBtn" onclick="switchToMultiMode()">複数人モード</button>
+                <button class="toggle-btn" id="personalModeBtn" onclick="switchToPersonalMode()">3人モード</button>
+                <button class="toggle-btn active" id="multiModeBtn" onclick="switchToMultiMode()">4人モード</button>
             </div>
             <div class="round-toggle" id="roundToggle">
                 <button class="round-btn active" type="button" data-round="0" onclick="setCurrentRound(0)">R1</button>
@@ -1035,18 +1062,38 @@
                 <button class="round-btn" type="button" data-round="2" onclick="setCurrentRound(2)">R3</button>
                 <button class="round-btn" type="button" data-round="3" onclick="setCurrentRound(3)">R4</button>
             </div>
-            <div class="personal-section" id="personalSection" style="display: none;">
+            <div class="multi-player-section" id="personalSection" style="display: none;">
                 <div class="section-title"><span class="section-title-text">プレイヤー暫定点</span></div>
-                <div class="score-container">
-                    <button class="score-btn negative btn-minus-10" onclick="updatePersonalScore(-10)">-10</button>
-                    <div class="personal-score" id="personalScore">0</div>
-                    <button class="score-btn positive btn-plus-10" onclick="updatePersonalScore(10)">+10</button>
-                    
-                    <button class="score-btn negative btn-minus-5" onclick="updatePersonalScore(-5)">-5</button>
-                    <button class="score-btn positive btn-plus-5" onclick="updatePersonalScore(5)">+5</button>
-                    
-                    <button class="score-btn negative btn-minus-1" onclick="updatePersonalScore(-1)">-1</button>
-                    <button class="score-btn positive btn-plus-1" onclick="updatePersonalScore(1)">+1</button>
+                <div class="player-rows-container" id="personalRowsContainer">
+                    <div class="player-row">
+                        <button class="player-row-btn negative btn-minus-10" onclick="updatePersonalScore(1, -10)">-10</button>
+                        <button class="player-row-btn negative btn-minus-5" onclick="updatePersonalScore(1, -5)">-5</button>
+                        <button class="player-row-btn negative btn-minus-1" onclick="updatePersonalScore(1, -1)">-1</button>
+                        <div class="player-row-score" id="personalPlayer1TempScore">0</div>
+                        <button class="player-row-btn positive btn-plus-1" onclick="updatePersonalScore(1, 1)">+1</button>
+                        <button class="player-row-btn positive btn-plus-5" onclick="updatePersonalScore(1, 5)">+5</button>
+                        <button class="player-row-btn positive btn-plus-10" onclick="updatePersonalScore(1, 10)">+10</button>
+                    </div>
+
+                    <div class="player-row">
+                        <button class="player-row-btn negative btn-minus-10" onclick="updatePersonalScore(2, -10)">-10</button>
+                        <button class="player-row-btn negative btn-minus-5" onclick="updatePersonalScore(2, -5)">-5</button>
+                        <button class="player-row-btn negative btn-minus-1" onclick="updatePersonalScore(2, -1)">-1</button>
+                        <div class="player-row-score" id="personalPlayer2TempScore">0</div>
+                        <button class="player-row-btn positive btn-plus-1" onclick="updatePersonalScore(2, 1)">+1</button>
+                        <button class="player-row-btn positive btn-plus-5" onclick="updatePersonalScore(2, 5)">+5</button>
+                        <button class="player-row-btn positive btn-plus-10" onclick="updatePersonalScore(2, 10)">+10</button>
+                    </div>
+
+                    <div class="player-row">
+                        <button class="player-row-btn negative btn-minus-10" onclick="updatePersonalScore(3, -10)">-10</button>
+                        <button class="player-row-btn negative btn-minus-5" onclick="updatePersonalScore(3, -5)">-5</button>
+                        <button class="player-row-btn negative btn-minus-1" onclick="updatePersonalScore(3, -1)">-1</button>
+                        <div class="player-row-score" id="personalPlayer3TempScore">0</div>
+                        <button class="player-row-btn positive btn-plus-1" onclick="updatePersonalScore(3, 1)">+1</button>
+                        <button class="player-row-btn positive btn-plus-5" onclick="updatePersonalScore(3, 5)">+5</button>
+                        <button class="player-row-btn positive btn-plus-10" onclick="updatePersonalScore(3, 10)">+10</button>
+                    </div>
                 </div>
             </div>
 
@@ -1094,33 +1141,86 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="summary-wrapper">
+
+            <!-- 3人モード用 summary-wrapper -->
+            <div class="summary-wrapper" id="personalSummaryWrapper" style="display: none;">
                 <div class="summary-section">
                     <div class="summary-title">プレイヤー確定点</div>
-                    <div class="players-summary multi-mode" id="playersSummary">
-                        <!-- 個人モード用 -->
-                        <div class="player-card personal-mode" id="personalPlayerCard" style="display: none;">
-                            
-                            <div class="player-score" id="player1Score">0</div>
+                    <div class="players-summary multi-mode" id="personalPlayersSummary">
+                        <div class="player-card" id="personalPlayer1Card">
+                            <div class="player-score" id="personalPlayer1TotalScore">0</div>
                         </div>
-                        
-                        <!-- 複数人モード用 -->
-                        <div class="player-card" id="multiPlayer1Card" style="display: flex;">
+                        <div class="player-card" id="personalPlayer2Card">
+                            <div class="player-score" id="personalPlayer2TotalScore">0</div>
+                        </div>
+                        <div class="player-card" id="personalPlayer3Card">
+                            <div class="player-score" id="personalPlayer3TotalScore">0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="status-section" id="personalStatusSection">
+                    <div class="status-title">生還/脱落 記録</div>
+                    <div class="status-rows">
+                        <div class="status-row red">
+                            <label class="status-toggle">
+                                <span class="status-toggle-text">生還</span>
+                                <input class="status-switch-input" type="checkbox" data-player="0" onchange="handlePersonalStatusToggle(this)">
+                                <span class="status-switch-track is-rescue">
+                                    <span class="status-switch-option option-light"></span>
+                                    <span class="status-switch-option option-dark"></span>
+                                    <span class="status-switch-thumb"></span>
+                                </span>
+                                <span class="status-state-text state-rescue" data-player="0">移動中/脱落</span>
+                            </label>
+                        </div>
+                        <div class="status-row yellow">
+                            <label class="status-toggle">
+                                <span class="status-toggle-text">生還</span>
+                                <input class="status-switch-input" type="checkbox" data-player="1" onchange="handlePersonalStatusToggle(this)">
+                                <span class="status-switch-track is-rescue">
+                                    <span class="status-switch-option option-light"></span>
+                                    <span class="status-switch-option option-dark"></span>
+                                    <span class="status-switch-thumb"></span>
+                                </span>
+                                <span class="status-state-text state-rescue" data-player="1">移動中/脱落</span>
+                            </label>
+                        </div>
+                        <div class="status-row green">
+                            <label class="status-toggle">
+                                <span class="status-toggle-text">生還</span>
+                                <input class="status-switch-input" type="checkbox" data-player="2" onchange="handlePersonalStatusToggle(this)">
+                                <span class="status-switch-track is-rescue">
+                                    <span class="status-switch-option option-light"></span>
+                                    <span class="status-switch-option option-dark"></span>
+                                    <span class="status-switch-thumb"></span>
+                                </span>
+                                <span class="status-state-text state-rescue" data-player="2">移動中/脱落</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4人モード用 summary-wrapper -->
+            <div class="summary-wrapper" id="multiSummaryWrapper" style="display: flex;">
+                <div class="summary-section">
+                    <div class="summary-title">プレイヤー確定点</div>
+                    <div class="players-summary multi-mode" id="multiPlayersSummary">
+                        <div class="player-card" id="multiPlayer1Card">
                             <div class="player-score" id="multiPlayer1TotalScore">0</div>
                         </div>
-                        <div class="player-card" id="multiPlayer2Card" style="display: flex;">
+                        <div class="player-card" id="multiPlayer2Card">
                             <div class="player-score" id="multiPlayer2TotalScore">0</div>
                         </div>
-                        <div class="player-card" id="multiPlayer3Card" style="display: flex;">
+                        <div class="player-card" id="multiPlayer3Card">
                             <div class="player-score" id="multiPlayer3TotalScore">0</div>
                         </div>
-                        <div class="player-card" id="multiPlayer4Card" style="display: flex;">
+                        <div class="player-card" id="multiPlayer4Card">
                             <div class="player-score" id="multiPlayer4TotalScore">0</div>
                         </div>
                     </div>
                 </div>
-                <div class="status-section" id="statusSection">
+                <div class="status-section" id="multiStatusSection">
                     <div class="status-title">生還/脱落 記録</div>
                     <div class="status-rows">
                         <div class="status-row red">
