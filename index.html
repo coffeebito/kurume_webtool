@@ -1459,10 +1459,23 @@
 
                 function updateStatusButtons() {
             const roundState = getCurrentRoundState();
-            for (let i = 0; i < TOTAL_ROUNDS; i++) {
+
+            // 現在のモードに応じて適切なセクションを選択
+            const sectionId = gameState.isMultiMode ? 'multiStatusSection' : 'personalStatusSection';
+            const section = document.getElementById(sectionId);
+            if (!section) {
+                return;
+            }
+
+            // 現在のモードのプレイヤー数を決定
+            const playerCount = gameState.isMultiMode ? 4 : 3;
+
+            for (let i = 0; i < playerCount; i++) {
                 const currentStatus = roundState.playerStatuses[i];
                 const isRescue = currentStatus !== 'out';
-                const toggle = document.querySelector('.status-switch-input[data-player="' + i + '"]');
+
+                // 現在のセクション内でのみ検索
+                const toggle = section.querySelector('.status-switch-input[data-player="' + i + '"]');
                 if (!toggle) {
                     continue;
                 }
@@ -1580,9 +1593,9 @@ function handleStatusToggle(input) {
             saveGameState();
         }
 
-        function updatePersonalScore(change) {
+        function updatePersonalScore(playerIndex, change) {
             const roundState = getCurrentRoundState();
-            roundState.personalScore += change;
+            roundState.playerScores[playerIndex - 1] += change;
             refreshScoreDisplays();
             saveGameState();
         }
