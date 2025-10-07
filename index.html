@@ -170,6 +170,21 @@
         }
         .round-btn.active { background: rgba(255, 255, 255, 0.9); color: #1f1f39; opacity: 1; }
         .round-btn:active { transform: scale(0.95); }
+        .round-divider {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: calc(4.5 * var(--v));
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            opacity: 0.7;
+        }
+        .reset-btn {
+            background: rgba(255, 100, 100, 0.3) !important;
+            border-color: rgba(255, 150, 150, 0.8) !important;
+        }
+        .reset-btn:hover {
+            background: rgba(255, 100, 100, 0.5) !important;
+        }
 
         .section-title {
             display: inline-flex;
@@ -575,6 +590,65 @@
         .player-name { font-size: calc(2.8 * var(--v)); opacity: 0.9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .players-summary .player-score { color: #000; background: none; -webkit-background-clip: initial; -webkit-text-fill-color: initial; background-clip: initial; margin-left: 0; width: 100%; text-align: center; display: block; }
         .player-score { font-size: var(--score-md); font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: linear-gradient(45deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        /* モーダルスタイル */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: var(--pad-2);
+        }
+        .modal-content {
+            background: linear-gradient(135deg, #667eea 0%, #982eff 100%);
+            border-radius: var(--radius-l);
+            padding: calc(6 * var(--v));
+            box-shadow: 0 calc(4 * var(--v)) calc(12 * var(--v)) rgba(0, 0, 0, 0.3);
+            max-width: calc(80 * var(--v));
+            width: 90%;
+        }
+        .modal-message {
+            color: white;
+            font-size: calc(5 * var(--v));
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: calc(4 * var(--v));
+            line-height: 1.5;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: calc(2 * var(--v));
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .modal-btn {
+            padding: calc(2.5 * var(--v)) calc(5 * var(--v));
+            border: none;
+            border-radius: calc(2.5 * var(--v));
+            font-size: calc(4 * var(--v));
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 calc(1 * var(--v)) calc(3 * var(--v)) rgba(0, 0, 0, 0.2);
+        }
+        .modal-btn:active {
+            transform: scale(0.95);
+        }
+        .modal-btn-cancel {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: calc(0.5 * var(--v)) solid rgba(255, 255, 255, 0.6);
+        }
+        .modal-btn-confirm {
+            background: linear-gradient(135deg, #f44336, #da190b);
+            color: white;
+        }
 
         /* Safari特有の高さ対応 */
         @supports (-webkit-touch-callout: none) {
@@ -1076,6 +1150,8 @@
                 <button class="round-btn" type="button" data-round="1" onclick="setCurrentRound(1)">R2</button>
                 <button class="round-btn" type="button" data-round="2" onclick="setCurrentRound(2)">R3</button>
                 <button class="round-btn" type="button" data-round="3" onclick="setCurrentRound(3)">R4</button>
+                <span class="round-divider">|</span>
+                <button class="round-btn reset-btn" type="button" onclick="showResetConfirmation()">初期化</button>
             </div>
             <div class="multi-player-section" id="personalSection" style="display: none;">
                 <div class="section-title"><span class="section-title-text">プレイヤー暫定点</span></div>
@@ -1289,6 +1365,17 @@
                     </div>
                 </div>
             </div>
+    </div>
+
+    <!-- 初期化確認ダイアログ -->
+    <div class="modal-overlay" id="resetModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-message">全てのカウントを0にしても良いですか？</div>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" onclick="hideResetConfirmation()">前の画面に戻る</button>
+                <button class="modal-btn modal-btn-confirm" onclick="confirmReset()">初期化する</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1634,6 +1721,29 @@ function handleStatusToggle(input) {
             }
             refreshScoreDisplays();
             saveGameState();
+        }
+
+        function showResetConfirmation() {
+            const modal = document.getElementById('resetModal');
+            if (modal) {
+                modal.style.display = 'flex';
+            }
+        }
+
+        function hideResetConfirmation() {
+            const modal = document.getElementById('resetModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function confirmReset() {
+            gameState = getDefaultGameState();
+            updateRoundButtons();
+            updateStatusButtons();
+            refreshScoreDisplays();
+            saveGameState();
+            hideResetConfirmation();
         }
 
         function switchToPersonalMode() {
