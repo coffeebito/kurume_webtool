@@ -1,5 +1,5 @@
 {
-  "name": "ボードゲーム得点管理",
+  "name": "クルメ得点管理",
   "short_name": "得点管理",
   "description": "ボードゲーム用の得点管理アプリ",
   "start_url": "./index.html",
