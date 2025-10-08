@@ -674,6 +674,16 @@ body {
 .help-list li strong {
     color: #FFE082;
 }
+.help-image-section {
+    text-align: center;
+    margin-bottom: calc(3 * var(--v));
+}
+.help-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: calc(2 * var(--v));
+    box-shadow: 0 calc(1 * var(--v)) calc(3 * var(--v)) rgba(0, 0, 0, 0.3);
+}
 
 @supports (-webkit-touch-callout: none) {
     body {
