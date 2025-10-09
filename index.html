@@ -256,16 +256,171 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="helpModal" style="display: none;">
-        <div class="modal-content modal-content-large">
-            <div class="modal-title">使い方</div>
-            <div class="help-content">
-                <div class="help-section help-image-section">
-                    <img src="https://pon-navi.net/nazuke/name/fortune/img/%E7%AF%A0%E5%8E%9F/%E5%87%AA" alt="説明画像" class="help-image">
+    <div class="modal-overlay" id="helpModal" style="display: none;" role="dialog" aria-labelledby="tutorialTitle" aria-modal="true">
+        <div class="modal-content modal-content-large tutorial-modal">
+            <button class="modal-close-btn" onclick="hideHelpModal()" aria-label="チュートリアルを閉じる" tabindex="0">×</button>
+            <div class="tutorial-container" role="document">
+                <!-- ページ1: モード切り替え -->
+                <div class="tutorial-page active" data-page="1">
+                    <div class="tutorial-icon">👥</div>
+                    <div class="tutorial-title">モード切り替え</div>
+                    <div class="tutorial-text">
+                        <p class="tutorial-main-text">プレイ人数を選択しましょう</p>
+                        <div class="tutorial-visual-box">
+                            <div class="visual-button-example">
+                                <span class="example-btn">3人モード</span>
+                                <span class="example-btn active-example">4人モード</span>
+                                <span class="example-divider">|</span>
+                                <span class="example-btn help-btn-ex">説明書</span>
+                            </div>
+                        </div>
+                        <p class="tutorial-note">遊ぶ人数を選んでください。（2人用ルールで遊ぶ場合は、4人モードを選んでください）</p>
+                    </div>
+                </div>
+
+                <!-- ページ2: ラウンド管理 -->
+                <div class="tutorial-page" data-page="2">
+                    <div class="tutorial-icon">🔄</div>
+                    <div class="tutorial-title">ラウンド管理</div>
+                    <div class="tutorial-text">
+                        <p class="tutorial-main-text">4つのラウンドを切り替えられます</p>
+                        <div class="tutorial-visual-box">
+                            <div class="visual-round-example">
+                                <span class="example-round active-round">R1</span>
+                                <span class="example-round">R2</span>
+                                <span class="example-round">R3</span>
+                                <span class="example-round">R4</span>
+                                <span class="example-divider">|</span>
+                                <span class="example-round reset-round">初期化</span>
+                            </div>
+                        </div>
+                        <div class="tutorial-steps">
+                            <div class="step-item">
+                                <span class="step-number">1</span>
+                                <span class="step-text">R1〜R4ボタンでラウンドを選択</span>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-number">2</span>
+                                <span class="step-text">各ラウンドのスコアは個別に記録されます</span>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-number">3</span>
+                                <span class="step-text">初期化ボタンで全てリセット可能</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ページ3: スコア管理 -->
+                <div class="tutorial-page" data-page="3">
+                    <div class="tutorial-icon">🎯</div>
+                    <div class="tutorial-title">スコア管理</div>
+                    <div class="tutorial-text">
+                        <p class="tutorial-main-text">暫定点と確定点を管理します</p>
+                        <div class="tutorial-score-section">
+                            <div class="score-explanation">
+                                <div class="score-label">① プレイヤー暫定点</div>
+                                <div class="score-desc">各ラウンドで獲得した点数を+/-ボタンで調整</div>
+                                <div class="player-score-example red-player">
+                                    <div class="visual-score-buttons">
+                                        <span class="example-score-btn neg">-10</span>
+                                        <span class="example-score-btn neg">-5</span>
+                                        <span class="example-score-btn neg">-1</span>
+                                        <span class="example-score-display">15</span>
+                                        <span class="example-score-btn pos">+1</span>
+                                        <span class="example-score-btn pos">+5</span>
+                                        <span class="example-score-btn pos">+10</span>
+                                    </div>
+                                </div>
+                                <div class="score-tip">💡 タップするたびに点数が増減します</div>
+                            </div>
+                            <div class="score-explanation">
+                                <div class="score-label">② 確定点</div>
+                                <div class="score-desc">全ラウンドの合計点が表示されます（生還時のみ加算）</div>
+                                <div class="confirmed-score-example">
+                                    <div class="confirmed-title">確定点</div>
+                                    <div class="confirmed-scores">
+                                        <div class="confirmed-card red-card">45</div>
+                                        <div class="confirmed-card yellow-card">32</div>
+                                        <div class="confirmed-card green-card">58</div>
+                                        <div class="confirmed-card blue-card">41</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ページ4: 生還/脱落記録 -->
+                <div class="tutorial-page" data-page="4">
+                    <div class="tutorial-icon">⭐</div>
+                    <div class="tutorial-title">生還/脱落記録</div>
+                    <div class="tutorial-text">
+                        <p class="tutorial-main-text">プレイヤーの状態を記録しましょう</p>
+                        <div class="status-section-title">生還/脱落 記録</div>
+                        <div class="tutorial-status-section">
+                            <div class="status-explanation">
+                                <div class="status-label-main">❌ 移動中/脱落の状態</div>
+                                <div class="status-example out-state">
+                                    <span class="status-label-ex">生還</span>
+                                    <div class="status-switch-visual out-visual">
+                                        <span class="switch-option">○</span>
+                                        <span class="switch-option active-option">●</span>
+                                    </div>
+                                    <span class="status-text-ex">移動中/脱落</span>
+                                </div>
+                                <div class="status-meaning">このラウンドのスコアは確定点に加算されません</div>
+                            </div>
+                            <div class="status-explanation">
+                                <div class="status-label-main">✅ 生還の状態</div>
+                                <div class="status-example rescue-state">
+                                    <span class="status-label-ex bright-label">生還</span>
+                                    <div class="status-switch-visual rescue-visual">
+                                        <span class="switch-option active-option">●</span>
+                                        <span class="switch-option">○</span>
+                                    </div>
+                                    <span class="status-text-ex dimmed">移動中/脱落</span>
+                                </div>
+                                <div class="status-meaning bright-meaning">このラウンドのスコアが確定点に加算されます！</div>
+                            </div>
+                        </div>
+                        <div class="tutorial-steps">
+                            <div class="step-item">
+                                <span class="step-number">1</span>
+                                <span class="step-text">中央のスライドボタンをタップして状態を切り替え</span>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-number">2</span>
+                                <span class="step-text">生還状態のみラウンドスコアが確定点に反映されます</span>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-number">3</span>
+                                <span class="step-text">各ラウンドごとに個別に記録できます</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="modal-buttons">
-                <button class="modal-btn modal-btn-confirm" onclick="hideHelpModal()">始める</button>
+
+            <!-- ページインジケーター -->
+            <div class="tutorial-indicator">
+                <span class="indicator-dot active" data-page="1"></span>
+                <span class="indicator-dot" data-page="2"></span>
+                <span class="indicator-dot" data-page="3"></span>
+                <span class="indicator-dot" data-page="4"></span>
+            </div>
+
+            <!-- ナビゲーションボタン -->
+            <div class="tutorial-navigation" role="navigation" aria-label="チュートリアルナビゲーション">
+                <button class="tutorial-nav-btn prev-btn" onclick="previousTutorialPage()" style="visibility: hidden;" aria-label="前のページへ">
+                    ← 前へ
+                </button>
+                <button class="tutorial-nav-btn next-btn" onclick="nextTutorialPage()" aria-label="次のページへ">
+                    次へ →
+                </button>
+                <button class="tutorial-nav-btn start-btn" onclick="hideHelpModal()" style="display: none;" aria-label="チュートリアルを閉じて開始">
+                    始める 🎮
+                </button>
             </div>
         </div>
     </div>

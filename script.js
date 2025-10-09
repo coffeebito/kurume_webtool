@@ -600,3 +600,170 @@ window.addEventListener('load', function() {
 });
 
 window.addEventListener('beforeunload', saveGameState);
+
+// チュートリアル機能
+let currentTutorialPage = 1;
+const totalTutorialPages = 4;
+let tutorialElements = null;
+let touchStartX = 0;
+let touchEndX = 0;
+let tutorialEventsInitialized = false;
+
+function initTutorialElements() {
+    if (!tutorialElements) {
+        tutorialElements = {
+            pages: document.querySelectorAll('.tutorial-page'),
+            dots: document.querySelectorAll('.indicator-dot'),
+            prevBtn: document.querySelector('.prev-btn'),
+            nextBtn: document.querySelector('.next-btn'),
+            startBtn: document.querySelector('.start-btn'),
+            modal: document.getElementById('helpModal')
+        };
+    }
+    return tutorialElements;
+}
+
+function nextTutorialPage() {
+    if (currentTutorialPage < totalTutorialPages) {
+        currentTutorialPage++;
+        updateTutorialDisplay();
+    }
+}
+
+function previousTutorialPage() {
+    if (currentTutorialPage > 1) {
+        currentTutorialPage--;
+        updateTutorialDisplay();
+    }
+}
+
+function goToTutorialPage(pageNumber) {
+    if (pageNumber >= 1 && pageNumber <= totalTutorialPages) {
+        currentTutorialPage = pageNumber;
+        updateTutorialDisplay();
+    }
+}
+
+function updateTutorialDisplay() {
+    const elements = initTutorialElements();
+    if (!elements) return;
+
+    // ページの表示切り替え
+    elements.pages.forEach(page => {
+        const pageNum = parseInt(page.dataset.page);
+        page.classList.toggle('active', pageNum === currentTutorialPage);
+    });
+
+    // インジケーターの更新
+    elements.dots.forEach(dot => {
+        const pageNum = parseInt(dot.dataset.page);
+        dot.classList.toggle('active', pageNum === currentTutorialPage);
+    });
+
+    // ボタンの表示制御
+    if (elements.prevBtn) {
+        elements.prevBtn.style.visibility = currentTutorialPage === 1 ? 'hidden' : 'visible';
+    }
+
+    if (currentTutorialPage === totalTutorialPages) {
+        if (elements.nextBtn) elements.nextBtn.style.display = 'none';
+        if (elements.startBtn) elements.startBtn.style.display = 'block';
+    } else {
+        if (elements.nextBtn) elements.nextBtn.style.display = 'block';
+        if (elements.startBtn) elements.startBtn.style.display = 'none';
+    }
+}
+
+function handleTutorialSwipe() {
+    const swipeThreshold = 50;
+    const swipeDistance = touchEndX - touchStartX;
+
+    if (Math.abs(swipeDistance) > swipeThreshold) {
+        if (swipeDistance > 0) {
+            // 右スワイプ = 前へ
+            previousTutorialPage();
+        } else {
+            // 左スワイプ = 次へ
+            nextTutorialPage();
+        }
+    }
+}
+
+function handleTutorialKeyboard(e) {
+    if (document.getElementById('helpModal').style.display !== 'flex') {
+        return;
+    }
+
+    if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        previousTutorialPage();
+    } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextTutorialPage();
+    } else if (e.key === 'Escape') {
+        e.preventDefault();
+        hideHelpModal();
+    }
+}
+
+// チュートリアルイベントの初期化（一度だけ実行）
+function initTutorialEvents() {
+    if (tutorialEventsInitialized) return;
+
+    const elements = initTutorialElements();
+    if (!elements) return;
+
+    // インジケータークリックイベント
+    elements.dots.forEach(dot => {
+        dot.addEventListener('click', function() {
+            const pageNum = parseInt(this.dataset.page);
+            goToTutorialPage(pageNum);
+        });
+    });
+
+    // モーダル外クリックで閉じる
+    if (elements.modal) {
+        elements.modal.addEventListener('click', function(e) {
+            if (e.target === elements.modal) {
+                hideHelpModal();
+            }
+        });
+    }
+
+    // スワイプジェスチャー
+    const tutorialContainer = document.querySelector('.tutorial-container');
+    if (tutorialContainer) {
+        tutorialContainer.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        tutorialContainer.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleTutorialSwipe();
+        }, { passive: true });
+    }
+
+    // キーボードナビゲーション（一度だけ登録）
+    document.addEventListener('keydown', handleTutorialKeyboard);
+
+    tutorialEventsInitialized = true;
+}
+
+// showHelpModalの拡張（元の関数を保持して拡張）
+(function() {
+    const originalShowHelpModal = window.showHelpModal;
+
+    window.showHelpModal = function() {
+        if (typeof originalShowHelpModal === 'function') {
+            currentTutorialPage = 1;
+            originalShowHelpModal.call(this);
+
+            // モーダルが表示された後に初期化とUIの更新
+            setTimeout(function() {
+                tutorialElements = null; // キャッシュをクリア
+                initTutorialEvents();
+                updateTutorialDisplay();
+            }, 0);
+        }
+    };
+})();
