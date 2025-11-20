@@ -608,6 +608,7 @@ let tutorialElements = null;
 let touchStartX = 0;
 let touchEndX = 0;
 let tutorialEventsInitialized = false;
+let tutorialStatusInitialized = false;
 
 function initTutorialElements() {
     if (!tutorialElements) {
@@ -671,6 +672,11 @@ function updateTutorialDisplay() {
     } else {
         if (elements.nextBtn) elements.nextBtn.style.display = 'block';
         if (elements.startBtn) elements.startBtn.style.display = 'none';
+    }
+
+    // 4ページ目に来たときにトグルのUIを同期させる
+    if (currentTutorialPage === 4) {
+        initTutorialStatusDemo();
     }
 }
 
@@ -749,6 +755,47 @@ function initTutorialEvents() {
     tutorialEventsInitialized = true;
 }
 
+function refreshTutorialStatusDemo() {
+    const container = document.getElementById('tutorialStatusSection');
+    if (!container) return;
+
+    const inputs = container.querySelectorAll('.tutorial-status-input');
+    inputs.forEach(input => {
+        const label = input.closest('.status-toggle');
+        const track = label ? label.querySelector('.status-switch-track') : null;
+        const stateText = label ? label.querySelector('.status-state-text') : null;
+        const isRescue = input.checked;
+
+        if (track) {
+            track.classList.toggle('is-rescue', isRescue);
+            track.classList.toggle('is-out', !isRescue);
+        }
+        if (label) {
+            label.classList.toggle('is-rescue', isRescue);
+            label.classList.toggle('is-out', !isRescue);
+        }
+        if (stateText) {
+            stateText.textContent = isRescue ? '救出済み' : '移動中/脱落';
+            stateText.classList.toggle('state-rescue', isRescue);
+            stateText.classList.toggle('state-out', !isRescue);
+        }
+    });
+}
+
+function initTutorialStatusDemo() {
+    const container = document.getElementById('tutorialStatusSection');
+    if (!container) return;
+
+    if (!tutorialStatusInitialized) {
+        const inputs = container.querySelectorAll('.tutorial-status-input');
+        inputs.forEach(input => {
+            input.addEventListener('change', refreshTutorialStatusDemo);
+        });
+        tutorialStatusInitialized = true;
+    }
+    refreshTutorialStatusDemo();
+}
+
 // showHelpModalの拡張（元の関数を保持して拡張）
 (function() {
     const originalShowHelpModal = window.showHelpModal;
@@ -763,6 +810,7 @@ function initTutorialEvents() {
                 tutorialElements = null; // キャッシュをクリア
                 initTutorialEvents();
                 updateTutorialDisplay();
+                initTutorialStatusDemo();
             }, 0);
         }
     };

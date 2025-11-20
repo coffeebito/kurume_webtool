@@ -995,6 +995,48 @@ body {
     margin-top: clamp(10px, 2vh, 15px);
 }
 
+/* Tutorial (sample) status block: simplified single toggle with fixed room */
+#tutorialStatusSection .tutorial-switch-demo {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(10px, 2vh, 16px);
+    min-height: clamp(320px, 50vh, 520px);
+    padding: clamp(20px, 3.6vh, 28px);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-m);
+}
+
+#tutorialStatusSection .tutorial-switch-label {
+    font-size: clamp(14px, 2.6vh, 20px);
+    font-weight: bold;
+    text-align: center;
+}
+
+#tutorialStatusSection .tutorial-switch-note {
+    font-size: clamp(12px, 2.2vh, 16px);
+    opacity: 0.92;
+    text-align: center;
+}
+
+
+/* 4ページ目のデモ全体を拡大して埋もれを防ぐ */
+.tutorial-page[data-page="4"] .tutorial-live-sample {
+    min-height: 55vh;
+    gap: clamp(16px, 3vh, 24px);
+    justify-content: center;
+}
+
+#tutorialStatusSection {
+    width: 100%;
+}
+
+#tutorialStatusSection .tutorial-switch-demo {
+    flex: 1 1 auto;
+    justify-content: center;
+}
+
+
 .status-explanation {
     background: rgba(255, 255, 255, 0.1);
     padding: clamp(10px, 2vh, 15px);
@@ -1937,3 +1979,20 @@ body {
 .sample-card-2 { background: linear-gradient(135deg, rgba(255, 232, 161, 0.7), rgba(255, 224, 102, 0.7)); }
 .sample-card-3 { background: linear-gradient(135deg, rgba(195, 248, 204, 0.7), rgba(140, 233, 154, 0.7)); }
 .sample-card-4 { background: linear-gradient(135deg, rgba(196, 225, 255, 0.7), rgba(165, 216, 255, 0.7)); }
+
+.sample-status {
+    pointer-events: auto;
+}
+
+.sample-status .status-switch-input {
+    pointer-events: auto;
+}
+
+.sample-status .status-toggle {
+    cursor: pointer;
+}
+
+.sample-status {
+    max-width: 100%;
+    width: 100%;
+}
