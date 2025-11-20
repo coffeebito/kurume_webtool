@@ -1875,3 +1875,65 @@ body {
         min-height: 55px;
     }
 }
+
+.tutorial-live-sample {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(10px, 2vh, 18px);
+    margin-top: clamp(12px, 2.5vh, 20px);
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-m);
+    padding: clamp(12px, 2.5vh, 20px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.sample-section {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 1.5vh, 14px);
+}
+
+.sample-section-title {
+    font-size: clamp(14px, 2.5vh, 20px);
+    font-weight: bold;
+    opacity: 0.95;
+}
+
+.sample-note {
+    font-size: clamp(12px, 2vh, 16px);
+    opacity: 0.9;
+    background: rgba(255, 255, 255, 0.08);
+    border-left: clamp(3px, 0.5vw, 5px) solid rgba(255, 255, 255, 0.4);
+    padding: clamp(8px, 1.5vh, 12px) clamp(10px, 2vw, 15px);
+    border-radius: calc(1.5 * var(--v));
+    line-height: 1.4;
+}
+
+.sample-rows {
+    gap: var(--pad-1);
+    pointer-events: none;
+}
+
+.sample-player-row {
+    pointer-events: none;
+    background: linear-gradient(135deg, rgba(255, 179, 179, 0.7), rgba(255, 135, 135, 0.7));
+}
+
+.sample-player-row .player-row-btn,
+.sample-player-row .player-row-score {
+    pointer-events: none;
+}
+
+.sample-summary {
+    gap: var(--pad-1);
+    pointer-events: none;
+}
+
+.sample-summary .player-card {
+    pointer-events: none;
+}
+
+.sample-card-1 { background: linear-gradient(135deg, rgba(255, 179, 179, 0.7), rgba(255, 135, 135, 0.7)); }
+.sample-card-2 { background: linear-gradient(135deg, rgba(255, 232, 161, 0.7), rgba(255, 224, 102, 0.7)); }
+.sample-card-3 { background: linear-gradient(135deg, rgba(195, 248, 204, 0.7), rgba(140, 233, 154, 0.7)); }
+.sample-card-4 { background: linear-gradient(135deg, rgba(196, 225, 255, 0.7), rgba(165, 216, 255, 0.7)); }

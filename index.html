@@ -311,47 +311,53 @@
                     </div>
                 </div>
 
+                
+                
                 <!-- ページ3: スコア管理 -->
                 <div class="tutorial-page" data-page="3">
-                    <div class="tutorial-icon">🎯</div>
+                    <div class="tutorial-icon">??</div>
                     <div class="tutorial-title">スコア管理</div>
                     <div class="tutorial-text">
-                        <p class="tutorial-main-text">暫定点と確定点を管理します</p>
-                        <div class="tutorial-score-section">
-                            <div class="score-explanation">
-                                <div class="score-label">① プレイヤー暫定点</div>
-                                <div class="score-desc">各ラウンドで獲得した点数を+/-ボタンで調整</div>
-                                <div class="player-score-example red-player">
-                                    <div class="visual-score-buttons">
-                                        <span class="example-score-btn neg">-10</span>
-                                        <span class="example-score-btn neg">-5</span>
-                                        <span class="example-score-btn neg">-1</span>
-                                        <span class="example-score-display">15</span>
-                                        <span class="example-score-btn pos">+1</span>
-                                        <span class="example-score-btn pos">+5</span>
-                                        <span class="example-score-btn pos">+10</span>
+                        <p class="tutorial-main-text">仮スコアと合計スコアを実物と同じ見た目で確認できます</p>
+                        <div class="tutorial-live-sample">
+                            <div class="sample-section">
+                                <div class="sample-section-title">このラウンドの仮スコア（ボタンは見本として無効）</div>
+                                <div class="player-rows-container sample-rows">
+                                    <div class="player-row sample-player-row">
+                                        <button class="player-row-btn negative btn-minus-10" type="button">-10</button>
+                                        <button class="player-row-btn negative btn-minus-5" type="button">-5</button>
+                                        <button class="player-row-btn negative btn-minus-1" type="button">-1</button>
+                                        <div class="player-row-score">8</div>
+                                        <button class="player-row-btn positive btn-plus-1" type="button">+1</button>
+                                        <button class="player-row-btn positive btn-plus-5" type="button">+5</button>
+                                        <button class="player-row-btn positive btn-plus-10" type="button">+10</button>
                                     </div>
                                 </div>
-                                <div class="score-tip">💡 タップするたびに点数が増減します</div>
+                                <p class="sample-note">ボタンの見た目をそのまま載せています（チュートリアルではタップ不可）。</p>
                             </div>
-                            <div class="score-explanation">
-                                <div class="score-label">② 確定点</div>
-                                <div class="score-desc">全ラウンドの合計点が表示されます（生還時のみ加算）</div>
-                                <div class="confirmed-score-example">
-                                    <div class="confirmed-title">確定点</div>
-                                    <div class="confirmed-scores">
-                                        <div class="confirmed-card red-card">45</div>
-                                        <div class="confirmed-card yellow-card">32</div>
-                                        <div class="confirmed-card green-card">58</div>
-                                        <div class="confirmed-card blue-card">41</div>
+                            <div class="sample-section">
+                                <div class="sample-section-title">合計スコア表示</div>
+                                <div class="players-summary multi-mode sample-summary">
+                                    <div class="player-card sample-card-1">
+                                        <div class="player-score">45</div>
+                                    </div>
+                                    <div class="player-card sample-card-2">
+                                        <div class="player-score">32</div>
+                                    </div>
+                                    <div class="player-card sample-card-3">
+                                        <div class="player-score">58</div>
+                                    </div>
+                                    <div class="player-card sample-card-4">
+                                        <div class="player-score">41</div>
                                     </div>
                                 </div>
+                                <p class="sample-note">救助状態のプレイヤーだけが合計に含まれます。</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- ページ4: 生還/脱落記録 -->
+<!-- ページ4: 生還/脱落記録 -->
                 <div class="tutorial-page" data-page="4">
                     <div class="tutorial-icon">⭐</div>
                     <div class="tutorial-title">生還/脱落記録</div>
